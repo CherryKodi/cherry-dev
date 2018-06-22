@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.filmydokumentalne.eu"
+version="0.3"
+name="Filmydokumentalne.eu"
+provider-name="-">
+<requires>
+  <import addon="xbmc.python" version="2.25.0"/>
+  <import addon="script.module.ptw" />
+  <import addon="script.module.resolveurl" />
+  <import addon="script.module.requests"/>
+</requires>
+<extension point="xbmc.python.pluginsource" library="main.py">
+  <provides>video</provides>
+</extension>
+<extension point="xbmc.addon.metadata">
+  <summary lang="en">filmydokumentalne.eu Plugin Wideo</summary>
+  <description lang="en_GB">Plugin z filmydokumentalne.eu</description>
+  <assets>
+    <icon>icon.png</icon>
+    <fanart>fanart.jpg</fanart>
+  </assets>
+  <news></news>
+</extension>
+</addon>
