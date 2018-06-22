@@ -1,2 +1,2 @@
 # cherry-dev
-test repo
+This is only test repo for private usage
