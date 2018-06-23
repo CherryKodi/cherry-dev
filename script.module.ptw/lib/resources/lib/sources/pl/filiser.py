@@ -23,9 +23,6 @@ import urllib, urlparse, re, xbmcplugin, sys, xbmc, urllib2, socket, random
 from resources.lib.libraries import cleantitle
 from resources.lib.libraries import client
 
-proxyList = ['90.187.51.41:8080', '195.4.154.160:3128','149.202.0.60:3128','83.18.150.53:3128','83.18.150.52:3128','188.214.135.162:8088','89.37.0.68:8080']
-random.shuffle(proxyList)
-
 class source:
     def __init__(self):
         self.priority = 1
@@ -36,37 +33,7 @@ class source:
         self.url_transl = 'embed?type=%s&code=%s&code2=%s&salt=%s'
         self.search_link = 'szukaj?q=%s'
         self.episode_link = '-Season-%01d-Episode-%01d'
-        self.proxy = False
-        self.proxy_ip = ''
-        #self.setProxy()
 
-    def setProxy(self):
-        if xbmcplugin.getSetting(int(sys.argv[1]), 'proxy') == "true":
-                for item in proxyList:
-                    if self.is_bad_proxy(item):
-                        print "Bad Proxy", item
-                    else:
-                        print "Good Proxy", item
-                        self.proxy_ip = str(item)
-                        self.proxy = True
-                        break
-
-    def is_bad_proxy(self,pip):
-        try:        
-            proxy_handler = urllib2.ProxyHandler({'http': pip})        
-            opener = urllib2.build_opener(proxy_handler)
-            opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-            urllib2.install_opener(opener)        
-            req=urllib2.Request('http://alltube.pl')  # change the url address here
-            sock=urllib2.urlopen(req)
-        except urllib2.HTTPError, e:        
-            print 'Error code: ', e.code
-            return e.code
-        except Exception, detail:
-
-            print "ERROR:", detail
-            return 1
-        return 0
 
     def check_titles(self, cleaned_titles, found_titles):   
         test = cleaned_titles[0] == cleantitle.get(found_titles[0]) or cleaned_titles[1] == cleantitle.get(found_titles[1]) or cleaned_titles[0] == cleantitle.get(found_titles[1]) or cleaned_titles[1] == cleantitle.get(found_titles[0])     
@@ -76,7 +43,7 @@ class source:
         try:
             url = urlparse.urljoin(self.base_link, self.search_link)
             url = url % urllib.quote(title)
-            result = self.getUrlRequestData(url,self.proxy)
+            result = client.request(url)
             result = result.decode('utf-8')
 
             result = client.parseDOM(result, 'ul', attrs={'id': 'resultList2'})
@@ -108,18 +75,6 @@ class source:
         except :
             return
 
-    def getUrlRequestData(self,url,proxy = False):
-        import requests
-        proxyDict = {
-            "http" : self.proxy_ip,
-        }
-        if proxy:
-            r = requests.get(url,proxies = proxyDict)
-            return r.content
-        else:
-            r = requests.get(url)
-            return r.content
-
     def movie(self, imdb, title, localtitle, aliases, year):
         return self.do_search(title, localtitle, year, True)
 
@@ -131,7 +86,7 @@ class source:
             if url == None: return
 
             url = urlparse.urljoin(self.base_link, url)
-            result = self.getUrlRequestData(url,self.proxy)
+            result = client.request(url)
             result = client.parseDOM(result, 'ul', attrs={'data-season-num': season})[0]
             result = client.parseDOM(result, 'li')
             for i in result:
@@ -154,7 +109,7 @@ class source:
             if "film" in url:
                 typ = "movie"
             url = urlparse.urljoin(self.base_link, url)
-            result = self.getUrlRequestData(url,self.proxy)
+            result = client.request(url)
             html = result
             result = client.parseDOM(result, 'div', attrs={'id': 'links'})
             attr = client.parseDOM(result, 'ul', ret='data-type')
@@ -214,7 +169,7 @@ class source:
     def resolve(self, url):
         try:
             url_to_exec = urlparse.urljoin(self.base_link, self.url_transl) % (url[0],url[1],url[2],url[3])
-            result = self.getUrlRequestData(url_to_exec,self.proxy)
+            result = client.request(url_to_exec)
 
             search_string = "var url = '";
             begin = result.index(search_string) + len(search_string)

@@ -46,17 +46,9 @@ class source:
         self.moviesearch_link = '/index.php?url=search/autocomplete/&phrase=%s'
         self.tvsearch_cache = 'http://alltube.tv/seriale-online/'
         self.episode_link = '-Season-%01d-Episode-%01d'
-        self.proxy = None
-        if control.setting('proxy') == "true":
-            try:
-                self.proxy = control.setting('proxy_ip')
-                if not self.proxy:
-                  self.proxy = None  
-            except:
-                self.proxy = None
 
-    def get_rows(self, r, search_type):       
-        divs = client.parseDOM(r, 'div', attrs={'class': 'col-sm-12'})        
+    def get_rows(self, r, search_type):
+        divs = client.parseDOM(r, 'div', attrs={'class': 'col-sm-12'})
         for div in divs:
             header = client.parseDOM(div, 'h2', attrs={'class': 'headline'})
             if header and header[0] == search_type:
@@ -67,7 +59,7 @@ class source:
         
         for name in names:
             if name in names_found:
-                return True        
+                return True
         return False
     
     
@@ -85,8 +77,8 @@ class source:
             titles.append(cleantitle.normalize(cleantitle.getsearch(title)))
             titles.append(cleantitle.normalize(cleantitle.getsearch(localtitle)))
             
-            for title in titles:       
-                r = client.request(urlparse.urljoin(self.base_link, self.search_link), post={'search': cleantitle.query(title)}, proxy = self.proxy)
+            for title in titles:
+                r = client.request(urlparse.urljoin(self.base_link, self.search_link), post={'search': cleantitle.query(title)})
                 r = self.get_rows(r, search_type)
                 
                 for row in r:
@@ -108,7 +100,7 @@ class source:
                     continue
         except Exception, e:
             print e
-            return    
+            return
     
     def movie(self, imdb, title, localtitle, aliases, year):        
         return self.search(title, localtitle, year, 'Filmy')
@@ -121,7 +113,7 @@ class source:
             if url == None: return
 
             txts = 's%02de%02d' % (int(season), int(episode))
-            result = client.request(url, proxy = self.proxy)
+            result = client.request(url)
             #result = requests.get(url).content
             result = client.parseDOM(result, 'li', attrs={'class': 'episode'})
             result = [i for i in result if txts in i][0]

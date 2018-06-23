@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.fanfilm" name="FanFilm" version="2018.06.23" provider-name="-">
+        <requires>
+                <import addon="xbmc.python" version="2.1.0" />
+                <import addon="script.module.ptw" />
+                <import addon="script.module.requests"/>
+                <import addon="script.module.metahandler" />
+                <import addon="script.module.beautifulsoup4"/>
+                <import addon="plugin.video.youtube" optional="true" />
+                <import addon="script.module.resolveurl" />
+                <import addon="script.fanfilm.media" />
+                <import addon="script.fanfilm.metadata" />
+        </requires>
+        <extension point="xbmc.python.pluginsource" library="default.py">
+                <provides>video</provides>
+        </extension>
+        <extension point="xbmc.service" library="service.py" start="startup" />
+        <extension point="xbmc.addon.metadata">
+                <summary lang="pl">FanFilm</summary>
+		<description lang="pl">Plugin z filmami i serialami</description>
+		<disclaimer lang="pl">Wszelkie treści multimedialne są własnością serwisów trzecich. Wtyczka agreguje tylko treści znalezione w internecie. Wtyczka tworzona na potrzeby prywywatne.</disclaimer>
+                <summary lang="en">FanFilm</summary>
+                <description lang="en">Movie and TVShows plugin</description>
+                <disclaimer lang="en">The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.
+                </disclaimer>
+                <platform>all</platform>
+        </extension>
+</addon>
+
