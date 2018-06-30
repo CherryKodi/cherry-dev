@@ -57,7 +57,6 @@ def addLink(name, url, mode, iconimage, thumb, opis, gatunek, rating, isFolder=F
                 'icon': iconimage,
                 'fanart': url})
     liz.setInfo("Video", {'title':name , 'genre':gatunek, 'rating': rating, 'plot': opis})
-    liz.setProperty("IsPlayable" , "true")
     ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=isFolder, totalItems=total)
     return ok
 

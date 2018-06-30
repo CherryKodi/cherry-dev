@@ -73,7 +73,6 @@ def addLink(name, url, mode, iconimage, thumb, opis, gatunek, rating, isFolder=F
                 'icon': iconimage,
                 'fanart': url})
     liz.setInfo("Video", {'title':name , 'genre':gatunek, 'rating': rating, 'plot': opis})
-    liz.setProperty("IsPlayable" , "true")
     ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=isFolder, totalItems=total)
     return ok
 
@@ -137,7 +136,7 @@ def Tvdb_Scraper(nazwa):
         banner = ""
         thumb = ""
         return fanart,banner,thumb
-		
+
 s = requests.Session()
 
 def Listowanie_Odcinkow():
@@ -246,7 +245,7 @@ def get_params():
             splitparams = {}
             splitparams = pairsofparams[i].split('=')
             if (len(splitparams)) == 2:
-                param[splitparams[0]] = splitparams[1]                  
+                param[splitparams[0]] = splitparams[1]
     return param
 
 params = get_params()

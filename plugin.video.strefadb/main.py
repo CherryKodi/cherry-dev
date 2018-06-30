@@ -184,7 +184,7 @@ if name == 'Kinowki' and mode == 5:
     i=1
     while i < len(lista_tytulow)+1:
         url = 'https://strefadb.pl' + lista_linkow[i-1]
-        addDir(str(i) + ' ' + str(lista_tytulow[i-1]).replace('(', '| ocena odcinka: ('), url, 10, '','https://i.ytimg.com/vi/eWReaVWUOv4/maxresdefault.jpg','', False)
+        addDir(str(i) + ' ' + str(lista_tytulow[i-1]).replace('(', '| ocena odcinka: ('), url, 10, '','https://i.ytimg.com/vi/eWReaVWUOv4/maxresdefault.jpg','', True)
         i+=1
 ################################Napisy##################
 
@@ -222,7 +222,7 @@ if name == 'Kinowki' and mode == 6:
     i=1
     while i < len(lista_tytulow)+1:
         url = 'https://strefadb.pl' + lista_linkow[i-1] + '?typ=napisy'
-        addDir(str(i) + ' ' + str(lista_tytulow[i-1]).replace('(', '| ocena odcinka: ('), url, 10, '','https://i.ytimg.com/vi/eWReaVWUOv4/maxresdefault.jpg','', False)
+        addDir(str(i) + ' ' + str(lista_tytulow[i-1]).replace('(', '| ocena odcinka: ('), url, 10, '','https://i.ytimg.com/vi/eWReaVWUOv4/maxresdefault.jpg','', True)
         i+=1
         
 ###################################################################################
@@ -263,14 +263,16 @@ elif mode == 10 :
     result = k.text
     result = client.parseDOM(result, 'iframe', ret='src')
     url = result[0]
-    addDir("Mirror 1", url, 11, '',"","", False)
-
-    link = link + "&mirror=2"
-    k = s.get(link)
-    result = k.text
-    result = client.parseDOM(result, 'iframe', ret='src')
-    url = result[0]
-    addDir("Mirror 2", url, 11, '',"","", False)
+    addDir("Mirror 1", url, 11, "","","", False)
+    try:
+        link = link + "&mirror=2"
+        k = s.get(link)
+        result = k.text
+        result = client.parseDOM(result, 'iframe', ret='src')
+        url = result[0]
+        addDir("Mirror 2", url, 11, "","","", False)
+    except:
+        pass
 
 elif mode == 11 :
     url = urllib.unquote_plus(params['url'])

@@ -47,7 +47,7 @@
         <setting label="Polish" type="lsep" />
 		<setting id="provider.alltube" type="bool" label="Alltube" default="true" />
 		<setting id="provider.alltube3d" type="bool" label="Alltube 3D" default="true" />
-		<setting id="provider.boxfilm" type="bool" label="BoxFilm" default="false" />
+		<setting id="provider.boxfilm" type="bool" label="BoxFilm" default="true" />
 		<setting id="provider.cdahd" type="bool" label="CdaHD" default="true" />
 		<setting id="provider.cdax" type="bool" label="CdaX" default="true" />
 		<setting id="provider.ekinomaniak" type="bool" label="Ekinomaniak" default="true" />
@@ -56,7 +56,7 @@
 		<setting id="provider.filiser" type="bool" label="Filiser" default="true" />
 		<setting id="provider.filmwebbooster" type="bool" label="FilmwebBooster" default="true" />
 		<setting id="provider.iitv" type="bool" label="Iitvx" default="true" /> 
-		<setting id="provider.movieneo" type="bool" label="Movieneo" default="false" />
+		<setting id="provider.movieneo" type="bool" label="Movieneo" default="true" />
 		<setting id="provider.naszekino" type="bool" label="Nasze-Kino" default="true" />
 		<setting id="provider.segos" type="bool" label="Segos" default="true" />
 		<setting id="provider.szukajkatv" type="bool" label="SzukajkaTV" default="true" />
