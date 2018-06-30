@@ -26,7 +26,7 @@ try:
 except:
     from pysqlite2 import dbapi2 as database
 
-from resources.lib.libraries import control
+from ptw.libraries import control
 
 
 def getBookmark(name, imdb='0'):

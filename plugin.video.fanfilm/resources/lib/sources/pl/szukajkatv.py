@@ -20,8 +20,8 @@
 
 import re, urlparse, base64, json
 import unicodedata,requests
-from resources.lib.libraries import cleantitle,cache
-from resources.lib.libraries import client
+from ptw.libraries import cleantitle,cache
+from ptw.libraries import client
 
 
 class source:

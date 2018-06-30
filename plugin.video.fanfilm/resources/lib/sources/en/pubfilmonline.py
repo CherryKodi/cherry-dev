@@ -20,7 +20,7 @@
 import re,urllib,json, requests
 
 from resources.lib.libraries import cfscrape
-from resources.lib.libraries import cleantitle
+from ptw.libraries import cleantitle
 
 class source:
     def __init__(self):

@@ -3,7 +3,7 @@
 
 
 import re,urlparse,json
-from resources.lib.libraries import client
+from ptw.libraries import client
 
 def resolve(url):
     try:

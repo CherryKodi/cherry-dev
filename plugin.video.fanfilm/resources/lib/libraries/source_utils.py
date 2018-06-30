@@ -23,10 +23,10 @@ import urllib
 import hashlib
 import re
 
-from resources.lib.libraries import client
-from resources.lib.libraries import directstream
-from resources.lib.libraries import trakt
-from resources.lib.libraries import pyaes
+from ptw.libraries import client
+from ptw.libraries import directstream
+from ptw.libraries import trakt
+from ptw.libraries import pyaes
 
 def is_anime(content, type, type_id):
     try:

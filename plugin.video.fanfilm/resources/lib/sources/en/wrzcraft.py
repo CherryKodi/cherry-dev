@@ -23,10 +23,10 @@ import re,urlparse, urllib, requests,traceback
 
 from bs4 import BeautifulSoup
 
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
+from ptw.libraries import cleantitle
+from ptw.libraries import client
 from resources.lib.libraries import debrid
-from resources.lib.libraries import source_utils
+from ptw.libraries import source_utils
 
 class source:
     def __init__(self):

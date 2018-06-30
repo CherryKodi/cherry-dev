@@ -23,11 +23,11 @@ import urlparse, sys
 from bs4 import BeautifulSoup
 import requests
 
-from resources.lib.libraries import cache
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
-from resources.lib.libraries import source_utils
-from resources.lib.libraries import dom_parser2
+from ptw.libraries import cache
+from ptw.libraries import cleantitle
+from ptw.libraries import client
+from ptw.libraries import source_utils
+from ptw.libraries import dom_parser2
 
 
 class source:

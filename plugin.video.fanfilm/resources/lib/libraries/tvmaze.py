@@ -20,8 +20,8 @@
 
 import urllib,json
 
-from resources.lib.libraries import cache
-from resources.lib.libraries import client
+from ptw.libraries import cache
+from ptw.libraries import client
 
 
 class tvMaze:

@@ -20,7 +20,7 @@
 
 import requests
 import json,sys
-from resources.lib.libraries import control
+from ptw.libraries import control
 import inspect
 
 class source:

@@ -17,10 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import urllib, urlparse
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import control
-from resources.lib.libraries import client
-from resources.lib.libraries import utils
+from ptw.libraries import cleantitle
+from ptw.libraries import control
+from ptw.libraries import client
+from ptw.libraries import utils
 from resources.lib.indexers import navigator
 from bs4 import BeautifulSoup
 import requests

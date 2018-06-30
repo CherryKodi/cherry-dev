@@ -19,10 +19,10 @@
 
 import urlparse, urllib
 
-from resources.lib.libraries import cache
-from resources.lib.libraries import client
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import utils
+from ptw.libraries import cache
+from ptw.libraries import client
+from ptw.libraries import cleantitle
+from ptw.libraries import utils
 
 
 def _getAniList(url):

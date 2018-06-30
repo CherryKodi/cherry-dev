@@ -25,7 +25,7 @@ except:
 
 import json
 
-from resources.lib.libraries import control
+from ptw.libraries import control
 
 
 def getFavourites(content):

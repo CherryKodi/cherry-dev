@@ -32,7 +32,7 @@ import inspect
 
 def download(name, image, url):
 
-    from resources.lib.libraries import control
+    from ptw.libraries import control
 
     if url == None:
         return control.infoDialog(control.lang(30501).encode('utf-8'))

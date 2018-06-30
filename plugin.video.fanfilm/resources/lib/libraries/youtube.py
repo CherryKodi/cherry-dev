@@ -21,8 +21,8 @@
 
 import re,json
 
-from resources.lib.libraries import client
-from resources.lib.libraries import workers
+from ptw.libraries import client
+from ptw.libraries import workers
 
 
 class youtube(object):

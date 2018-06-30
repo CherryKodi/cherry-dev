@@ -21,11 +21,11 @@
 
 import re,urllib,urlparse,json,base64,time,xbmc
 
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
-from resources.lib.libraries import cache
-from resources.lib.libraries import directstream
-from resources.lib.libraries import source_utils
+from ptw.libraries import cleantitle
+from ptw.libraries import client
+from ptw.libraries import cache
+from ptw.libraries import directstream
+from ptw.libraries import source_utils
 
 
 

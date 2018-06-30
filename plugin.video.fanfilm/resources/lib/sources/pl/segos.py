@@ -20,7 +20,7 @@
 
 #import pydevd
 #pydevd.settrace(stdoutToServer=True, stderrToServer=True)
-from resources.lib.libraries import source_utils, dom_parser, client, cleantitle,control , more_sources
+from ptw.libraries import source_utils, dom_parser, client, cleantitle,control , more_sources
 import urllib, urlparse
 import requests,re
 

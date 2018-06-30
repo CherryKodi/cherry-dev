@@ -23,8 +23,8 @@
 
 import re,os,sys,urllib,urllib2,urlparse,time,threading
 
-from resources.lib.libraries import control
-from resources.lib.libraries import cache
+from ptw.libraries import control
+from ptw.libraries import cache
 import pyxbmct.addonwindow as pyxbmct
 
 downloadPath = control.setting('downloadPath')

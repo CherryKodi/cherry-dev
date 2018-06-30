@@ -20,11 +20,11 @@
 
 import re,urllib,urlparse,json,base64,time
 
-from resources.lib.libraries import control
-from resources.lib.libraries import pyaes
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
-from resources.lib.libraries import directstream
+from ptw.libraries import control
+from ptw.libraries import pyaes
+from ptw.libraries import cleantitle
+from ptw.libraries import client
+from ptw.libraries import directstream
 
 
 class source:

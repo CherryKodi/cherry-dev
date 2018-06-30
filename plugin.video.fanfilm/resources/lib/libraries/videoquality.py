@@ -21,8 +21,8 @@
 
 import os,re,urllib
 
-from resources.lib.libraries import client
-from resources.lib.libraries import control
+from ptw.libraries import client
+from ptw.libraries import control
 
 
 def solvequality(url):

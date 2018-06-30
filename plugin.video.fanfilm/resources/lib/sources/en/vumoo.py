@@ -18,8 +18,8 @@
 
 import urlparse, urllib, json, base64, hashlib, re, xbmc, requests
 
-from resources.lib.libraries import client, cleantitle, source_utils, directstream
-from resources.lib.libraries import pyaes
+from ptw.libraries import client, cleantitle, source_utils, directstream
+from ptw.libraries import pyaes
 
 
 class source:

@@ -18,17 +18,17 @@
 '''
 
 
-from resources.lib.libraries import trakt
-from resources.lib.libraries import cleangenre
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import control
-from resources.lib.libraries import client
-from resources.lib.libraries import cache
-from resources.lib.libraries import metacache
+from ptw.libraries import trakt
+from ptw.libraries import cleangenre
+from ptw.libraries import cleantitle
+from ptw.libraries import control
+from ptw.libraries import client
+from ptw.libraries import cache
+from ptw.libraries import metacache
 from resources.lib.libraries import playcount
-from resources.lib.libraries import workers
+from ptw.libraries import workers
 from resources.lib.libraries import views
-from resources.lib.libraries import utils
+from ptw.libraries import utils
 from resources.lib.indexers import navigator
 
 import os,sys,re,json,urllib,urlparse,datetime,xbmc

@@ -25,8 +25,8 @@ import gzip, StringIO
 try: from sqlite3 import dbapi2 as database
 except: from pysqlite2 import dbapi2 as database
 
-from resources.lib.libraries import control
-from resources.lib.libraries import cleantitle
+from ptw.libraries import control
+from ptw.libraries import cleantitle
 from resources.lib.libraries import playcount
 
 

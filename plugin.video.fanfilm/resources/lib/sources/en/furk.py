@@ -14,7 +14,7 @@
 '''
 
 import requests, json, sys
-from resources.lib.libraries import source_utils, cleantitle, control
+from ptw.libraries import source_utils, cleantitle, control
 
 
 class source:

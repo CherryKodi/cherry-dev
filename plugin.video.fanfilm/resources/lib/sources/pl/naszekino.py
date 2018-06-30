@@ -22,9 +22,9 @@
 
 import urllib, urlparse, re, xbmcplugin, sys, xbmc, urllib2, requests
 
-from resources.lib.libraries import source_utils, dom_parser,control
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client,cache
+from ptw.libraries import source_utils, dom_parser,control
+from ptw.libraries import cleantitle
+from ptw.libraries import client,cache
 
 class source:
     def __init__(self):

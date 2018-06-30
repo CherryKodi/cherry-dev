@@ -18,14 +18,16 @@
 '''
 
 
-import re,sys,cookielib,urllib,urllib2,urlparse,gzip,StringIO,HTMLParser,time,random,base64,xbmc,requests
+import re, sys, cookielib, urllib, urllib2, urlparse
+import ingIO, HTMLParser, time, random, base64, requests
+import xbmc
 
-from resources.lib.libraries import cache
-from resources.lib.libraries import cloudflare
-from resources.lib.libraries import workers
-from resources.lib.libraries import dom_parser
-from resources.lib.libraries import log_utils
-from resources.lib.libraries import utils
+from ptw.libraries import cache
+from ptw.libraries import cloudflare
+from ptw.libraries import workers
+from ptw.libraries import dom_parser
+from ptw.libraries import log_utils
+from ptw.libraries import utils
 
 
 def request(url, close=True, redirect=True, error=False, proxy=None, post=None, headers=None, mobile=False, XHR=False, limit=None, referer=None, cookie=None, compression=True, output='', timeout='30'):

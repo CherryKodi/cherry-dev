@@ -20,9 +20,9 @@
 
 import re,urllib,urlparse,json,random,base64
 
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
-from resources.lib.libraries import cache
+from ptw.libraries import cleantitle
+from ptw.libraries import client
+from ptw.libraries import cache
 from resources.lib.libraries import debrid
 
 

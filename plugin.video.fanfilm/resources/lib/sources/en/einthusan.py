@@ -20,8 +20,8 @@
 
 import re,urllib,urllib2,urlparse,json
 
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
+from ptw.libraries import cleantitle
+from ptw.libraries import client
 
 
 class source:

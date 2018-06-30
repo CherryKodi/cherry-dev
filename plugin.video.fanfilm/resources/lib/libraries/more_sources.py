@@ -23,7 +23,7 @@ import urllib
 import hashlib
 import re,requests
 
-from resources.lib.libraries import client,source_utils
+from ptw.libraries import client,source_utils
 
 def more_cdapl(link,hostDict,lang,info):
     sources = []

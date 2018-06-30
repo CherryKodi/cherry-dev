@@ -25,18 +25,18 @@ try: from sqlite3 import dbapi2 as database
 except: from pysqlite2 import dbapi2 as database
 
 from resources.lib.libraries import debrid
-from resources.lib.libraries import cache
-from resources.lib.libraries import metacache
-from resources.lib.libraries import client
-from resources.lib.libraries import control
+from ptw.libraries import cache
+from ptw.libraries import metacache
+from ptw.libraries import client
+from ptw.libraries import control
 from resources.lib.libraries import regex
 from resources.lib.libraries import trailer
-from resources.lib.libraries import workers
+from ptw.libraries import workers
 from resources.lib.libraries import youtube
 from resources.lib.libraries import views
-from resources.lib.libraries import trakt
-from resources.lib.libraries import log_utils
-from resources.lib.libraries import dom_parser2
+from ptw.libraries import trakt
+from ptw.libraries import log_utils
+from ptw.libraries import dom_parser2
 
 addon_id            = 'plugin.video.bennu'
 AddonTitle          = 'bennu'
@@ -180,7 +180,7 @@ class indexer:
 
     def aes_dec(self, result):
         try:
-            from resources.lib.libraries import pyaes
+            from ptw.libraries import pyaes
             aes = pyaes.AESModeOfOperationOFB(control.key, iv=control.iv)
             result = aes.decrypt(result.decode('string-escape'))
             return result
@@ -1348,7 +1348,7 @@ class resolver:
 
         try:
             if not '.google.com' in url: raise Exception()
-            from resources.lib.libraries import directstream
+            from ptw.libraries import directstream
             u = directstream.google(url)[0]['url']
             return u
         except:

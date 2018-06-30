@@ -20,8 +20,8 @@
 
 import json
 
-from resources.lib.libraries import control
-from resources.lib.libraries import trakt
+from ptw.libraries import control
+from ptw.libraries import trakt
 
 
 def getMovieIndicators(refresh=False):

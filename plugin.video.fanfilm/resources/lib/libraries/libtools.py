@@ -32,8 +32,8 @@ import urllib
 import urlparse
 import xbmc
 
-from resources.lib.libraries import control
-from resources.lib.libraries import cleantitle
+from ptw.libraries import control
+from ptw.libraries import cleantitle
 
 class lib_tools:
     @staticmethod

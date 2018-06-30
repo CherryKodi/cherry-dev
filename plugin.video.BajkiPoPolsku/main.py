@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 import urllib, urllib2, re, xbmc, xbmcplugin, xbmcgui, xbmc, xbmcaddon, HTMLParser, os
 import requests ,resolveurl, json, re
-from resources.lib.libraries import source_utils, dom_parser, client, cleantitle
+from ptw.libraries import source_utils, dom_parser, client, cleantitle
 from HTMLParser import HTMLParser
 
 import sys

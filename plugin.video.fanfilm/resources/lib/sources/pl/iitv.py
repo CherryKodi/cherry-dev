@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from resources.lib.libraries import source_utils, dom_parser, client, cleantitle
+from ptw.libraries import source_utils, dom_parser, client, cleantitle
 import urllib, urlparse
 import requests
 

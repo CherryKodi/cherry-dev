@@ -34,7 +34,7 @@ def download(name, image, url):
 
     if url == None: return
 
-    from resources.lib.libraries import control
+    from ptw.libraries import control
 
     try: headers = dict(urlparse.parse_qsl(url.rsplit('|', 1)[1]))
     except: headers = dict('')

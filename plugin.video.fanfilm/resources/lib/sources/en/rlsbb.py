@@ -19,8 +19,8 @@
 
 import re, urllib, urlparse, json, sys
 
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
+from ptw.libraries import cleantitle
+from ptw.libraries import client
 from resources.lib.libraries import debrid
 
 

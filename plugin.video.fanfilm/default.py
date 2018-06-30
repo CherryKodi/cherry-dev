@@ -19,7 +19,7 @@
 '''
 
 import urlparse, sys, urllib
-from resources.lib.libraries import control
+from ptw.libraries import control
 import xbmcgui, xbmc
 
 params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
@@ -66,7 +66,7 @@ windowedtrailer = int(windowedtrailer) if windowedtrailer in ("0","1") else 0
 
 if action == None:
     from resources.lib.indexers import navigator
-    from resources.lib.libraries import cache
+    from ptw.libraries import cache
     cache.cache_version_check()
     navigator.navigator().root()
 
@@ -275,19 +275,19 @@ elif action == 'episodeUserlists':
     episodes.episodes().userlists()
 
 elif action == 'refresh':
-    from resources.lib.libraries import control
+    from ptw.libraries import control
     control.refresh()
 
 elif action == 'queueItem':
-    from resources.lib.libraries import control
+    from ptw.libraries import control
     control.queueItem()
 
 elif action == 'openSettings':
-    from resources.lib.libraries import control
+    from ptw.libraries import control
     control.openSettings(query)
 
 elif action == 'artwork':
-    from resources.lib.libraries import control
+    from ptw.libraries import control
     control.artwork()
 
 elif action == 'addView':
@@ -311,11 +311,11 @@ elif action == 'trailer':
     trailer.trailer().play(name, url, windowedtrailer)
 
 elif action == 'traktManager':
-    from resources.lib.libraries import trakt
+    from ptw.libraries import trakt
     trakt.manager(name, imdb, tvdb, content)
 
 elif action == 'authTrakt':
-    from resources.lib.libraries import trakt
+    from ptw.libraries import trakt
     trakt.authTrakt()
 
 elif action == 'smuSettings':
@@ -368,7 +368,7 @@ elif action == 'random':
         from resources.lib.indexers import tvshows
         rlist = tvshows.tvshows().get(url, create_directory=False)
         r = sys.argv[0]+"?action=random&rtype=season"
-    from resources.lib.libraries import control
+    from ptw.libraries import control
     from random import randint
     import json
     try:

@@ -22,8 +22,8 @@
 #pydevd.settrace(stdoutToServer=True, stderrToServer=True)
 
 import re, urlparse, json, base64, requests
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client,control
+from ptw.libraries import cleantitle
+from ptw.libraries import client,control
 
 def byteify(input):
     if isinstance(input, dict):

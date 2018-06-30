@@ -25,7 +25,7 @@ from urllib import urlencode
 
 from threading import Thread
 from bs4 import BeautifulSoup
-from resources.lib.libraries import debrid, cfscrape, source_utils
+from ptw.libraries import debrid, cfscrape, source_utils
 
 
 class source:

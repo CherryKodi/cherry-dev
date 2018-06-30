@@ -20,9 +20,9 @@
 
 import os,sys,urlparse
 
-from resources.lib.libraries import control
-from resources.lib.libraries import trakt
-from resources.lib.libraries import cache
+from ptw.libraries import control
+from ptw.libraries import trakt
+from ptw.libraries import cache
 
 sysaddon = sys.argv[0] ; syshandle = int(sys.argv[1]) ; control.moderator()
 
@@ -295,7 +295,7 @@ class navigator:
         control.idle()
         yes = control.yesnoDialog(control.lang(32056).encode('utf-8'), '', '')
         if not yes: return
-        from resources.lib.libraries import cache
+        from ptw.libraries import cache
         cache.cache_clear()
         control.infoDialog(control.lang(32057).encode('utf-8'), sound=True, icon='INFO')
 
@@ -303,7 +303,7 @@ class navigator:
         control.idle()
         yes = control.yesnoDialog(control.lang(32056).encode('utf-8'), '', '')
         if not yes: return
-        from resources.lib.libraries import cache
+        from ptw.libraries import cache
         cache.cache_clear_meta()
         control.infoDialog(control.lang(32057).encode('utf-8'), sound=True, icon='INFO')
 
@@ -311,7 +311,7 @@ class navigator:
         control.idle()
         yes = control.yesnoDialog(control.lang(32056).encode('utf-8'), '', '')
         if not yes: return
-        from resources.lib.libraries import cache
+        from ptw.libraries import cache
         cache.cache_clear_providers()
         control.infoDialog(control.lang(32057).encode('utf-8'), sound=True, icon='INFO')
 
@@ -319,7 +319,7 @@ class navigator:
         control.idle()
         yes = control.yesnoDialog(control.lang(32056).encode('utf-8'), '', '')
         if not yes: return
-        from resources.lib.libraries import cache
+        from ptw.libraries import cache
         cache.cache_clear_search()
         control.infoDialog(control.lang(32057).encode('utf-8'), sound=True, icon='INFO')
 
@@ -327,7 +327,7 @@ class navigator:
         control.idle()
         yes = control.yesnoDialog(control.lang(32056).encode('utf-8'), '', '')
         if not yes: return
-        from resources.lib.libraries import cache
+        from ptw.libraries import cache
         cache.cache_clear_all()
         control.infoDialog(control.lang(32057).encode('utf-8'), sound=True, icon='INFO')
 

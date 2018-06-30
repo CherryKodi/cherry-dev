@@ -21,7 +21,7 @@ import StringIO
 import pstats
 import json
 import xbmc
-from resources.lib.libraries import control
+from ptw.libraries import control
 from xbmc import LOGDEBUG, LOGERROR, LOGFATAL, LOGINFO, LOGNONE, LOGNOTICE, LOGSEVERE, LOGWARNING  # @UnusedImport
 
 name = control.addonInfo('name')

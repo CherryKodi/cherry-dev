@@ -20,9 +20,9 @@
 
 import re,urlparse,json,base64
 
-from resources.lib.libraries import cache
-from resources.lib.libraries import control
-from resources.lib.libraries import client
+from ptw.libraries import cache
+from ptw.libraries import control
+from ptw.libraries import client
 
 
 class source:

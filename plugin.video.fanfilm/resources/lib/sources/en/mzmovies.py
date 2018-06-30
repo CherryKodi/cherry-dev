@@ -19,11 +19,11 @@
 
 import urllib, urlparse, re
 
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
-from resources.lib.libraries import source_utils
-from resources.lib.libraries import dom_parser
-from resources.lib.libraries import directstream
+from ptw.libraries import cleantitle
+from ptw.libraries import client
+from ptw.libraries import source_utils
+from ptw.libraries import dom_parser
+from ptw.libraries import directstream
 from resources.lib.libraries import cfscrape
 
 

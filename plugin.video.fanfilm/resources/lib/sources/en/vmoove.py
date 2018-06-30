@@ -19,7 +19,7 @@
 '''
 
 from bs4 import BeautifulSoup
-from resources.lib.libraries import directstream, source_utils
+from ptw.libraries import directstream, source_utils
 import requests, re, sys, traceback
 
 

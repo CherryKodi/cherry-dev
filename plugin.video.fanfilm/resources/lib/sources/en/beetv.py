@@ -20,7 +20,7 @@
 
 import requests
 import sys
-from resources.lib.libraries import cleantitle
+from ptw.libraries import cleantitle
 from bs4 import BeautifulSoup
 
 class source:

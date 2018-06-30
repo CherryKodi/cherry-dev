@@ -19,8 +19,8 @@
 
 import json, urllib, urlparse
 
-from resources.lib.libraries import client
-from resources.lib.libraries import directstream
+from ptw.libraries import client
+from ptw.libraries import directstream
 
 
 class source:

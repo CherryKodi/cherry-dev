@@ -17,7 +17,7 @@
 
 import urlparse, urllib, re, json, xbmc
 
-from resources.lib.libraries import client, cleantitle, source_utils, directstream
+from ptw.libraries import client, cleantitle, source_utils, directstream
 
 
 

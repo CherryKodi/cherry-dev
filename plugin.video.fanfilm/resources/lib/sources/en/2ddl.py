@@ -21,8 +21,8 @@
 import requests
 import re
 
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries.source_utils import get_quality_simple
+from ptw.libraries import cleantitle
+from ptw.libraries.source_utils import get_quality_simple
 
 class source:
     def __init__(self):

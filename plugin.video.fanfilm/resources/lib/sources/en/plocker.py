@@ -21,8 +21,8 @@ import urllib
 import urlparse
 import json
 
-from resources.lib.libraries import client, cleantitle, directstream
-from resources.lib.libraries import source_utils
+from ptw.libraries import client, cleantitle, directstream
+from ptw.libraries import source_utils
 
 
 class source:

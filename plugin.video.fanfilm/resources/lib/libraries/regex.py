@@ -35,8 +35,8 @@ profile = functions_dir = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('pro
 try: from sqlite3 import dbapi2 as database
 except: from pysqlite2 import dbapi2 as database
 
-from resources.lib.libraries import client
-from resources.lib.libraries import control
+from ptw.libraries import client
+from ptw.libraries import control
 
 
 def fetch(regex):

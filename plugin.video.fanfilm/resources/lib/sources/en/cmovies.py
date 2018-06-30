@@ -20,7 +20,7 @@
 
 
 import re,base64, requests, sys, urllib
-from resources.lib.libraries import jsunpack, cleantitle
+from ptw.libraries import jsunpack, cleantitle
 from bs4 import BeautifulSoup
 
 from resources.lib.libraries import cfscrape

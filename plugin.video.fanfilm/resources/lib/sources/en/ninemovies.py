@@ -24,8 +24,8 @@ import ast
 import xbmc
 import httplib
 
-from resources.lib.libraries import client, cleantitle, directstream, jsunpack, source_utils
-from resources.lib.libraries import dom_parser
+from ptw.libraries import client, cleantitle, directstream, jsunpack, source_utils
+from ptw.libraries import dom_parser
 
 
 class source:

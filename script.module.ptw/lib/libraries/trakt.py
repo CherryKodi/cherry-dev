@@ -24,12 +24,12 @@ import time
 import urllib
 import urlparse
 
-from resources.lib.libraries import cache
-from resources.lib.libraries import cleandate
-from resources.lib.libraries import client
-from resources.lib.libraries import control
-from resources.lib.libraries import log_utils
-from resources.lib.libraries import utils
+from ptw.libraries import cache
+from ptw.libraries import cleandate
+from ptw.libraries import client
+from ptw.libraries import control
+from ptw.libraries import log_utils
+from ptw.libraries import utils
 
 BASE_URL = 'http://api.trakt.tv'
 V2_API_KEY = '46150347b5baa79600cb28f9888e8fae7a92defb02860f0fdf4ff3480450ee3b'

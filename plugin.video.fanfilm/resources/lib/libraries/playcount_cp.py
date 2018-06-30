@@ -21,8 +21,8 @@
 
 import sys,xbmc
 
-from resources.lib.libraries import control
-from resources.lib.libraries import trakt
+from ptw.libraries import control
+from ptw.libraries import trakt
 
 
 def movies(title, year, imdb, watched):

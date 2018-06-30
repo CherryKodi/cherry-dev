@@ -20,11 +20,11 @@
 
 import re,urllib,urlparse
 
-from resources.lib.libraries import control
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
+from ptw.libraries import control
+from ptw.libraries import cleantitle
+from ptw.libraries import client
 from resources.lib.libraries import jsunpack
-from resources.lib.libraries import dom_parser
+from ptw.libraries import dom_parser
 
 
 class source:

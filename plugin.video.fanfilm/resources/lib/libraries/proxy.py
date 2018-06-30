@@ -23,8 +23,8 @@ import re
 import urllib
 import urlparse
 
-from resources.lib.libraries import client
-from resources.lib.libraries import utils
+from ptw.libraries import client
+from ptw.libraries import utils
 
 
 def request(url, check, close=True, redirect=True, error=False, proxy=None, post=None, headers=None, mobile=False, XHR=False, limit=None, referer=None, cookie=None, compression=True, output='', timeout='30'):

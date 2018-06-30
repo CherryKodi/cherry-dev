@@ -18,7 +18,7 @@
 """
 
 import re, os, urllib, urlparse, json, binascii
-from resources.lib.libraries import client
+from ptw.libraries import client
 
 
 def google(url):

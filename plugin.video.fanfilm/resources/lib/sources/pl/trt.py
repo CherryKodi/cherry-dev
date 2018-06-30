@@ -21,8 +21,8 @@
 
 import re, urllib, urlparse, base64, json
 
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
+from ptw.libraries import cleantitle
+from ptw.libraries import client
 
 class source:
     def __init__(self):

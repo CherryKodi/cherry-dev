@@ -22,11 +22,11 @@
 
 import os,re,sys,urllib,urlparse
 
-from resources.lib.libraries import cache
-from resources.lib.libraries import cachemeta
-from resources.lib.libraries import control
-from resources.lib.libraries import client
-from resources.lib.libraries import workers
+from ptw.libraries import cache
+from ptw.libraries import cachemeta
+from ptw.libraries import control
+from ptw.libraries import client
+from ptw.libraries import workers
 from resources.lib.libraries import views
 
 

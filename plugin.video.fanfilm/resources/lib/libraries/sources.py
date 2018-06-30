@@ -20,16 +20,16 @@
 
 import sys,re,json,urllib,urlparse,random,datetime,time
 
-from resources.lib.libraries import trakt
+from ptw.libraries import trakt
 from resources.lib.libraries import tvmaze
-from resources.lib.libraries import cache
-from resources.lib.libraries import control
-from resources.lib.libraries import cleantitle
-from resources.lib.libraries import client
+from ptw.libraries import cache
+from ptw.libraries import control
+from ptw.libraries import cleantitle
+from ptw.libraries import client
 from resources.lib.libraries import debrid
-from resources.lib.libraries import workers
-from resources.lib.libraries import source_utils
-from resources.lib.libraries import log_utils
+from ptw.libraries import workers
+from ptw.libraries import source_utils
+from ptw.libraries import log_utils
 from resources.lib.libraries import thexem
 
 try: from sqlite3 import dbapi2 as database

@@ -23,8 +23,8 @@
 import re,os,sys,urllib,json,datetime,subprocess
 
 from jars import FuckNeulionClient
-from resources.lib.libraries import control
-from resources.lib.libraries import client
+from ptw.libraries import control
+from ptw.libraries import client
 import xbmc
 
 
