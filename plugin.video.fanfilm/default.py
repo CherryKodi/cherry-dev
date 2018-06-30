@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import urlparse,sys,urllib
+import urlparse, sys, urllib
 from resources.lib.libraries import control
 import xbmcgui, xbmc
 
