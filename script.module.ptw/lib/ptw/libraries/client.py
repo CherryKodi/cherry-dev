@@ -19,7 +19,7 @@
 
 
 import re, sys, cookielib, urllib, urllib2, urlparse
-import ingIO, HTMLParser, time, random, base64, requests
+import StringIO, HTMLParser, time, random, base64, requests
 import xbmc
 
 from ptw.libraries import cache

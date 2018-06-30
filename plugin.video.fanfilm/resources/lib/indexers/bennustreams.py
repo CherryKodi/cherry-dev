@@ -26,7 +26,7 @@ except: from pysqlite2 import dbapi2 as database
 
 from resources.lib.libraries import debrid
 from ptw.libraries import cache
-from ptw.libraries import metacache
+from resources.lib.libraries import metacache
 from ptw.libraries import client
 from ptw.libraries import control
 from resources.lib.libraries import regex

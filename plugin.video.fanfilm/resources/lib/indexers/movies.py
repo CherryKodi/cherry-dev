@@ -24,7 +24,7 @@ from ptw.libraries import cleantitle
 from ptw.libraries import control
 from ptw.libraries import client
 from ptw.libraries import cache
-from ptw.libraries import metacache
+from resources.lib.libraries import metacache
 from resources.lib.libraries import playcount
 from ptw.libraries import workers
 from resources.lib.libraries import views
