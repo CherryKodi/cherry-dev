@@ -246,10 +246,13 @@ def apiLanguage(ret_name=None):
     name = None
     name = setting('api.language')
     if not name: name = 'AUTO'
-    
+
     if name[-1].isupper():
-        try: name = xbmc.getLanguage(xbmc.ENGLISH_NAME).split(' ')[0]
-        except: pass
+        try:
+            name = xbmc.getLanguage(xbmc.ENGLISH_NAME).split(' ')[0]
+        except:
+            log_exception()
+            pass
     try: name = langDict[name]
     except: name = 'en'
     lang = {'trakt': name} if name in trakt else {'trakt': 'en'}
@@ -266,8 +269,11 @@ def apiLanguage(ret_name=None):
 
 def version():
     num = ''
-    try: version = addon('xbmc.addon').getAddonInfo('version')
-    except: version = '999'
+    try:
+        version = addon('xbmc.addon').getAddonInfo('version')
+    except:
+        log_exception()
+        version = '999'
     for i in version:
         if i.isdigit(): num += i
         else: break
@@ -302,7 +308,7 @@ def openSettings(query=None, id=addonInfo('id')):
         execute('SetFocus(%i)' % (int(c) + 100))
         execute('SetFocus(%i)' % (int(f) + 200))
     except:
-        return
+        log_exception()
 
 
 def getCurrentViewId():
@@ -319,6 +325,7 @@ def log(msg, level=xbmc.LOGNOTICE):
             msg = msg.encode('utf-8')
         xbmc.log('[FanFILM]: %s' % (msg), level)
     except Exception as e:
+        log_exception()
         try:
             #xbmc.log('Logging Failure: %s' % (e), level)
             a=1

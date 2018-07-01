@@ -23,6 +23,7 @@ import json
 import xbmc
 from ptw.libraries import control
 from xbmc import LOGDEBUG, LOGERROR, LOGFATAL, LOGINFO, LOGNONE, LOGNOTICE, LOGSEVERE, LOGWARNING  # @UnusedImport
+from ptw.debug import log_exception
 
 name = control.addonInfo('name')
 
@@ -43,6 +44,7 @@ def log(msg, level=LOGDEBUG):
         try:
             xbmc.log('Logging Failure: %s' % (e), level)
         except:
+            log_exception()
             pass  # just give up
 
 

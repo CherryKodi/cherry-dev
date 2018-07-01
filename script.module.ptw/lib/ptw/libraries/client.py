@@ -28,6 +28,7 @@ from ptw.libraries import workers
 from ptw.libraries import dom_parser
 from ptw.libraries import log_utils
 from ptw.libraries import utils
+from ptw.debug import log_exception
 
 
 def request(url, close=True, redirect=True, error=False, proxy=None, post=None, headers=None, mobile=False, XHR=False, limit=None, referer=None, cookie=None, compression=True, output='', timeout='30'):
@@ -63,8 +64,11 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
         if url.startswith('//'): url = 'http:' + url
 
         _headers ={}
-        try: _headers.update(headers)
-        except: pass
+        if headers:
+            try:
+                _headers.update(headers)
+            except:
+                log_exception()
         if 'User-Agent' in _headers:
             pass
         elif not mobile == True:
@@ -247,20 +251,16 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
             return result
     except Exception as e:
         log_utils.log('Request-Error: (%s) => %s' % (str(e), url), log_utils.LOGDEBUG)
-        return
 
 
 def _basic_request(url, headers=None, post=None, timeout='30', limit=None):
     try:
-        try: headers.update(headers)
-        except: headers = {}
-
         request = urllib2.Request(url, data=post)
-        _add_request_header(request, headers)
+        _add_request_header(request, headers or {})
         response = urllib2.urlopen(request, timeout=int(timeout))
         return _get_result(response, limit)
     except:
-        return
+        log_exception()
 
 
 def _add_request_header(_request, headers):
@@ -277,7 +277,7 @@ def _add_request_header(_request, headers):
         _request.add_unredirected_header('Referer', referer)
         for key in headers: _request.add_header(key, headers[key])
     except:
-        return
+        log_exception()
 
 
 def _get_result(response, limit=None):
@@ -367,7 +367,7 @@ class bfcookie:
             result = _basic_request(url, headers=headers, timeout=timeout)
             return self.getCookieString(result, headers['Cookie'])
         except:
-            return
+            log_exception()
 
     # not very robust but lazieness...
     def getCookieString(self, content, rcksid):
@@ -414,7 +414,7 @@ class sucuri:
 
             return self.cookie
         except:
-            pass
+            log_exception()
 
 """Bennu Specific"""
 

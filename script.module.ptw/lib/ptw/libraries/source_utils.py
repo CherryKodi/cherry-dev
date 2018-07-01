@@ -27,12 +27,14 @@ from ptw.libraries import client
 from ptw.libraries import directstream
 from ptw.libraries import trakt
 from ptw.libraries import pyaes
+from ptw.debug import log_exception
 
 def is_anime(content, type, type_id):
     try:
         r = trakt.getGenre(content, type, type_id)
         return 'anime' in r or 'animation' in r
     except:
+        log_exception()
         return False
 
 def get_release_quality(release_name, release_link=None):
@@ -44,7 +46,7 @@ def get_release_quality(release_name, release_link=None):
 
     try:
         quality = None
-        
+
         release_name = release_name.upper()
 
         fmt = re.sub('(.+)(\.|\(|\[|\s)(\d{4}|S\d*E\d*|S\d*)(\.|\)|\]|\s)', '', release_name)
@@ -64,7 +66,7 @@ def get_release_quality(release_name, release_link=None):
                 if '1080' in release_link: quality = '1080p'
                 elif '720' in release_link: quality = '720p'
                 elif '.hd' in release_link: quality = 'SD'
-                else: 
+                else:
                     if any(i in ['dvdscr', 'r5', 'r6'] for i in release_link): quality = 'SCR'
                     elif any(i in ['camrip', 'tsrip', 'hdcam', 'hdts', 'dvdcam', 'dvdts', 'cam', 'telesync', 'ts'] for i in release_link): quality = 'CAM'
                     else: quality = 'SD'
@@ -76,13 +78,13 @@ def get_release_quality(release_name, release_link=None):
         return quality, info
     except:
         return 'SD', []
-        
+
 def getFileType(url):
 
     try: url = url.lower()
     except: url = str(url)
     type = ''
-    
+
     if 'bluray' in url: type += ' BLURAY /'
     if '.web-dl' in url: type += ' WEB-DL /'
     if '.web.' in url: type += ' WEB-DL /'
@@ -104,7 +106,7 @@ def getFileType(url):
     if 'h.264' in url: type += ' H.264 /'
     if '.x264' in url: type += ' x264 /'
     if '.x265' in url: type += ' x265 /'
-    if 'subs' in url: 
+    if 'subs' in url:
         if type != '': type += ' - WITH SUBS'
         else: type = 'SUBS'
     type = type.rstrip('/')
@@ -150,7 +152,7 @@ def strip_domain(url):
         url = url.encode('utf-8')
         return url
     except:
-        return
+        log_exception()
 
 
 def is_host_valid(url, domains):
@@ -166,6 +168,7 @@ def is_host_valid(url, domains):
             host = 'CDN'
         return any(hosts), host
     except:
+        log_exception()
         return False, ''
 
 
@@ -188,6 +191,7 @@ def aliases_to_array(aliases, filter=None):
 
         return [x.get('title') for x in aliases if not filter or x.get('country') in filter]
     except:
+        log_exception()
         return []
 
 
@@ -200,7 +204,9 @@ def get_size(url):
         if size == '0': size = False
         size = convert_size(size)
         return size
-    except: return False
+    except:
+        log_exception()
+        return False
 
 def convert_size(size_bytes):
    import math
