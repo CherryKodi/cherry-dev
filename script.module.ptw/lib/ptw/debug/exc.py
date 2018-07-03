@@ -9,10 +9,7 @@ from __future__ import absolute_import, division, unicode_literals, print_functi
 #    print('WARNING: no furure module')
 
 import sys, traceback, functools
-try:
-    import xbmc
-except:
-    from . import xbmc
+import xbmc
 
 
 INDENT = 44 * ' '

@@ -5,7 +5,7 @@ import urllib, urllib2, re, xbmc, xbmcplugin, xbmcgui, xbmc, xbmcaddon, HTMLPars
 import requests ,resolveurl, json, re
 from ptw.libraries import source_utils, dom_parser, client, cleantitle
 from HTMLParser import HTMLParser
-from ptw.debug import log_exception
+from ptw.debug import log_exception, start_trace, stop_trace, TRACE_ALL
 if PY2:
     from urlparse import parse_qs
 else:
@@ -14,6 +14,8 @@ else:
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
+
+start_trace() #TRACE_ALL)   # XXX XXX XXX
 
 __addon_id__= 'plugin.video.BajkiOnline'
 __Addon = xbmcaddon.Addon(__addon_id__)
@@ -234,3 +236,5 @@ elif mode == 12:
 ###################################################################################
 xbmcplugin.setContent(int(sys.argv[1]),'Movies')
 xbmcplugin.endOfDirectory(int(sys.argv[1]), cacheToDisc=True)
+
+stop_trace()   # XXX XXX XXX
