@@ -67,9 +67,9 @@
         <setting id="provider.allrls" type="bool" label="ALLRLS" default="true" />
 		<setting id="provider.beetv" type="bool" label="BEETV" default="true" />
         <setting id="provider.chillax" type="bool" label="CHILLAX" default="true" />
-        <setting id="provider.cmovies" type="bool" label="CMOVIES" default="true" />
+        <setting id="provider.cmovies" type="bool" label="CMOVIES" default="false" />
         <setting id="provider.directdl" type="bool" label="DIRECTDL" default="true" />
-        <setting id="provider.divxcrawler" type="bool" label="DIVXCRAWLER" default="true" />
+        <setting id="provider.divxcrawler" type="bool" label="DIVXCRAWLER" default="false" />
         <setting id="provider.einthusan" type="bool" label="EINTHUSAN" default="true" />
 		<setting id="provider.furk" type="bool" label="FURK" default="true" />
         <setting id="provider.gogoanime" type="bool" label="GOGOANIME" default="true" />

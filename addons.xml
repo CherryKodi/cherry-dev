@@ -293,7 +293,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.strefadb"
-version="1.7"
+version="1.8"
 name="StrefaDB"
 provider-name="-">
 <requires>
@@ -313,7 +313,7 @@ provider-name="-">
     <icon>icon.jpg</icon>
     <fanart>fanart.jpg</fanart>
   </assets>
-  <news>fix2</news>
+  <news>db heroes</news>
 </extension>
 </addon>
 
@@ -378,7 +378,7 @@ provider-name="-">
 	</extension>
 </addon>
 
-<addon id="script.module.resolveurl" name="ResolveURL" version="6.1.2" provider-name="jsergio">
+<addon id="script.module.resolveurl" name="ResolveURL" version="6.1.3" provider-name="jsergio">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="plugin.video.youtube" optional="true" />
