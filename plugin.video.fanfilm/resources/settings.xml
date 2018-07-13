@@ -36,7 +36,8 @@
         <setting id="sources.extrainfo" type="bool" label="32587" default="true" />
         <setting id="HEVC" type="bool" label="32363" default="true" visible="false" />
         <setting id="hosts.captcha" type="bool" label="32341" default="true" />
-        <setting id="hosts.sort.provider" type="bool" label="32342" default="false" />
+        <setting id="hosts.sort.provider" type="bool" label="Sortuj według dostawcy" default="false" />
+        <setting id="hosts.sort.source" type="bool" label="Sortuj według źródła" default="false" />
         <setting id="debrid.only" type="bool" label="32614" default="false" />
         <setting type="lsep" label="32343" />
         <setting id="bookmarks" type="bool" label="32344" default="true" />

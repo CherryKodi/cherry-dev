@@ -774,6 +774,7 @@ class sources:
 
     def sourcesFilter(self):
         provider = control.setting('hosts.sort.provider')
+        sort_source = control.setting('hosts.sort.source')
         if provider == '': provider = 'false'
         debrid_only = control.setting('debrid.only')
         if debrid_only == '': debrid_only = 'false'
@@ -789,6 +790,9 @@ class sources:
 
         if provider == 'true':
             self.sources = sorted(self.sources, key=lambda k: k['provider'])
+            
+        if sort_source == 'true':
+            self.sources = sorted(self.sources, key=lambda k: k['source'])
 
         for i in self.sources:
             if 'checkquality' in i and i['checkquality'] == True:
@@ -816,12 +820,12 @@ class sources:
         self.sources = filter
       
         for i in range(len(self.sources)):
-            q = self.sources[i]['quality']            
+            q = self.sources[i]['quality']
             if q == 'HD': self.sources[i].update({'quality': '720p'})
 
         filter = []
         filter += local
-
+        
         if quality in ['0']: filter += [i for i in self.sources if i['quality'] == '4K' and 'debrid' in i]
         if quality in ['0']: filter += [i for i in self.sources if i['quality'] == '4K' and not 'debrid' in i and 'memberonly' in i]
         if quality in ['0']: filter += [i for i in self.sources if i['quality'] == '4K' and not 'debrid' in i and not 'memberonly' in i]
@@ -912,7 +916,7 @@ class sources:
             else: self.sources[i]['label'] = label.upper()
 
         try: 
-            if not HEVC == 'true': self.sources = [i for i in self.sources if not 'HEVC' in i['label']]
+            if not HEVC == 'true': self.sources = [i for i in self.sources if not 'HEVC' in i['label'] or not '265' in i['label']]
         except: pass
             
         self.sources = [i for i in self.sources if 'label' in i]
@@ -1178,7 +1182,7 @@ class sources:
 
         self.hostprDict = ['1fichier.com', 'oboom.com', 'rapidgator.net', 'rg.to', 'uploaded.net', 'uploaded.to', 'ul.to', 'filefactory.com', 'nitroflare.com', 'turbobit.net', 'uploadrocket.net']
 
-        self.hostcapDict = ['hugefiles.net', 'kingfiles.net', 'openload.io', 'openload.co', 'oload.tv', 'thevideo.me', 'vidup.me', 'streamin.to', 'torba.se']
+        self.hostcapDict = ['hugefiles.net', 'kingfiles.net', 'openload', 'openload.io', 'openload.co', 'oload.tv', 'thevideo.me', 'vidup.me', 'streamin.to', 'torba.se', 'flashx', 'flashx.tv']
 
         self.hosthqDict = ['gvideo', 'google.com', 'openload.io', 'openload.co', 'oload.tv', 'thevideo.me', 'rapidvideo.com', 'raptu.com', 'filez.tv', 'uptobox.com', 'uptobox.com', 'uptostream.com', 'xvidstage.com', 'streamango.com']
 
