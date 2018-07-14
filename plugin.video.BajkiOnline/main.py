@@ -218,4 +218,3 @@ elif mode == 12:
 ###################################################################################
 xbmcplugin.setContent(int(sys.argv[1]),'Movies')
 xbmcplugin.endOfDirectory(int(sys.argv[1]), cacheToDisc=True)
-
