@@ -16,8 +16,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from resources.lib.libraries import log_utils
-from resources.lib.libraries import control
+from ptw.libraries import log_utils
+from ptw.libraries import control
 import threading
 
 control.execute('RunPlugin(plugin://%s)' % control.get_plugin_url({'action': 'service'}))
