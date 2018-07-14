@@ -56,7 +56,11 @@ def log_exception(level=None):
     msg += '-->End of Python script error report<--'
     xbmc.log(msg, level)
 
-
+def log(msg, level=None):
+    msg = str(msg)
+    if level is None:
+        level = xbmc.LOGNOTICE
+    xbmc.log(msg, level)
 
 def stacktrace(func):
     """Decorator for trace function enter.
