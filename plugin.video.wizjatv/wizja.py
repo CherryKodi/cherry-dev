@@ -99,7 +99,7 @@ class WizjaTvApi():
 
         data = s.get(url).content
         data = client.parseDOM(data, 'iframe', ret='src')
-        log("WizjaTvApi." + data)
+        log("WizjaTvApi." + str(data))
         for url in data:
             HTTP_HEADER = dict(self.HTTP_HEADER)
             HTTP_HEADER.update({'Referer': url})
