@@ -3,12 +3,17 @@ import urllib, urllib2, re, xbmc, xbmcplugin, xbmcgui, xbmc, xbmcaddon, HTMLPars
 import requests, json
 import sys
 
+PY2 = sys.version_info[0] == 2
+if PY2:
+    from urlparse import parse_qs
+else:
+    from urllib.parse import parse_qs
+
 from ptw.debug import log_exception, log, start_trace, stop_trace, TRACE_ALL
+import wizja
 
-reload(sys)
-sys.setdefaultencoding('utf8')
-
-xbmcplugin.setContent(int(sys.argv[1]), 'movies')
+obj = wizja.WizjaTvApi()
+s = requests.Session()
 
 def CATEGORIES():
     WizjaTV()
@@ -24,21 +29,17 @@ def addDir(name, url, mode, thumb, fanart, opis, isFolder=True, total=1):
     return ok
 
 def WizjaTV():
-    import wizja
-    s = requests.Session()
-    obj = wizja.WizjaTvApi()
-    s,content = obj.ListaKanalow(s)
+    global s
+    s, content = obj.ListaKanalow(s)
     content = json.loads(content)
     for item in content:
         addDir(item['title'],item['url'] , 6, item['icon'],'','', False)
 
-def odpalanieLinku():
+def OdpalanieLinku():
     try:
-        import wizja
-        obj = wizja.WizjaTvApi()
-        s = requests.Session()
+        global s
         url = urllib.unquote_plus(params['url'])
-        s,content = obj.ListaKanalow(s)
+        s, content = obj.ListaKanalow(s)
         link = obj.Link(url,s)
         xbmc.Player().play(str(link).replace("rtmp://$OPT:rtmp-raw=", ""))
     except:
@@ -46,21 +47,10 @@ def odpalanieLinku():
         pass
 
 def get_params():
-    param = []
     paramstring = sys.argv[2]
-    if len(paramstring) >= 2 :
-        params = sys.argv[2]
-        cleanedparams = params.replace('?', '')
-        if (params[len(params) - 1] == '/') :
-            params = params[0:len(params) - 2]
-        pairsofparams = cleanedparams.split('&')
-        param = {}
-        for i in range(len(pairsofparams)) :
-            splitparams = {}
-            splitparams = pairsofparams[i].split('=')
-            if (len(splitparams)) == 2:
-                param[splitparams[0]] = splitparams[1]
-    return param
+    if paramstring.startswith('?'):
+        paramstring = paramstring[1:]
+    return dict((k, vv[0]) for k, vv in parse_qs(paramstring).items())
 
 params = get_params()
 url = None
@@ -74,12 +64,14 @@ try:
 except:
     pass
 try:
-    name = urllib.unquote_plus(params['name'])
+    name = params.get('name')
 except:
     pass
 try:
-    mode = int(params['mode'])
+    mode = int(params.get('mode'))
 except:
+    mode = None
+    log_exception()
     pass
 try:
     iconimage = urllib.unquote_plus(params['iconimage'])
@@ -89,7 +81,7 @@ except:
 if mode == None :
     CATEGORIES()
 elif mode == 6 : 
-    odpalanieLinku()
+    OdpalanieLinku()
 
 xbmcplugin.setContent(int(sys.argv[1]),'Movies')
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

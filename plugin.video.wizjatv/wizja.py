@@ -1,15 +1,10 @@
 # -*- coding: utf-8 -*-
-
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 import re, requests, urllib, json
 
 from ptw.libraries import client
 from ptw.debug import log_exception, log, start_trace, stop_trace, TRACE_ALL
 
-import xbmc,xbmcplugin,xbmcaddon
+import xbmc, xbmcplugin, xbmcaddon
 
 class WizjaTvApi():
 
@@ -150,7 +145,7 @@ class WizjaTvApi():
         global s
         s=k
         try:
-            k,channelList = self.getList(s)
+            k, channelList = self.getList(s)
             s=k
         except Exception, e:
             log_exception()
@@ -158,11 +153,11 @@ class WizjaTvApi():
         if len(channelList)<2:
             return ''
         else:
-            return s,json.dumps(channelList)
+            return s, json.dumps(channelList)
 
-    def Link(self,url,s):
+    def Link(self, url, s):
         try:
-            link = self.getVideoLink(url,s)
+            link = self.getVideoLink(url, s)
             wynik = link[0]['url']
         except Exception,e:
             log_exception()
