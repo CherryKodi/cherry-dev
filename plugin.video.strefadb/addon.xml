@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="plugin.video.strefadb"
-version="1.6"
+version="1.8"
 name="StrefaDB"
 provider-name="-">
 <requires>
@@ -20,6 +20,6 @@ provider-name="-">
     <icon>icon.jpg</icon>
     <fanart>fanart.jpg</fanart>
   </assets>
-  <news>fix2</news>
+  <news>db heroes</news>
 </extension>
 </addon>

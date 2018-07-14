@@ -109,9 +109,9 @@ class source:
                     cols = client.parseDOM(row, 'td')
                     host = client.parseDOM(cols[0], 'img', ret='src')[0]
                     host = host.rpartition('=')[-1]
-                    link = client.parseDOM(cols[0], 'a', ret='href')[0]                 
+                    link = client.parseDOM(cols[0], 'a', ret='href')[0]
                     valid, host = source_utils.is_host_valid(host, hostDict)
-                    if not valid: continue                                   
+                    if not valid: continue
 
                     q = 'SD'
                     if 'Wysoka' in cols[1]: q = 'HD'
@@ -127,5 +127,7 @@ class source:
             return sources
     
     def resolve(self, url):
-        return client.request(url, output='geturl')
-        
+        result = client.request(url)
+        result = client.parseDOM(result, 'div', attrs={'class':'boton reloading'})
+        link = client.parseDOM(result, 'a', ret='href')[0]
+        return link

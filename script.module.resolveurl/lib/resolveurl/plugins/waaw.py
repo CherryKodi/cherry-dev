@@ -3,12 +3,10 @@ This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
-
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
@@ -38,11 +36,11 @@ class WaawResolver(ResolveUrl):
                                  re.DOTALL | re.I).groups()[0]
                 data_unwise = self.jswise(wise).replace("\\", "")
                 try:
-                    at = re.search('var at\s*=\s*"([^"]+)"', data_unwise, re.I).groups()[0]
+                    at = re.search('at=(\w+)', data_unwise, re.I).groups()[0]
                 except:
                     at = ""
                 try:
-                    http_referer = re.search('var http_referer\s*=\s*"([^"]+)"', data_unwise, re.I).groups()[0]
+                    http_referer = re.search('http_referer=(.*?)&', data_unwise, re.I).groups()[0]
                 except:
                     http_referer = ""
                 player_url = "http://hqq.watch/sec/player/embed_player.php?iss=&vid=%s&at=%s&autoplayed=yes&referer=on&http_referer=%s&pass=&embed_from=&need_captcha=0&hash_from=&secured=0" % (
@@ -164,4 +162,4 @@ class WaawResolver(ResolveUrl):
 
     def get_url(self, host, media_id):
         return self._default_get_url(host, media_id,
-                                     template='http://hqq.watch/player/embed_player.php?vid={media_id}&autoplay=no')
+template='http://hqq.watch/player/embed_player.php?vid={media_id}&autoplay=no')

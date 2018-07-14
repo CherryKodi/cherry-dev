@@ -36,7 +36,8 @@
         <setting id="sources.extrainfo" type="bool" label="32587" default="true" />
         <setting id="HEVC" type="bool" label="32363" default="true" visible="false" />
         <setting id="hosts.captcha" type="bool" label="32341" default="true" />
-        <setting id="hosts.sort.provider" type="bool" label="32342" default="false" />
+        <setting id="hosts.sort.provider" type="bool" label="Sortuj według dostawcy" default="false" />
+        <setting id="hosts.sort.source" type="bool" label="Sortuj według źródła" default="false" />
         <setting id="debrid.only" type="bool" label="32614" default="false" />
         <setting type="lsep" label="32343" />
         <setting id="bookmarks" type="bool" label="32344" default="true" />
@@ -47,7 +48,7 @@
         <setting label="Polish" type="lsep" />
 		<setting id="provider.alltube" type="bool" label="Alltube" default="true" />
 		<setting id="provider.alltube3d" type="bool" label="Alltube 3D" default="true" />
-		<setting id="provider.boxfilm" type="bool" label="BoxFilm" default="false" />
+		<setting id="provider.boxfilm" type="bool" label="BoxFilm" default="true" />
 		<setting id="provider.cdahd" type="bool" label="CdaHD" default="true" />
 		<setting id="provider.cdax" type="bool" label="CdaX" default="true" />
 		<setting id="provider.ekinomaniak" type="bool" label="Ekinomaniak" default="true" />
@@ -56,7 +57,7 @@
 		<setting id="provider.filiser" type="bool" label="Filiser" default="true" />
 		<setting id="provider.filmwebbooster" type="bool" label="FilmwebBooster" default="true" />
 		<setting id="provider.iitv" type="bool" label="Iitvx" default="true" /> 
-		<setting id="provider.movieneo" type="bool" label="Movieneo" default="false" />
+		<setting id="provider.movieneo" type="bool" label="Movieneo" default="true" />
 		<setting id="provider.naszekino" type="bool" label="Nasze-Kino" default="true" />
 		<setting id="provider.segos" type="bool" label="Segos" default="true" />
 		<setting id="provider.szukajkatv" type="bool" label="SzukajkaTV" default="true" />
@@ -67,9 +68,9 @@
         <setting id="provider.allrls" type="bool" label="ALLRLS" default="true" />
 		<setting id="provider.beetv" type="bool" label="BEETV" default="true" />
         <setting id="provider.chillax" type="bool" label="CHILLAX" default="true" />
-        <setting id="provider.cmovies" type="bool" label="CMOVIES" default="true" />
+        <setting id="provider.cmovies" type="bool" label="CMOVIES" default="false" />
         <setting id="provider.directdl" type="bool" label="DIRECTDL" default="true" />
-        <setting id="provider.divxcrawler" type="bool" label="DIVXCRAWLER" default="true" />
+        <setting id="provider.divxcrawler" type="bool" label="DIVXCRAWLER" default="false" />
         <setting id="provider.einthusan" type="bool" label="EINTHUSAN" default="true" />
 		<setting id="provider.furk" type="bool" label="FURK" default="true" />
         <setting id="provider.gogoanime" type="bool" label="GOGOANIME" default="true" />
