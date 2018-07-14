@@ -15,7 +15,6 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-start_trace() #TRACE_ALL)   # XXX XXX XXX
 
 __addon_id__= 'plugin.video.BajkiOnline'
 __Addon = xbmcaddon.Addon(__addon_id__)
@@ -33,7 +32,7 @@ HEADERS = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHT
 #=########################################################################################################=#
 
 def HOME():
-    #ListowanieBajek()
+    #listowanieBajek()
     addDir("Bajki Alfabetycznie","http://bajkionline.com/",10,"","","","","","")
     #addDir("Filmy","http://bajkipopolsku.com/category/fimly/page/",20,"","","","","","")
 
@@ -130,7 +129,7 @@ def work(items, start, end):
             log_exception()
             print('error with item')
 
-def ListowanieBajek():
+def listowanieBajek():
     url = urllib.unquote_plus(params['url'])
     r = client.request(url)
     result = client.parseDOM(r, 'div', attrs={'id':'categories-8'})
@@ -138,7 +137,7 @@ def ListowanieBajek():
     split_processing(result)
     xbmcplugin.addSortMethod(handle=int(sys.argv[1]), sortMethod=xbmcplugin.SORT_METHOD_TITLE)
 
-def ListowanieOdcinkow():
+def listowanieOdcinkow():
     try:
         xbmcplugin.addSortMethod(handle=int(sys.argv[1]), sortMethod=xbmcplugin.SORT_METHOD_TITLE)
         url = urllib.unquote_plus(params['url'])
@@ -155,7 +154,7 @@ def ListowanieOdcinkow():
         log_exception()
         return
 
-def WyciaganieLinku():
+def wyciaganieLinku():
     try:
         url = urllib.unquote_plus(params['url'])
         r = client.request(url)
@@ -165,7 +164,7 @@ def WyciaganieLinku():
         log_exception()
         return
 
-def PlayVideo(url):
+def playVideo(url):
     url = resolveurl.resolve(url)
     xbmc.Player().play(str(url))
 
@@ -182,32 +181,18 @@ def get_params():
     return dict((k, vv[0]) for k, vv in parse_qs(paramstring).items())
 
 params = get_params()
-xbmc.log('[XXX] PARAMS: ' + str(params))
 url = None
 name = None
 mode = None
 iconimage = None
 
+url = urllib.unquote_plus(params.get('url'))
+name = urllib.unquote_plus(params.get('name'))
 try:
-    url = urllib.unquote_plus(params['url'])
-except:
+    mode = int(params.get('mode'))
+except ValueError:
     log_exception()
-    pass
-try:
-    name = urllib.unquote_plus(params['name'])
-except:
-    log_exception()
-    pass
-try:
-    mode = int(params['mode'])
-except:
-    log_exception()
-    pass
-try:
-    iconimage = urllib.unquote_plus(params['iconimage'])
-except:
-    log_exception()
-    pass
+iconimage = urllib.unquote_plus(params.get('iconimage'))
 
 
 ###############################################################################################################
@@ -220,21 +205,18 @@ if mode == None:
 elif mode == 1:
     debug=1
 elif mode == 2:
-    url = urllib.unquote_plus(params['url'])
-    PlayVideo(url)
+    playVideo(url)
 elif mode == 5:
-    url = urllib.unquote_plus(params['url'])
     r = client.request(url)
 elif mode == 10:
-    ListowanieBajek()
+    listowanieBajek()
 elif mode == 11:
-    ListowanieOdcinkow()
+    listowanieOdcinkow()
 elif mode == 12:
-    url = WyciaganieLinku()
-    PlayVideo(url)
+    url = wyciaganieLinku()
+    playVideo(url)
 
 ###################################################################################
 xbmcplugin.setContent(int(sys.argv[1]),'Movies')
 xbmcplugin.endOfDirectory(int(sys.argv[1]), cacheToDisc=True)
 
-stop_trace()   # XXX XXX XXX
