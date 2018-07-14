@@ -1,29 +1,28 @@
 # -*- coding: utf-8 -*-
-import re, requests, urllib, json
+import json
+import re
+import urllib
 
+import xbmcaddon
+from ptw.debug import log_exception, log
 from ptw.libraries import client
-from ptw.debug import log_exception, log, start_trace, stop_trace, TRACE_ALL
 
-import xbmc, xbmcplugin, xbmcaddon
 
-class WizjaTvApi():
+class WizjaTvApi:
 
     def __init__(self):
         self.MAIN_URL = 'http://wizja.tv/'
         self.DEFAULT_ICON_URL = 'http://wizja.tv/logo.png'
         self.HTTP_HEADER = {'User-Agent': 'Mozilla/5.0', 'Accept': 'text/html'}
-        self.AJAX_HEADER = dict(self.HTTP_HEADER)
-        self.AJAX_HEADER.update({'X-Requested-With': 'XMLHttpRequest'})
         self.login = xbmcaddon.Addon().getSetting('user')
         self.password = xbmcaddon.Addon().getSetting('pass')
 
         self.http_params = {}
         self.http_params.update(
-            {'header': self.HTTP_HEADER} )
+            {'header': self.HTTP_HEADER})
         self.loggedIn = False
 
-
-    def doLogin(self,login,password,s):
+    def doLogin(self, login, password, s):
         logged = False
         premium = False
         loginUrl = 'http://wizja.tv/users/index.php'
@@ -36,7 +35,7 @@ class WizjaTvApi():
         post_data = {'user_name': login, 'user_password': password, 'login': 'Zaloguj'}
         data = self.postUrlRequestData(loginUrl, s, post_data)
         data = data.text
-        #log data
+        # log data
         if data:
             if '?logout' in data:
                 log('WizjaTvApi.doLogin login as [%s]' % login)
@@ -47,13 +46,12 @@ class WizjaTvApi():
                 log('WizjaTvApi.doLogin login failed - wrong user or password? %s' % login)
         return logged, premium
 
-
-    def getList(self,s):
+    def getList(self):
         log("WizjaTvApi.getChannelsList")
         import requests
         s = requests.Session()
         if self.login != '' and self.password != '':
-            ret = self.doLogin(self.login, self.password,s)
+            ret = self.doLogin(self.login, self.password, s)
             if ret[0]:
                 self.loggedIn = True
                 if not ret[1]:
@@ -64,7 +62,8 @@ class WizjaTvApi():
                 self.loggedIn = False
                 return []
         else:
-            log('Serwis ten wymaga zalogowania. Wprowadź swój login i hasło w konfiguracji hosta dostępnej po naciśnięciu niebieskiego klawisza.')
+            log(
+                'Serwis ten wymaga zalogowania. Wprowadź swój login i hasło w konfiguracji hosta dostępnej po naciśnięciu niebieskiego klawisza.')
             return []
 
         channelsTab = []
@@ -73,7 +72,7 @@ class WizjaTvApi():
         data = client.parseDOM(data.text, 'ul', attrs={'class': 'dropdown-menu'})[0]
         linki = client.parseDOM(data, 'a', ret='href')
         ikony = client.parseDOM(data, 'img', ret='src')
-        for tuple in zip(linki,ikony):
+        for tuple in zip(linki, ikony):
             icon = str("http://wizja.tv/" + tuple[1])
             url = str("http://wizja.tv/" + tuple[0])
             title = icon.split('/')[-1][:-4].upper()
@@ -85,10 +84,9 @@ class WizjaTvApi():
                       'icon': icon}
             channelsTab.append(params)
 
-        return s,channelsTab
+        return s, channelsTab
 
-
-    def getVideoLink(self, url,s):
+    def getVideoLink(self, url, s):
         log("WizjaTvApi.getVideoLink")
         urlsTab = []
 
@@ -107,7 +105,7 @@ class WizjaTvApi():
 
                 if 'porter' in url or 'player' in url:
                     tmp = s.get("http://wizja.tv/" + url).text
-                    videoUrl = re.search("""src: "(.*)\"""",str(tmp))
+                    videoUrl = re.search("""src: "(.*)\"""", str(tmp))
                     try:
                         videoUrl = videoUrl.group(1)
                         videoUrl = urllib.unquote(videoUrl).decode('utf8')
@@ -121,19 +119,22 @@ class WizjaTvApi():
                         log_exception()
                         killUrl = ''
                     if videoUrl != '':
-                        urlTab = re.search("""rtmp:\/\/([^\/]+?)\/([^\/]+?)\/([^\/]+?)\?(.+?)&streamType""", str(videoUrl))
+                        urlTab = re.search("""rtmp:\/\/([^\/]+?)\/([^\/]+?)\/([^\/]+?)\?(.+?)&streamType""",
+                                           str(videoUrl))
 
-                        rtmp = 'rtmp://$OPT:rtmp-raw=rtmp://' + urlTab.group(1) + '/' + urlTab.group(2) + '?' + urlTab.group(4) + \
-                               ' playpath=' + urlTab.group(3) + '?' + urlTab.group(4) + \
-                               ' app=' + urlTab.group(2) + '?' + urlTab.group(4) + \
-                               ' swfVfy=0 flashver=LNX\\25,0,0,12 timeout=25 swfUrl=https://wizja.tv/player/StrobeMediaPlayback_v4.swf live=true pageUrl=https://wizja.tv/' + \
-                               str(url).replace("porter.php","watch.php")
-                        xbmc_rtmp = 'rtmp://$OPT:rtmp-raw=rtmp://' + urlTab.group(1) + '/' + urlTab.group(2) + '?' + urlTab.group(4) + \
-                               ' app=' + urlTab.group(2) + '?' + urlTab.group(4) + \
-                               ' playpath=' + urlTab.group(3) + '?' + urlTab.group(4) + \
-                               ' swfVfy=1 flashver=LNX\\25,0,0,12 timeout=25 ' \
-                               'swfUrl=https://wizja.tv/player/StrobeMediaPlayback_v5.swf live=true ' \
-                               'pageUrl=https://wizja.tv/' + str(url).replace("porter.php?ch","watch.php?id")
+                        # rtmp = 'rtmp://$OPT:rtmp-raw=rtmp://' + urlTab.group(1) + '/' + urlTab.group(
+                        #     2) + '?' + urlTab.group(4) + \
+                        #        ' playpath=' + urlTab.group(3) + '?' + urlTab.group(4) + \
+                        #        ' app=' + urlTab.group(2) + '?' + urlTab.group(4) + \
+                        #        ' swfVfy=0 flashver=LNX\\25,0,0,12 timeout=25 swfUrl=https://wizja.tv/player/StrobeMediaPlayback_v4.swf live=true pageUrl=https://wizja.tv/' + \
+                        #        str(url).replace("porter.php", "watch.php")
+                        xbmc_rtmp = 'rtmp://$OPT:rtmp-raw=rtmp://' + urlTab.group(1) + '/' + urlTab.group(
+                            2) + '?' + urlTab.group(4) + \
+                                    ' app=' + urlTab.group(2) + '?' + urlTab.group(4) + \
+                                    ' playpath=' + urlTab.group(3) + '?' + urlTab.group(4) + \
+                                    ' swfVfy=1 flashver=LNX\\25,0,0,12 timeout=25 ' \
+                                    'swfUrl=https://wizja.tv/player/StrobeMediaPlayback_v5.swf live=true ' \
+                                    'pageUrl=https://wizja.tv/' + str(url).replace("porter.php?ch", "watch.php?id")
                         urlsTab.append({'name': 'rtmp', 'url': xbmc_rtmp})
                     else:
                         s.get("http://wizja.tv/" + killUrl)
@@ -141,50 +142,50 @@ class WizjaTvApi():
                 break
         return urlsTab
 
-    def ListaKanalow(self,k):
-        global s
-        s=k
+    def ListaKanalow(self):
         try:
-            k, channelList = self.getList(s)
-            s=k
-        except Exception, e:
+            s, channelList = self.getList()
+        except:
             log_exception()
             return ''
-        if len(channelList)<2:
+        if len(channelList) < 2:
             return ''
         else:
             return s, json.dumps(channelList)
 
     def Link(self, url, s):
+        wynik = ''
         try:
             link = self.getVideoLink(url, s)
             wynik = link[0]['url']
-        except Exception,e:
+        except:
             log_exception()
         return str(wynik)
 
-    def getUrlRequestData(self,url,s,proxy = False):
+    @staticmethod
+    def getUrlRequestData(url, s, proxy=False):
         proxyDict = {
-            "http" : "66.70.147.195:3128",
+            "http": "66.70.147.195:3128",
         }
         if proxy:
             log("WizjaTvApi.Proxy = True")
-            log("WizjaTvApi.ProxyIP: " + proxyDict)
-            r = s.get(url,proxies = proxyDict)
+            log("WizjaTvApi.ProxyIP: " + str(proxyDict))
+            r = s.get(url, proxies=str(proxyDict))
             return r
         else:
             r = s.get(url)
             return r
 
-    def postUrlRequestData(self,url,s,data,proxy = False):
+    @staticmethod
+    def postUrlRequestData(url, s, data, proxy=False):
         proxyDict = {
-            "http" : "66.70.147.195:3128",
+            "http": "66.70.147.195:3128",
         }
         if proxy:
             log("WizjaTvApi.Proxy = True")
-            log("WizjaTvApi.ProxyIP: " + proxyDict)
-            r = s.post(url,data = data,proxies = proxyDict)
+            log("WizjaTvApi.ProxyIP: " + str(proxyDict))
+            r = s.post(url, data=data, proxies=proxyDict)
             return r
         else:
-            r = s.post(url,data = data)
+            r = s.post(url, data=data)
             return r

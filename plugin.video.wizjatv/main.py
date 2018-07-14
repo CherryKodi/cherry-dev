@@ -30,7 +30,7 @@ def addDir(name, url, mode, thumb, fanart, opis, isFolder=True, total=1):
 
 def WizjaTV():
     global s
-    s, content = obj.ListaKanalow(s)
+    s, content = obj.ListaKanalow()
     content = json.loads(content)
     for item in content:
         addDir(item['title'],item['url'] , 6, item['icon'],'','', False)
@@ -39,7 +39,7 @@ def OdpalanieLinku():
     try:
         global s
         url = urllib.unquote_plus(params['url'])
-        s, content = obj.ListaKanalow(s)
+        s, content = obj.ListaKanalow()
         link = obj.Link(url,s)
         xbmc.Player().play(str(link).replace("rtmp://$OPT:rtmp-raw=", ""))
     except:
