@@ -13,9 +13,6 @@ else:
 from ptw.debug import log_exception, log, start_trace, stop_trace, TRACE_ALL
 import wizja
 
-# Addon Internal Modes:
-PLAY_LINK = 6
-
 obj = wizja.WizjaTvApi()
 s = requests.Session()
 
@@ -36,7 +33,7 @@ def WizjaTV():
     s, content = obj.ListaKanalow()
     content = json.loads(content)
     for item in content:
-        addDir(name=item['title'], url=item['url'], mode=PLAY_LINK, thumb=item['icon'], isFolder=False)
+        addDir(name=item['title'], url=item['url'], mode='play', thumb=item['icon'], isFolder=False)
 
 def OdpalanieLinku(url):
     try:
@@ -56,17 +53,12 @@ def get_params():
 params = get_params()
 url = params.get('url')
 name = params.get('name')
+mode = params.get('mode')
 iconimage = params.get('iconimage')
-
-try:
-    mode = int(params.get('mode'))
-except (TypeError, ValueError):
-    mode = None
-    log_exception()
 
 if mode is None:
     CATEGORIES()
-elif mode == PLAY_LINK:
+elif mode == 'play':
     OdpalanieLinku(url)
 
 xbmcplugin.setContent(int(sys.argv[1]), 'Movies')

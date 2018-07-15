@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+from __future__ import absolute_import, division, unicode_literals, print_function
+
 import json
 import re
 import urllib
@@ -105,13 +108,14 @@ class WizjaTvApi:
 
                 if 'porter' in url or 'player' in url:
                     tmp = s.get("http://wizja.tv/" + url).text
-                    videoUrl = re.search("""src: "(.*)\"""", str(tmp))
+                    videoUrl = re.search('src: "(.*?)"', tmp)
                     try:
                         videoUrl = videoUrl.group(1)
                         videoUrl = urllib.unquote(videoUrl).decode('utf8')
                     except:
+                        log_exception()
                         videoUrl = ''
-                    killUrl = re.search("""<a href="(.*)" target="_top">Z""", str(tmp))
+                    killUrl = re.search("""<a href="(.*?)" target="_top">Z""", tmp)
                     try:
                         killUrl = killUrl.group(1)
                         killUrl = urllib.unquote(killUrl).decode('utf8')
