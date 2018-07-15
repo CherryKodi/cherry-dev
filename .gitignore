@@ -103,3 +103,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# others
+.zip
+
+-# ViM temp files
+-.*.sw?
