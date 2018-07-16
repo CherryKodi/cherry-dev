@@ -16,8 +16,9 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
-import urlparse
+import urlparse, re
 
+from ptw.debug import log_exception, log, start_trace, stop_trace, TRACE_ALL
 from ptw.libraries import cleantitle
 from ptw.libraries import client
 
@@ -28,7 +29,7 @@ class source:
         self.domains = ['ekino-tv.pl']
 
         self.base_link = 'http://ekino-tv.pl'
-        self.search_link = '/search/'
+        self.search_link = '/s/search?q='
         self.resolve_link = '/watch/f/%s/%s'
 
     def search(self, title, localtitle, year, search_type):
@@ -41,10 +42,9 @@ class source:
             return
         
     def do_search(self, search_string, title, localtitle , year, search_type):
-        import requests
+
         url = urlparse.urljoin(self.base_link, self.search_link)
-        r = requests.get("http://ekino-tv.pl/s/search?q=%s" % str.lower(search_string + " HD").replace(" ", "+"))
-        r = r.text
+        r = client.request("http://ekino-tv.pl/s/search?q=%s" % str.lower(search_string + " HD").replace(" ", "+"))
         r = client.parseDOM(r, 'div', attrs={'class': 'movies-list-item'})
         r = [x.encode('utf-8') for x in r]
         local_simple = cleantitle.get(localtitle)
@@ -89,7 +89,7 @@ class source:
 
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
         url = urlparse.urljoin(self.base_link, url)
-        r = client.request(url)        
+        r = client.request(url)
         r = client.parseDOM(r, 'div', attrs={'id': 'list-series'})[0]
         p = client.parseDOM(r, 'p')
         index = p.index('Sezon ' + season)
@@ -98,7 +98,7 @@ class source:
         for row in r:
             ep_no = client.parseDOM(row, 'div')[0]
             if ep_no == episode:
-                return client.parseDOM(row, 'a', ret='href')[0]     
+                return client.parseDOM(row, 'a', ret='href')[0]
         return None
 
     def get_lang_by_type(self, lang_type):
@@ -115,7 +115,6 @@ class source:
         return 'en', None
 
     def sources(self, url, hostDict, hostprDict):
-
         sources = []
         try:
             if url == None: return sources
@@ -127,7 +126,7 @@ class source:
             
             for i in range(len(rows)):
                 row = rows[i]
-                row2 = rows2[i]                
+                row2 = rows2[i]
                 link = client.parseDOM(row2, 'a', ret='onClick')[0]
                 data = client.parseDOM(row, 'a')[0]
                 qual = client.parseDOM(row, 'img ', ret='title')
@@ -138,7 +137,6 @@ class source:
                 lang, info = self.get_lang_by_type(lang_type)
                 host = data.splitlines()[0].strip()
                 sources.append({'source': host, 'quality': q, 'language': lang, 'url': link, 'info': info, 'direct': False, 'debridonly': False})
-
             return sources
         except:
             return sources
@@ -153,6 +151,13 @@ class source:
             scripts = client.parseDOM(result, 'script')
             for script in scripts:
                 if 'var url' in script:
-                    return script.split("'")[1]
+                    link = script.split("'")[1]
+                    if not 'watch' in link:
+                        log("FanFilm.Ekino-TV VideoLink: " + link)
+                        return link
+                    result = client.request(link)
+                    video_link = client.parseDOM(result, 'iframe ', ret='src')[0]
+                    log("FanFilm.Ekino-TV VideoLink: " + video_link)
+                    return video_link
         except: 
             return None 
