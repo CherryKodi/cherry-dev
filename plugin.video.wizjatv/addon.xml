@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="plugin.video.wizjatv"
-version="2.1"
+version="2018.07.17"
 name="WizjaTV"
 provider-name="-">
 <requires>
