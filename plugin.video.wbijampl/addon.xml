@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="plugin.video.wbijampl"
-version="2018.07.17"
+version="2018.07.17.0"
 name="Wbijam.pl"
 provider-name="-">
 <requires>

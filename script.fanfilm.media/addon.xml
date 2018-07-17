@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.fanfilm.media" version="2018.07.17" name="FanFilm Themepak" provider-name="-" >
+<addon id="script.fanfilm.media" version="2018.07.17.0" name="FanFilm Themepak" provider-name="-" >
 	<requires>
 		<import addon="xbmc.python" version="2.19.0"/>
 	</requires>

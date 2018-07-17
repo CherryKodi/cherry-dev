@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.fanfilm.metadata" version="2018.07.17" name="FanFilm Metadata" provider-name="fanfilm">
+<addon id="script.fanfilm.metadata" version="2018.07.17.0" name="FanFilm Metadata" provider-name="fanfilm">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0"/>
 	</requires>
