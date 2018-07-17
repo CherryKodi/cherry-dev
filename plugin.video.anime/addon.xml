@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="plugin.video.anime"
-version="1.7"
+version="2018.07.17.0"
 name="Anime"
 provider-name="-">
 <requires>
