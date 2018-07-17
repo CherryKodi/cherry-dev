@@ -36,7 +36,9 @@ class source:
         self.search_link = 'wyszukiwarka?phrase=%s'
         
     def contains_word(self, str_to_check, word):
-        return re.search(r'\b' + word + r'\b', str_to_check, re.IGNORECASE)   
+        if str(word).lower() in str(str_to_check).lower():
+            return True
+        return False
  
     def contains_all_wors(self, str_to_check, words):
         for word in words:

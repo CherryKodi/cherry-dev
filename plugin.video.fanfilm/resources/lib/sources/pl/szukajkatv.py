@@ -50,16 +50,12 @@ class source:
         return [url[0] + epNo, url[1] + epNo] 
         
     def contains_word(self, str_to_check, word):
-        ret = False
-        if word in str_to_check:
-            ret = True
-            return ret
-        return ret
-    
+        if str(word).lower() in str(str_to_check).lower():
+            return True
+        return False
+ 
     def contains_all_wors(self, str_to_check, words):
         for word in words:
-            if word == "i":
-                continue
             if not self.contains_word(str_to_check, word):
                 return False
         return True

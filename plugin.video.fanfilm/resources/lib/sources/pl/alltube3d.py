@@ -19,8 +19,7 @@
 
 
 import re, urlparse, json, base64,requests
-#import pydevd
-#pydevd.settrace(stdoutToServer=True, stderrToServer=True)
+
 from ptw.libraries import cleantitle
 from ptw.libraries import client,control
 
@@ -46,29 +45,30 @@ class source:
         self.tvsearch_cache = 'http://alltube.tv/seriale-online/'
         self.episode_link = '-Season-%01d-Episode-%01d'
 
-    def get_rows(self, r, search_type):       
-        divs = client.parseDOM(r, 'div', attrs={'class': 'col-sm-12'})        
+    def get_rows(self, r, search_type):
+        divs = client.parseDOM(r, 'div', attrs={'class': 'col-sm-12'})
         for div in divs:
             header = client.parseDOM(div, 'h2', attrs={'class': 'headline'})
             if header and header[0] == search_type:
                 return  client.parseDOM(div, 'div', attrs={'class': 'item-block clearfix'})
-    
-    
+
     def name_matches(self, names, names_found):
         
         for name in names:
             if name in names_found:
-                return True        
+                return True
         return False
     
     def contains_word(self, str_to_check, word):
-        return re.search(r'\b' + word + r'\b', str_to_check, re.IGNORECASE)   
+        if str(word).lower() in str(str_to_check).lower():
+            return True
+        return False
  
     def contains_all_wors(self, str_to_check, words):
         for word in words:
             if not self.contains_word(str_to_check, word):
                 return False
-        return True       
+        return True
     
     def try_read_year(self, url):
         index = url.rfind('/')

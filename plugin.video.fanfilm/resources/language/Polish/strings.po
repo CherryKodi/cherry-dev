@@ -1216,3 +1216,18 @@ msgstr "Obserwowane filmy"
 msgctxt "#32621"
 msgid "TvShows Watchlist"
 msgstr "Obserwowane seriale"
+
+#: 
+msgctxt "#32622"
+msgid "Sort by"
+msgstr "Sortuj według"
+
+#: 
+msgctxt "#32623"
+msgid "Sources"
+msgstr "Źródeł"
+
+#: 
+msgctxt "#32624"
+msgid "Providers"
+msgstr "Dostawców"

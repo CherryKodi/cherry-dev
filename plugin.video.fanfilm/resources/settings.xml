@@ -36,8 +36,7 @@
         <setting id="sources.extrainfo" type="bool" label="32587" default="true" />
         <setting id="HEVC" type="bool" label="32363" default="true" visible="false" />
         <setting id="hosts.captcha" type="bool" label="32341" default="true" />
-        <setting id="hosts.sort.provider" type="bool" label="Sortuj według dostawcy" default="false" />
-        <setting id="hosts.sort.source" type="bool" label="Sortuj według źródła" default="false" />
+        <setting id="hosts.sort" type="enum" label="32622" lvalues="-|32624|32623" default="0" />
         <setting id="debrid.only" type="bool" label="32614" default="false" />
         <setting type="lsep" label="32343" />
         <setting id="bookmarks" type="bool" label="32344" default="true" />
@@ -50,6 +49,7 @@
 		<setting id="provider.alltube3d" type="bool" label="Alltube 3D" default="true" />
 		<setting id="provider.boxfilm" type="bool" label="BoxFilm" default="true" />
 		<setting id="provider.cdahd" type="bool" label="CdaHD" default="true" />
+        <setting id="provider.cdapl" type="bool" label="CdaPL" default="true" />
 		<setting id="provider.cdax" type="bool" label="CdaX" default="true" />
 		<setting id="provider.ekinomaniak" type="bool" label="Ekinomaniak" default="true" />
 		<setting id="provider.ekinotv" type="bool" label="Ekinotv" default="true" />

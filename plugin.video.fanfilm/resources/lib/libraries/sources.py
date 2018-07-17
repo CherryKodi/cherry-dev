@@ -31,6 +31,7 @@ from ptw.libraries import workers
 from ptw.libraries import source_utils
 from ptw.libraries import log_utils
 from resources.lib.libraries import thexem
+from ptw.debug import log_exception, log
 
 try: from sqlite3 import dbapi2 as database
 except: from pysqlite2 import dbapi2 as database
@@ -773,9 +774,16 @@ class sources:
 
 
     def sourcesFilter(self):
-        provider = control.setting('hosts.sort.provider')
-        sort_source = control.setting('hosts.sort.source')
-        if provider == '': provider = 'false'
+        sort_source = control.setting('hosts.sort')
+        sort_source = str(sort_source)
+        log(sort_source)
+
+        if sort_source == '': 
+            sort_source = 'false'
+        else:
+            sort_source = 'true'
+        log(sort_source)
+
         debrid_only = control.setting('debrid.only')
         if debrid_only == '': debrid_only = 'false'
         quality = control.setting('hosts.quality')
@@ -788,11 +796,15 @@ class sources:
 
         random.shuffle(self.sources)
 
-        if provider == 'true':
-            self.sources = sorted(self.sources, key=lambda k: k['provider'])
-            
-        if sort_source == 'true':
-            self.sources = sorted(self.sources, key=lambda k: k['source'])
+        if sort_source is 'true':
+            sort_source = control.setting('hosts.sort')
+            sort_source = str(sort_source)
+            if sort_source is '1':
+                log('FanFilm.Sortowanie Sortuję według dostawców')
+                self.sources = sorted(self.sources, key=lambda k: k['provider'])
+            if sort_source is '2':
+                log('FanFilm.Sortowanie Sortuję według źródeł')
+                self.sources = sorted(self.sources, key=lambda k: k['source'])
 
         for i in self.sources:
             if 'checkquality' in i and i['checkquality'] == True:

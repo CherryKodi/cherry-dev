@@ -20,7 +20,8 @@
 
 #import pydevd
 #pydevd.settrace(stdoutToServer=True, stderrToServer=True)
-from ptw.libraries import source_utils, dom_parser, client, cleantitle,control , more_sources
+from ptw.libraries import source_utils, dom_parser, client, cleantitle,control
+from resources.lib.libraries import more_sources
 import urllib, urlparse
 import requests,re
 
@@ -154,4 +155,4 @@ class source:
             return sources
     
     def resolve(self, url):
-        return url      
+        return url

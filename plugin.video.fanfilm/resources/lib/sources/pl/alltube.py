@@ -130,15 +130,17 @@ class source:
             return 'pl', None
         
         return 'en', None
-    
+
     def contains_word(self, str_to_check, word):
-        return re.search(r'\b' + word + r'\b', str_to_check, re.IGNORECASE)   
+        if str(word).lower() in str(str_to_check).lower():
+            return True
+        return False
  
     def contains_all_wors(self, str_to_check, words):
         for word in words:
             if not self.contains_word(str_to_check, word):
                 return False
-        return True   
+        return True
       
     def sources(self, url, hostDict, hostprDict):
         try:

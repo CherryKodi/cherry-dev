@@ -1001,3 +1001,18 @@ msgstr ""
 msgctxt "#32621"
 msgid "TvShows Watchlist"
 msgstr ""
+
+#: 
+msgctxt "#32622"
+msgid "Sort by"
+msgstr ""
+
+#: 
+msgctxt "#32623"
+msgid "Sources"
+msgstr ""
+
+#: 
+msgctxt "#32624"
+msgid "Providers"
+msgstr ""
