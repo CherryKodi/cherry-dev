@@ -21,13 +21,12 @@
 # *  Based on code by j48antialias:
 # *  https://anarchintosh-projects.googlecode.com/files/addons_xml_generator.py
  
-""" addons.xml generator """
- 
+"""generator"""
+
 import os
 import sys
-
-reload(sys)
-sys.setdefaultencoding('utf8')
+import re
+import zipfile, shutil
 
 # Compatibility with 3.0, 3.1 and 3.2 not supporting u"" literals
 if sys.version < '3':
@@ -38,7 +37,7 @@ else:
     def u(x):
         return x
  
-class Generator:
+class GeneratorXML:
     """
         Generates a new addons.xml file from each addons addon.xml file
         and a new addons.xml.md5 hash file. Must be run from the root of
@@ -49,7 +48,7 @@ class Generator:
         self._generate_addons_file()
         self._generate_md5_file()
         # notify user
-        print("Finished updating addons xml and md5 files")
+        print("###Finished updating addons xml and md5 files###")
  
     def _generate_addons_file( self ):
         # addon list
@@ -78,9 +77,11 @@ class Generator:
                         addon_xml += line.rstrip() + "\n"
                 # we succeeded so add to our final addons.xml text
                 addons_xml += addon_xml.rstrip() + "\n\n"
+                print(_path + " Success!")
             except Exception as e:
                 # missing or poorly formatted addon.xml
-                print("Excluding %s for %s" % ( _path, e ))
+                print(_path + " Fail!")
+                print("Exception: %s\r\n" % e)
                 continue
         # clean and add closing tag
         addons_xml = addons_xml.strip() + u("\n</addons>\n")
@@ -110,8 +111,51 @@ class Generator:
         except Exception as e:
             # oops
             print("An error occurred saving %s file!\n%s" % ( file, e ))
- 
- 
+
+class GeneratorZIP:
+    def __init__( self ):
+        self._generate_zip_file()
+        print("Finished zipping")
+
+    def zipdir(self, path, ziph):
+        # ziph is zipfile handle
+        for root, dirs, files in os.walk(path):
+            for file in files:
+                ziph.write(os.path.join(root, file))
+
+    def _generate_zip_file( self ):
+        if not os.path.exists("zip"):
+            os.makedirs("zip")
+        folder = "zip"
+        for the_file in os.listdir(folder):
+            file_path = os.path.join(folder, the_file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path): shutil.rmtree(file_path)
+            except Exception as e:
+                print(e)
+                continue
+        addons = os.listdir( "." )
+        for addon in addons:
+            try:
+                if ( not os.path.isdir( addon ) or addon == ".svn" or addon == ".git" or addon == "zip" or addon == ".idea"): continue
+                _path = os.path.join( addon, "addon.xml" )
+                xml = open( _path, "r" ).read()
+                version = re.findall("""version=\"(.*[0-9])\"""", xml)[1]
+                addon_folder = "zip/" + addon
+                if not os.path.exists(addon_folder):
+                    os.makedirs(addon_folder)
+                zipf = zipfile.ZipFile(addon_folder + "/" + addon + "-" + version + ".zip", 'w', zipfile.ZIP_DEFLATED)
+                self.zipdir(addon, zipf)
+                zipf.close()
+                print(_path.replace("\addon.xml","") + " Success!")
+            except Exception as e:
+                print("Exception: %s\r\n" % e)
+                pass
+
 if ( __name__ == "__main__" ):
-    # start
-    Generator()
+    print("Trying to generate addons.xml and addons.md5")
+    GeneratorXML()
+    print("\r\nTraying to generate zip addons")
+    GeneratorZIP()
