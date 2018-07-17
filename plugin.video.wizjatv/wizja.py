@@ -125,19 +125,12 @@ class WizjaTvApi:
                     if videoUrl != '':
                         urlTab = re.search("""rtmp:\/\/([^\/]+?)\/([^\/]+?)\/([^\/]+?)\?(.+?)&streamType""",
                                            str(videoUrl))
-
-                        # rtmp = 'rtmp://$OPT:rtmp-raw=rtmp://' + urlTab.group(1) + '/' + urlTab.group(
-                        #     2) + '?' + urlTab.group(4) + \
-                        #        ' playpath=' + urlTab.group(3) + '?' + urlTab.group(4) + \
-                        #        ' app=' + urlTab.group(2) + '?' + urlTab.group(4) + \
-                        #        ' swfVfy=0 flashver=LNX\\25,0,0,12 timeout=25 swfUrl=https://wizja.tv/player/StrobeMediaPlayback_v4.swf live=true pageUrl=https://wizja.tv/' + \
-                        #        str(url).replace("porter.php", "watch.php")
-                        xbmc_rtmp = 'rtmp://$OPT:rtmp-raw=rtmp://' + urlTab.group(1) + '/' + urlTab.group(
+                        xbmc_rtmp = 'rtmp://' + urlTab.group(1) + '/' + urlTab.group(
                             2) + '?' + urlTab.group(4) + \
                                     ' app=' + urlTab.group(2) + '?' + urlTab.group(4) + \
                                     ' playpath=' + urlTab.group(3) + '?' + urlTab.group(4) + \
                                     ' swfVfy=1 flashver=LNX\\25,0,0,12 timeout=25 ' \
-                                    'swfUrl=https://wizja.tv/player/StrobeMediaPlayback_v5.swf live=true ' \
+                                    'swfUrl=https://wizja.tv/player/StrobeMediaPlayback_v5.swf live=0 ' \
                                     'pageUrl=https://wizja.tv/' + str(url).replace("porter.php?ch", "watch.php?id")
                         urlsTab.append({'name': 'rtmp', 'url': xbmc_rtmp})
                     else:
