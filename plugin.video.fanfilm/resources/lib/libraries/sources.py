@@ -776,13 +776,11 @@ class sources:
     def sourcesFilter(self):
         sort_source = control.setting('hosts.sort')
         sort_source = str(sort_source)
-        log(sort_source)
 
         if sort_source == '': 
             sort_source = 'false'
         else:
             sort_source = 'true'
-        log(sort_source)
 
         debrid_only = control.setting('debrid.only')
         if debrid_only == '': debrid_only = 'false'
