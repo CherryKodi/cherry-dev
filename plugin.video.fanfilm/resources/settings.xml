@@ -56,7 +56,7 @@
 		<setting id="provider.filmdom" type="bool" label="FilmDom" default="true" />
 		<setting id="provider.filiser" type="bool" label="Filiser" default="true" />
 		<setting id="provider.filmwebbooster" type="bool" label="FilmwebBooster" default="true" />
-		<setting id="provider.iitv" type="bool" label="Iitvx" default="true" /> 
+		<setting id="provider.iitvx" type="bool" label="Iitvx" default="true" /> 
 		<setting id="provider.movieneo" type="bool" label="Movieneo" default="true" />
 		<setting id="provider.naszekino" type="bool" label="Nasze-Kino" default="true" />
 		<setting id="provider.segos" type="bool" label="Segos" default="true" />
