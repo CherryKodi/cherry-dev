@@ -117,7 +117,7 @@ provider-name="-">
 </extension>
 </addon>
 
-<addon id="plugin.video.fanfilm" name="FanFilm" version="2018.07.17.0" provider-name="-">
+<addon id="plugin.video.fanfilm" name="FanFilm" version="2018.07.20.0" provider-name="-">
         <requires>
                 <import addon="xbmc.python" version="2.1.0" />
                 <import addon="script.module.ptw" />
@@ -170,7 +170,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.FootballPowtorki"
-version="2018.07.19"
+version="2018.07.19.0"
 name="Powtórki i skróty meczów"
 provider-name="-">
 <requires>
