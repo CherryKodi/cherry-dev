@@ -1,5 +1,5 @@
 """
-OK resolveurl XBMC Addon
+OK urlresolver XBMC Addon
 Copyright (C) 2016 Seberoth
 
 Version 0.0.2

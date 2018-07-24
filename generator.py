@@ -149,7 +149,7 @@ class GeneratorZIP:
                 zipf = zipfile.ZipFile(addon_folder + "/" + addon + "-" + version + ".zip", 'w', zipfile.ZIP_DEFLATED)
                 self.zipdir(addon, zipf)
                 zipf.close()
-                print(_path.replace("\addon.xml","") + " Success!")
+                print(_path.replace("\\addon.xml","") + " Success!")
             except Exception as e:
                 print("Exception: %s\r\n" % e)
                 pass

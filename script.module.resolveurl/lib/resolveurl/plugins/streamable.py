@@ -1,5 +1,5 @@
 """
-    resolveurl XBMC Addon
+    urlresolver XBMC Addon
     Copyright (C) 2017 tknorris
 
     This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ class StreamableResolver(ResolveUrl):
             sources = [(stream.get('height', 'Unknown'), stream['url']) for _key, stream in streams.iteritems()]
             sources = [(label, 'https:' + stream_url) if stream_url.startswith('//') else (label, stream_url) for label, stream_url in sources]
             sources.sort(key=lambda x: x[0], reverse=True)
-            return helpers.pick_source(sources) + helpers.append_headers(headers)
+            return helpers.pick_source(sources).replace('&amp;','&') + helpers.append_headers(headers)
         else:
             raise ResolverError('JSON Not Found')
 
