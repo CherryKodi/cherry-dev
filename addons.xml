@@ -94,7 +94,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.dokumentalne.net"
-version="2018.07.17.0"
+version="2018.07.26.0"
 name="Dokumentalne.net"
 provider-name="-">
 <requires>
