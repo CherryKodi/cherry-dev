@@ -31,7 +31,7 @@ except ImportError:
 class YoutubeResolver(ResolveUrl):
     name = "youtube"
     domains = ['youtube.com', 'youtu.be', 'youtube-nocookie.com']
-    pattern = '''https?://(?:[0-9A-Z-]+\.)?(?:(youtu\.be|youtube(?:-nocookie)?\.com)/?\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|</a>))[?=&+%\w.-]*'''
+    pattern = '''https?://(?:[0-9A-Z-]+\.)?(?:(www.youtube.com|youtu\.be|youtube(?:-nocookie)?\.com)/?\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|</a>))[?=&+%\w.-]*'''
 
     def __init__(self):
         self.net = common.Net()

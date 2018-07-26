@@ -71,7 +71,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.BajkiPoPolsku"
-version="2018.07.17.0"
+version="2018.07.26.0"
 name="Bajki po polsku"
 provider-name="-">
 <requires>
@@ -402,10 +402,10 @@ provider-name="-">
 	</extension>
 </addon>
 
-<addon id="script.module.resolveurl" name="ResolveURL" version="6.1.4" provider-name="jsergio">
+<addon id="script.module.resolveurl" name="ResolveURL" version="6.1.5" provider-name="jsergio">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
-		<import addon="plugin.video.youtube" optional="true" />
+		<import addon="plugin.video.youtube" />
 		<import addon="script.module.python.twitch" optional="true" />
 		<import addon="script.module.cryptopy" version="1.2.6" optional="true" />
 		<import addon="plugin.video.gdrive" optional="true" />
