@@ -1,37 +1,37 @@
 # -*- coding: UTF-8 -*-
 import urllib, urllib2, re, xbmc, xbmcplugin, xbmcgui, xbmc, xbmcaddon, HTMLParser, os
-import requests,time
-from ptw.libraries import source_utils, dom_parser, client, cleantitle
-import resolveurl
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+import requests, time, sys, resolveurl
 
-## mode 1-9 funkcje strony
-## mode 1 = szukajka
-## mode 6 = play
-## mode 10 = alfabet
-## mode 20/30/40/50 kolejne kategorie
+from ptw.libraries import addon_utils as addon
+from ptw.libraries import source_utils, dom_parser, client, cleantitle, cache
 
-xbmcplugin.setContent(int(sys.argv[1]), 'movies')
-base_link = "http://www.animezone.pl/"
+from ptw.debug import log_exception, log, start_trace, stop_trace, TRACE_ALL
+
+_pluginName = sys.argv[0].replace('plugin://','')
+_basePath = "special://home/addons/" + _pluginName + "resources/media/"
+_resourcesPath = xbmc.translatePath(_basePath)
+_default_background = _resourcesPath + "fanart.jpg"
+_base_link = "http://www.animezone.pl/"
+
+s = requests.session()
 
 #=########################################################################################################=#
 #                                                   MENU                                                   #
 #=########################################################################################################=#
 
 def CATEGORIES():
-    addDir("Szukaj anime", '', 1, '','','', True)
-    addDir("Alfabetycznie", '', 10, '','','', True)
-    addDir("Gatunki", '', 20, '','','', True)
-    addDir("Sezony", '', 30, '','','', True)
-    addDir("Rankingi", '', 40, '','','', True)
+    addon.addDir("Szukaj anime", '', mode=1)
+    addon.addDir("Alfabetycznie", '', mode=10)
+    addon.addDir("Gatunki", '', mode=20)
+    addon.addDir("Sezony", '', mode=30)
+    addon.addDir("Rankingi", '', mode=40)
 
-###################################################################################
+############################################################################################################
 #=########################################################################################################=#
 #                                                 FUNCTIONS                                                #
 #=########################################################################################################=#
-def mySearch():
+
+def Wyszukiwanie():
     keyb = xbmc.Keyboard('', "Wyszukiwarka anime")
     keyb.doModal()
     if keyb.isConfirmed() and len(keyb.getText().strip()) > 0 :
@@ -49,8 +49,8 @@ def mySearch():
         opisy = client.parseDOM(result, 'p')
         
         if len(linki) == 0:
-            addDir("Zbyt dużo lub brak wyników wyszukiwania :(", '', None, 'ikona.png','thumb.png',None, True)
-            addDir("Spróbuj doprecyzować zapytanie!", '', None, 'ikona.png','thumb.png',None, True)
+            addon.addDir("Zbyt dużo lub brak wyników wyszukiwania :(", '')
+            addon.addDir("Spróbuj doprecyzować zapytanie!", '')
         nazwy = client.parseDOM(result, 'a')
         
         counter = 0
@@ -58,26 +58,10 @@ def mySearch():
             linki[counter] = 'http://animezone.pl' + linki[counter]
             obrazy[counter] = 'http://animezone.pl' + obrazy[counter]
             opisy[counter] = opisy[counter].replace("<mark>", "").replace("</mark>", "")
-            addDir(str(nazwy[counter]).replace("<mark>", "").replace("</mark>", ""), linki[counter], 4, obrazy[counter],'',opisy[counter], True)
-            counter+=1   
+            addon.addDir(str(nazwy[counter]).replace("<mark>", "").replace("</mark>", ""), linki[counter], mode=4, thumb=obrazy[counter], plot=opisy[counter])
+            counter+=1
     else:
         CATEGORIES()
-    
-def myOther():
-    dialog = xbmcgui.Dialog()
-    ok = dialog.ok('XBMC', 'Hello World')
-    
-def addDir(name, url, mode, iconimage, thumb, opis, isFolder=True, total=1):
-    u=sys.argv[0]+'?url='+urllib.quote_plus(url)+'&mode='+str(mode)+'&name='+urllib.quote_plus(name)+'&iconimage='+urllib.quote_plus(iconimage)
-    ok = True
-    liz = xbmcgui.ListItem(name, iconimage, thumbnailImage=thumb)
-    url = thumb
-    liz.setArt({'thumb': thumb,
-                'icon': iconimage,
-                'fanart': url})
-    liz.setInfo("Video", {'title':name , 'genre':'Anime', 'rating': 0, 'plot': opis})
-    ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=isFolder, totalItems=total)
-    return ok
 
 def Alfabetycznie():
     url = 'http://animezone.pl'
@@ -90,11 +74,11 @@ def Alfabetycznie():
     counter = 0
     for link in linki_litery:
         link = url + link
-        addDir(str(litery[counter]), link, 3, '','','', True)
+        addon.addDir(str(litery[counter]), link, mode=3)
         counter+=1
 
-def listowanieAnime():
-    url = urllib.unquote_plus(params['url'])
+def ListowanieAnime():
+    url = params['url']
 
     r = client.request(url)
 
@@ -109,8 +93,8 @@ def listowanieAnime():
     for link in linki:
         linki[counter] = 'http://animezone.pl' + linki[counter]
         obrazy[counter] = 'http://animezone.pl' + obrazy[counter]
-        addDir(str(nazwy[counter]).replace("<mark>", "").replace("</mark>", ""), linki[counter], 4, obrazy[counter],'',opisy[counter], True)
-        counter+=1   
+        addon.addDir(str(nazwy[counter]).replace("<mark>", "").replace("</mark>", ""), linki[counter], mode=4, thumb=obrazy[counter],plot=opisy[counter])
+        counter+=1
     try:
         strony = client.parseDOM(r, 'ul', attrs={'class':'pagination'})
         strony = client.parseDOM(strony, 'li')
@@ -121,15 +105,16 @@ def listowanieAnime():
             if len(strona) > 0:
                 strona = str(strona[0])
                 if strona == "&raquo;":
-                    addDir("Nastpna strona..", 'http://animezone.pl' + link_nastepna, 3, 'ikona.png','thumb.png',None, True)
+                    addon.addDir("Nastpna strona..", 'http://animezone.pl' + link_nastepna, mode=3)
     except:
-        print "blad"
+        log_exception()
         pass
-        
-def listowaniOdcinkow():
-    url = urllib.unquote_plus(params['url'])
+
+def ListowaniOdcinkow():
+    url = params['url']
+
     try:
-        iconimage= urllib.unquote_plus(params['iconimage'])
+        iconimage = params['iconimage']
     except:
         iconimage = ''
 
@@ -137,6 +122,7 @@ def listowaniOdcinkow():
 
     linki = []
     nazwy = []
+
     result = client.parseDOM(r, 'table', attrs={'class':'table table-bordered table-striped table-hover episodes'}) 
     test = client.parseDOM(result, 'tr')
     test = [x for x in test if str(x).startswith("<td class=\"text")]
@@ -151,19 +137,18 @@ def listowaniOdcinkow():
     counter = 0
     for link in linki:
         linki[counter] = 'http://animezone.pl' + str(link).replace("..", "")
-        addDir(str(nazwy[counter]), linki[counter], 5, iconimage,'thumb.png',None, True)
+        addon.addDir(str(nazwy[counter]), linki[counter], mode=5, icon=iconimage)
         counter += 1 
 
-s = requests.session()
-
-def wysiwetlanieLinkow():
+def WysiwetlanieLinkow():
     linki = []
     global url
     global nazwa
-    url = urllib.unquote_plus(params['url'])
+
+    url = params['url']
     r = s.get(url).content
 
-    nazwa = urllib.unquote_plus(params['name'])
+    nazwa = params['name']
     results = client.parseDOM(r, 'table', attrs={'class':'table table-bordered table-striped table-hover episode'}) 
     results = client.parseDOM(results, 'td', attrs={'class':'text-center'})
     counter = range(-1,len(results)-1)
@@ -171,18 +156,16 @@ def wysiwetlanieLinkow():
         results.append(work(zipped))
     results = [x for x in results if type(x) == tuple]
     for result in results:
-        addDir(result[0], result[1], 6, 'ikona.png','thumb.png',None, False)
-    
+        addon.addLink(result[0], result[1], mode=6)
 
 def work(zipped):
     counter = zipped[0]
     result = zipped[1]
     counter += 1
-    index = str(result).find('\" data')
-    r = str(result)[index+12:]
-    index = str(r).find(">")
-    r = r[:index-1]
-    if r.startswith("=\"spr"):
+
+    try:
+        r = re.findall("""data-.*="([0-9].*)">""",result)[0]
+    except:
         return 0
 
     headers = {
@@ -201,9 +184,8 @@ def work(zipped):
     hostDict = [i.domains for i in hostDict if not '*' in i.domains]
     hostDict = [i.lower() for i in reduce(lambda x, y: x+y, hostDict)]
     hostDict = [x for y,x in enumerate(hostDict) if x not in hostDict[:y]]
-    #test
-    
-    
+
+
     headers = {
         'Host': 'www.animezone.pl',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
@@ -217,7 +199,7 @@ def work(zipped):
         'Pragma': 'no-cache',
         'Cache-Control': 'no-cache',
     }
-    
+
     data = {'data': r}
     response = s.post(str(url).replace("http://", "https://www."), headers = headers, data = data).content
     link = client.parseDOM(response, 'a', ret='href')
@@ -234,14 +216,12 @@ def work(zipped):
             nazwa2 = "[COLOR green]" + host + ": [/COLOR]" + nazwa
             return ("[B]" + str(nazwa2) + "[/B]",str(link[0]))
         return 0
-        #addDir("[B]" + str(nazwa2) + "[/B]", str(link[0]), 6, 'ikona.png','thumb.png',None, False)
-    except Exception, e:
-        print e
+    except:
+        log_exception()
         return 0
 
-def rankingi(counter):
-    url = urllib.unquote_plus(params['url'])
-
+def Rankingi(counter):
+    url = params['url']
     r = client.request(url)
 
     result = client.parseDOM(r, 'table', attrs={'class':'table table-bordered table-striped table-hover ranking'})
@@ -251,125 +231,116 @@ def rankingi(counter):
     try:
         for link in linki:
             linki[counter] = 'http://animezone.pl' + linki[counter]
-            addDir(str(n) + ". " + str(nazwy[counter]).replace("<mark>", "").replace("</mark>", ""), linki[counter], 4, 'ikona.png','thumb.png',None, True)
+            addon.addDir(str(n) + ". " + str(nazwy[counter]).replace("<mark>", "").replace("</mark>", ""), linki[counter], mode=4)
             counter+=1
             n+=1
     except:
+        log_exception()
         pass
 
-def gatunki(link,numer):
-    url = 'http://www.animezone.pl/gatunki'
+def Gatunki(link, numer):
+    try:
+        url = 'http://www.animezone.pl/gatunki'
 
-    r = client.request(url)
+        r = client.request(url)
 
-    result = client.parseDOM(r, 'form', attrs={'class':'species'})
-    result = client.parseDOM(result, 'div', attrs={'class':'panel-body'})
-    value = client.parseDOM(result[numer], 'input', ret='value')
-    nazwa = client.parseDOM(result[numer], 'input')
-    counter = 0
-    for n in nazwa:
-        index = str(n).find('  ')
-        n = n[:index]
-        nazwa[counter] = n
-        addDir(str(nazwa[counter]), link + str(value[counter]), 3, '','','', True)
-        counter+=1
-def odpalanieLinku():
-    url = urllib.unquote_plus(params['url'])
-    url = resolveurl.resolve(url)
-    xbmc.Player().play(str(url))
-###################################################################################
+        result = client.parseDOM(r, 'form', attrs={'class':'species'})
+        result = client.parseDOM(result, 'div', attrs={'class':'panel-body'})
+        value = client.parseDOM(result[numer], 'input', ret='value')
+        nazwa = client.parseDOM(result[numer], 'input')
+        counter = 0
+        for n in nazwa:
+            index = str(n).find('  ')
+            n = n[:index]
+            nazwa[counter] = n
+            addon.addDir(str(nazwa[counter]), link + str(value[counter]), mode=3)
+            counter+=1
+    except:
+        log_exception()
+
+def OdpalanieLinku():
+    url = params['url']
+    addon.PlayMedia(url)
+
+############################################################################################################
 #=########################################################################################################=#
 #                                               GET PARAMS                                                 #
-#=########################################################################################################=#    
-def get_params():
-    param = []
-    paramstring = sys.argv[2]
-    if len(paramstring) >= 2 :
-        params = sys.argv[2]
-        cleanedparams = params.replace('?', '')
-        if (params[len(params) - 1] == '/') :
-            params = params[0:len(params) - 2]
-        pairsofparams = cleanedparams.split('&')
-        param = {}
-        for i in range(len(pairsofparams)) :
-            splitparams = {}
-            splitparams = pairsofparams[i].split('=')
-            if (len(splitparams)) == 2:
-                param[splitparams[0]] = splitparams[1]                  
-    return param
+#=########################################################################################################=#
 
-params = get_params()
-url = None
-name = None
-thumb = None
-mode = None
-iconimage = None
+params = addon.get_params()
+url = params.get('url')
+name = params.get('name')
+try:
+    mode = int(params.get('mode'))
+except:
+    mode = None
+iconimage = params.get('iconimage')
 
-try:
-    url = urllib.unquote_plus(params['url'])
-except:
-    pass
-try:
-    name = urllib.unquote_plus(params['name'])
-except:
-    pass
-try:
-    mode = int(params['mode'])
-except:
-    pass
-try:        
-    iconimage = urllib.unquote_plus(params['iconimage'])
-except:
-    pass
-
-###################################################################################
+###############################################################################################################
 #=###########################################################################################################=#
 #                                                   MODES                                                     #
 #=###########################################################################################################=#
+
 if mode == None :
     CATEGORIES()
+
 elif mode == 1 :
-    mySearch()
-elif mode == 2 :
-    myOther()
+    Wyszukiwanie()
+
 elif mode == 3 :
-    listowanieAnime()
+    ListowanieAnime()
+
 elif mode == 4 :
-    listowaniOdcinkow()
+    ListowaniOdcinkow()
+
 elif mode == 5 :
-    wysiwetlanieLinkow()
+    WysiwetlanieLinkow()
+
 elif mode == 6 : 
-    odpalanieLinku()
+    OdpalanieLinku()
+
 elif mode == 10 :
     Alfabetycznie()
+
 elif mode == 20 :
-    addDir("Typ widowni", '', 21, '','','', True)
-    addDir("Gatunek", '', 22, '','','', True)
-    addDir("Tematyka", '', 23, '','','', True)
-    addDir("Rok", '', 24, '','','', True)
+    addon.addDir("Typ widowni", '', mode=21)
+    addon.addDir("Gatunek", '', mode=22)
+    addon.addDir("Tematyka", '', mode=23)
+    addon.addDir("Rok", '', mode=24)
+
 elif mode == 21:
-    gatunki('http://www.animezone.pl/gatunki?type=',0)
+    Gatunki('http://www.animezone.pl/gatunki?type=',0)
+
 elif mode == 22:
-    gatunki('http://www.animezone.pl/gatunki?species=',1)
+    Gatunki('http://www.animezone.pl/gatunki?species=',1)
+
 elif mode == 23:
-    gatunki('http://www.animezone.pl/gatunki?topic=',2)
+    Gatunki('http://www.animezone.pl/gatunki?topic=',2)
+
 elif mode == 24:
-    gatunki('http://www.animezone.pl/gatunki?years=',3)
+    Gatunki('http://www.animezone.pl/gatunki?years=',3)
+
 elif mode == 30 :
     counter = 1982
-    while counter <=2018:
-        addDir("Sezon Wiosna " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/wiosna', 3, '','','', True)
-        addDir("Sezon Lato " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/lato', 3, '','','', True)
-        addDir("Sezon Jesień " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/jesien', 3, '','','', True)
-        addDir("Sezon Zima " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/zima', 3, '','','', True)
+    while counter <=2019:
+        addon.addDir("Sezon Wiosna " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/wiosna', mode=3)
+        addon.addDir("Sezon Lato " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/lato', mode=3)
+        addon.addDir("Sezon Jesień " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/jesien', mode=3)
+        addon.addDir("Sezon Zima " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/zima', mode=3)
         counter+=1
+
 elif mode == 40 :
-    addDir("Ranking ocen", 'http://www.animezone.pl/anime/ranking/ocen', 41, '','','', True)
-    addDir("Ranking wyświetleń", 'http://www.animezone.pl/anime/ranking/wyswietlen', 42, '','','', True)
-    addDir("Ranking fanów", 'http://www.animezone.pl/anime/ranking/fanow', 42, '','','', True)
+    addon.addDir("Ranking ocen", 'http://www.animezone.pl/anime/ranking/ocen', mode=41)
+    addon.addDir("Ranking wyświetleń", 'http://www.animezone.pl/anime/ranking/wyswietlen', mode=42)
+    addon.addDir("Ranking fanów", 'http://www.animezone.pl/anime/ranking/fanow', mode=42)
+
 elif mode == 41 :
-    rankingi(2)
+    Rankingi(2)
+
 elif mode == 42 :
-    rankingi(1)
+    Rankingi(1)
+
 ###################################################################################
+
+xbmcplugin.setContent(int(sys.argv[1]), 'movies')
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

@@ -23,7 +23,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.anime"
-version="2018.07.17.0"
+version="2018.07.26.0"
 name="Anime"
 provider-name="-">
 <requires>
