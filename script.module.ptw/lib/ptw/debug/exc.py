@@ -47,7 +47,7 @@ def log_exception(level=None):
     e : Exception
         Exception to log.
     level : int or None
-        Kodi log level or None for default level (DEBUG).
+        Kodi log level (one of xbmc.LOG*) or None for default level (xbmc.LOGDEBUG).
     """
     if level is None:
         level = xbmc.LOGDEBUG
@@ -56,11 +56,6 @@ def log_exception(level=None):
     msg += '-->End of Python script error report<--'
     xbmc.log(msg, level)
 
-def log(msg, level=None):
-    msg = str(msg)
-    if level is None:
-        level = xbmc.LOGNOTICE
-    xbmc.log(msg, level)
 
 def stacktrace(func):
     """Decorator for trace function enter.
