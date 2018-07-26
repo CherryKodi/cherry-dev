@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # C extensions
-*.so
+# *.so    [removed, sometime we want to add dynamic libraires]
 
 # Distribution / packaging
 .Python
@@ -106,5 +106,12 @@ venv.bak/
 # others
 zip/
 
--# ViM temp files
--.*.sw?
+# -------  Entries under control  -------
+
+# Backup files
+*~
+*.bak
+
+# ViM temp files
+.*.sw?
+
