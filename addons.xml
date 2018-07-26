@@ -23,7 +23,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.anime"
-version="2018.07.26.0"
+version="2018.07.26.1"
 name="Anime"
 provider-name="-">
 <requires>
@@ -48,7 +48,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.BajkiOnline"
-version="2018.07.17.0"
+version="2018.07.26.0"
 name="Bajki online"
 provider-name="-">
 <requires>
@@ -293,7 +293,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.strefadb"
-version="2018.07.24.0"
+version="2018.07.26.0"
 name="StrefaDB"
 provider-name="-">
 <requires>
