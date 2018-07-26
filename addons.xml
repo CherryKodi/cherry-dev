@@ -170,7 +170,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.FootballPowtorki"
-version="2018.07.19.0"
+version="2018.07.26.0"
 name="Powtórki i skróty meczów"
 provider-name="-">
 <requires>
@@ -194,7 +194,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.kabarety"
-version="2018.07.17.0"
+version="2018.07.26.0"
 name="Kabarety"
 provider-name="-">
 <requires>
