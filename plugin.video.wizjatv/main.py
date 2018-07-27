@@ -4,16 +4,16 @@ from __future__ import absolute_import, division, unicode_literals, print_functi
 import urllib, urllib2, re, xbmc, xbmcplugin, xbmcgui, xbmc, xbmcaddon, HTMLParser, os
 import requests, json
 import sys
+from ptw.libraries.addon_utils import get_params
 
 PY2 = sys.version_info[0] == 2
 if PY2:
-    from urlparse import parse_qs, urljoin
     from urllib import urlencode
 else:
-    from urllib.parse import parse_qs, urlencode, urljoin
+    from urllib.parse import urlencode
 
 
-from ptw.debug import log_exception, log, start_trace, stop_trace, TRACE_ALL
+from ptw.debug import log_exception, log
 import wizja
 
 obj = wizja.WizjaTvApi()
@@ -32,26 +32,15 @@ def addDir(name, url, mode, thumb, fanart='', opis='', isFolder=True, total=1):
     return ok
 
 def WizjaTV():
-    channel_list = obj.channel_list()
-    log.info('ChLst1', channel_list[:4])
     channel_list = sorted(obj.channel_list(), key=lambda ch: ch.name)
-    log.info('ChLst2', channel_list[:4])
     for ch in channel_list:
         addDir(name=ch.name, url=ch.url, mode='play', thumb=ch.icon, isFolder=False)
 
 def OdpalanieLinku(url):
-    try:
-        link = obj.video_link(url)
-        if link:
-            xbmc.Player().play(link)
-    except:
-        log_exception()
+    link = obj.video_link(url)
+    if link:
+        xbmc.Player().play(link)
 
-def get_params():
-    paramstring = sys.argv[2]
-    if paramstring.startswith('?'):
-        paramstring = paramstring[1:]
-    return dict((k, urllib.unquote_plus(vv[0])) for k, vv in parse_qs(paramstring).items())
 
 params = get_params()
 url = params.get('url')
