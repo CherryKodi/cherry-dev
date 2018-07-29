@@ -148,8 +148,9 @@ class movies:
 
             if idx == True and create_directory == True: self.movieDirectory(self.list)
             return self.list
-        except:
-            pass
+        except Exception as e:
+            print(e)
+            return
 
 
     def widget(self):
@@ -212,19 +213,19 @@ class movies:
 
             dbcon = database.connect(control.searchFile)
             dbcur = dbcon.cursor()
-            dbcur.execute("INSERT INTO movies VALUES (?,?)", (None,q))
+            dbcur.execute("INSERT INTO movies VALUES (?,?)", (None, q))
             dbcon.commit()
             dbcur.close()
-            url = self.search_link + urllib.quote_plus(q)
-            url = '%s?action=moviePage&url=%s' % (sys.argv[0], urllib.quote_plus(url))
-            control.execute('Container.Update(%s)' % url)
+            #url = self.search_link + urllib.quote_plus(q)
+            #url = '%s?action=moviePage&url=%s' % (sys.argv[0], urllib.quote_plus(url))
+            movies.get(self,self.search_link + q)
 
     def search_term(self, name):
             control.idle()
 
-            url = self.search_link + urllib.quote_plus(name)
-            url = '%s?action=moviePage&url=%s' % (sys.argv[0], urllib.quote_plus(url))
-            control.execute('Container.Update(%s)' % url)
+            #url = self.search_link + urllib.quote_plus(name)
+            #url = '%s?action=moviePage&url=%s' % (sys.argv[0], urllib.quote_plus(url))
+            movies.get(self,self.search_link + urllib.quote_plus(name))
 
     def person(self):
         try:
@@ -238,10 +239,11 @@ class movies:
             
             q = cleantitle.normalize(q) #for polish characters
             
-            url = self.persons_link + urllib.quote_plus(q)
-            url = '%s?action=moviePersons&url=%s' % (sys.argv[0], urllib.quote_plus(url))
-            control.execute('Container.Update(%s)' % url)
-        except:
+            #url = self.persons_link + urllib.quote_plus(q)
+            #url = '%s?action=moviePersons&url=%s' % (sys.argv[0], urllib.quote_plus(url))
+            movies.persons(self, self.persons_link + q)
+        except Exception as e:
+            print(e)
             return
 
 
@@ -634,7 +636,8 @@ class movies:
                 plot = plot.encode('utf-8')
 
                 self.list.append({'title': title, 'originaltitle': title, 'year': year, 'genre': genre, 'duration': duration, 'rating': rating, 'votes': votes, 'mpaa': mpaa, 'director': director, 'cast': cast, 'plot': plot, 'tagline': '0', 'imdb': imdb, 'tmdb': '0', 'tvdb': '0', 'poster': poster, 'next': next})
-            except:
+            except Exception as e:
+                print(e)
                 pass
 
         return self.list
