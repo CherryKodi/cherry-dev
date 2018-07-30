@@ -21,7 +21,7 @@
 from ptw.libraries import trakt
 from ptw.libraries import cleantitle
 from ptw.libraries import cleangenre
-from ptw.libraries import control
+from resources.lib.libraries import control
 from ptw.libraries import client
 from ptw.libraries import cache
 from resources.lib.libraries import metacache
@@ -38,8 +38,6 @@ params = dict(urlparse.parse_qsl(sys.argv[2].replace('?',''))) if len(sys.argv) 
 action = params.get('action')
 
 control.moderator()
-
-
 
 
 class tvshows:

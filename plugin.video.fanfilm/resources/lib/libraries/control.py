@@ -217,10 +217,18 @@ def refresh():
     return execute('Container.Refresh')
 
 def busy():
-    return execute('ActivateWindow(busydialog)')
+    Kodi = xbmc.getInfoLabel('System.BuildVersion')[:2]
+    if Kodi == '18':
+        execute('ActivateWindow(busydialognocancel') # Kodi 18
+    else:
+        execute('ActivateWindow(busydialog)') # Kodi 17
 
 def idle():
-    return execute('Dialog.Close(busydialog)')
+    Kodi = xbmc.getInfoLabel('System.BuildVersion')[:2]
+    if Kodi == '18':
+        execute('Dialog.Close(busydialognocancel)') # Kodi 18
+    else:
+        execute('Dialog.Close(busydialog)') # Kodi 17
 
 
 def queueItem():

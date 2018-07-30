@@ -21,7 +21,7 @@
 from ptw.libraries import trakt
 from ptw.libraries import cleangenre
 from ptw.libraries import cleantitle
-from ptw.libraries import control
+from resources.lib.libraries import control
 from ptw.libraries import client
 from ptw.libraries import cache
 from resources.lib.libraries import metacache
@@ -199,7 +199,6 @@ class movies:
 
     def search_new(self):
             control.idle()
-
             t = control.lang(32010).encode('utf-8')
             k = control.keyboard('', t) ; k.doModal()
             q = k.getText() if k.isConfirmed() else None
@@ -207,7 +206,7 @@ class movies:
             if (q == None or q == ''): return
             
             q = cleantitle.normalize(q) #for polish characters
-            
+            control.busy()
             try: from sqlite3 import dbapi2 as database
             except: from pysqlite2 import dbapi2 as database
 
@@ -219,13 +218,15 @@ class movies:
             #url = self.search_link + urllib.quote_plus(q)
             #url = '%s?action=moviePage&url=%s' % (sys.argv[0], urllib.quote_plus(url))
             movies.get(self,self.search_link + q)
+            control.idle()
 
     def search_term(self, name):
-            control.idle()
+            control.busy()
 
             #url = self.search_link + urllib.quote_plus(name)
             #url = '%s?action=moviePage&url=%s' % (sys.argv[0], urllib.quote_plus(url))
             movies.get(self,self.search_link + urllib.quote_plus(name))
+            control.idle()
 
     def person(self):
         try:
@@ -238,10 +239,11 @@ class movies:
             if (q == None or q == ''): return
             
             q = cleantitle.normalize(q) #for polish characters
-            
+            control.busy()
             #url = self.persons_link + urllib.quote_plus(q)
             #url = '%s?action=moviePersons&url=%s' % (sys.argv[0], urllib.quote_plus(url))
             movies.persons(self, self.persons_link + q)
+            control.idle()
         except Exception as e:
             print(e)
             return
