@@ -3,6 +3,9 @@ import urllib, urllib2, re, xbmc, xbmcplugin, xbmcgui, xbmc, xbmcaddon, HTMLPars
 import requests, json
 import sys
 
+reload(sys)  # Reload does the trick!
+sys.setdefaultencoding('UTF8')
+
 PY2 = sys.version_info[0] == 2
 if PY2:
     from urlparse import parse_qs

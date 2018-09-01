@@ -39,7 +39,6 @@ action = params.get('action')
 
 control.moderator()
 
-
 class movies:
     def __init__(self):
         self.list = []
@@ -436,7 +435,6 @@ class movies:
                 imdb = item['ids']['imdb']
                 if imdb == None or imdb == '': raise Exception()
                 imdb = 'tt' + re.sub('[^0-9]', '', str(imdb))
-
                 tmdb = str(item.get('ids', {}).get('tmdb', 0))
 
                 try: premiered = item['released']
@@ -566,7 +564,6 @@ class movies:
                 imdb = client.parseDOM(item, 'a', ret='href')[0]
                 imdb = re.findall('(tt\d*)', imdb)[0]
                 imdb = imdb.encode('utf-8')
-
                 try: poster = client.parseDOM(item, 'img', ret='loadlate')[0]
                 except: poster = '0'
                 if '/nopicture/' in poster: poster = '0'
@@ -707,9 +704,9 @@ class movies:
         self.meta = []
         total = len(self.list)
 
-        self.fanart_tv_headers = {'api-key': 'ZDY5NTRkYTk2Yzg4ODFlMzdjY2RkMmQyNTlmYjk1MzQ='.decode('base64')}
+        self.fanart_tv_headers = {'api_key': '92b3affedbd309fe368e6b645018c519'}
         if not self.fanart_tv_user == '':
-            self.fanart_tv_headers.update({'client-key': self.fanart_tv_user})
+            self.fanart_tv_headers.update({'client_key': self.fanart_tv_user})
 
         for i in range(0, total): self.list[i].update({'metacache': False})
 
@@ -734,7 +731,7 @@ class movies:
 
     def super_info(self, i):
         try:
-            if self.list[i]['metacache'] == True: raise Exception()
+            #if self.list[i]['metacache'] == True: raise Exception()
 
             imdb = self.list[i]['imdb']
 
@@ -750,7 +747,6 @@ class movies:
 
             imdb = item.get('ids', {}).get('imdb', '0')
             imdb = 'tt' + re.sub('[^0-9]', '', str(imdb))
-
             tmdb = str(item.get('ids', {}).get('tmdb', 0))
 
             premiered = item.get('released', '0')
@@ -805,12 +801,11 @@ class movies:
             try:
                 artmeta = True
                 #if self.fanart_tv_user == '': raise Exception()
-                art = client.request(self.fanart_tv_art_link % imdb, headers=self.fanart_tv_headers, timeout='10', error=True)
+                art = client.request(self.fanart_tv_art_link % imdb + "?api_key=%s&client_key=%s" % ('92b3affedbd309fe368e6b645018c519',self.fanart_tv_user), headers=self.fanart_tv_headers, timeout='10', error=True)
                 try: art = json.loads(art)
                 except: artmeta = False
             except:
                 pass
-
             try:
                 poster2 = art['movieposter']
                 poster2 = [x for x in poster2 if x.get('lang') == self.lang][::-1] + [x for x in poster2 if x.get('lang') == 'en'][::-1] + [x for x in poster2 if x.get('lang') in ['00', '']][::-1]
@@ -866,7 +861,6 @@ class movies:
                 poster3 = poster3.encode('utf-8')
             except:
                 poster3 = '0'
-
             try:
                 fanart2 = art2['backdrops']
                 fanart2 = [x for x in fanart2 if x.get('iso_639_1') == self.lang] + [x for x in fanart2 if x.get('iso_639_1') == 'en'] + [x for x in fanart2 if x.get('iso_639_1') not in [self.lang, 'en']]
@@ -930,7 +924,6 @@ class movies:
                 imdb, tmdb, title, year = i['imdb'], i['tmdb'], i['originaltitle'], i['year']
                 sysname = urllib.quote_plus('%s (%s)' % (title, year))
                 systitle = urllib.quote_plus(title)
-
                 meta = dict((k,v) for k, v in i.iteritems() if not v == '0')
                 meta.update({'code': imdb, 'imdbnumber': imdb, 'imdb_id': imdb})
                 meta.update({'tmdb_id': tmdb})

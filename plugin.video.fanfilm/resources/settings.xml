@@ -2,13 +2,13 @@
 <settings>
     <category label="32310">
         <setting id="appearance.alt" type="action" label="32311" default="-" option="close" action="RunPlugin(plugin://plugin.video.fanfilm/?action=artwork)" visible="false" />
-        <setting id="appearance.1" type="select" label="32311" values="Incursion|IncursionGrey|GOne" default="Gone" visible="System.HasAddon(script.fanfilm.media)" />
+        <setting id="appearance.1" type="select" label="32311" values="Incursion|IncursionGrey|GOne" default="Incursion" visible="System.HasAddon(script.fanfilm.media)" />
         <setting id="scrapers.timeout.1" type="slider" label="32312" default="45" range="10,60" option="int" />
         <setting id="trakt.user" type="text" default="" visible="false" />
         <setting id="indicators.alt" type="enum" label="32313" lvalues="32314|32315" default="1" visible="!eq(-1,)" />
         <setting id="indicators" type="enum" label="32313" lvalues="32314" default="0" visible="eq(-2,)" />
         <setting id="api.language" type="select" label="32316" values="English|Polish" default="Polish" />
-		<setting id="providers.lang" type="select" label="32360" values="English|Polish|Polish+English" default="Polish+English" />
+        <setting id="providers.lang" type="select" label="32360" values="English|Polish|Polish+English" default="Polish" />
         <setting id="flatten.tvshows" type="bool" label="32317" default="false" />
         <setting id="fanart" type="bool" label="32318" default="true" />
         <setting id="showunaired" type="bool" label="32570" default="true" />
@@ -19,10 +19,10 @@
         <setting id="tv.widget" type="enum" label="32325" lvalues="32302|32326" default="1" visible="eq(-12,)" />
         <setting id="prgr.sortorder" type="enum" label="32585" lvalues="32585|32586" default="1" visible="!eq(-13,)" />
         <setting id="lists.widget" type="enum" label="32329" lvalues="32302|32301" default="1" />
-		<setting type="lsep" label="32615" />
+        <setting type="lsep" label="32615" />
         <setting id="autoTraktOnStart" type="bool" label="32616" default="False" />
         <setting id="schedTraktTime" type="slider" label="32613" default="0" range="0,24" option="int" />
-		<setting type="lsep" label="32617" />
+        <setting type="lsep" label="32617" />
     </category>
     <category label="32330">
         <setting id="hosts.mode" type="enum" label="32331" lvalues="32332|32333|32334" default="1" />
@@ -36,7 +36,7 @@
         <setting id="sources.extrainfo" type="bool" label="32587" default="true" />
         <setting id="HEVC" type="bool" label="32363" default="true" visible="false" />
         <setting id="hosts.captcha" type="bool" label="32341" default="true" />
-        <setting id="hosts.sort" type="enum" label="32622" lvalues="-|32624|32623" default="0" />
+        <setting id="hosts.sort" type="enum" label="32622" lvalues="32624|32623" default="0" />
         <setting id="debrid.only" type="bool" label="32614" default="false" />
         <setting type="lsep" label="32343" />
         <setting id="bookmarks" type="bool" label="32344" default="true" />

@@ -6,6 +6,10 @@ import json
 import re
 import urllib
 
+import sys
+reload(sys)  # Reload does the trick!
+sys.setdefaultencoding('UTF8')
+
 import xbmcaddon
 from ptw.debug import log_exception, log
 from ptw.libraries import client

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.fanfilm" name="FanFilm" version="2018.07.30.0" provider-name="-">
+<addon id="plugin.video.fanfilm" name="FanFilm" version="2018.09.01.0" provider-name="-">
         <requires>
                 <import addon="xbmc.python" version="2.1.0" />
                 <import addon="script.module.ptw" />
