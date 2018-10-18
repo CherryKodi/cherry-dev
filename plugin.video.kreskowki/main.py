@@ -188,12 +188,13 @@ def Wyciaganie_Linkow():
         r = r[:index]
         data ={"o" : str(r)}
         headers = {
+			'Host': 'www.kreskowkazone.pl',
             'DNT': '1',
             'Accept-Encoding': 'gzip, deflate',
             'Accept-Language': 'pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
             'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
-            'Referer': 'http://www.kreskowkazone.pl/odcinki-online_101-dalmatynczykow-1997_28',
+            'Referer': url,
             'Connection': 'keep-alive',
             }
 
@@ -201,10 +202,12 @@ def Wyciaganie_Linkow():
         
         headers = {
         'Host': 'www.kreskowkazone.pl',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0',
+		'DNT': '1',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
         'Accept': 'text/html, */*; q=0.01',
-        'Accept-Language': 'pl,en-US;q=0.7,en;q=0.3',
+        'Accept-Language': 'pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7',
         'Referer': url,
+		'Origin': 'http://www.kreskowkazone.pl',
         'Content-Type': 'application/x-www-form-urlencoded',
         'X-Requested-With': 'XMLHttpRequest',
         'Connection': 'keep-alive'
@@ -213,8 +216,8 @@ def Wyciaganie_Linkow():
         hostDict = [i.domains for i in hostDict if not '*' in i.domains]
         hostDict = [i.lower() for i in reduce(lambda x, y: x+y, hostDict)]
         hostDict = [x for y,x in enumerate(hostDict) if x not in hostDict[:y]]
-        response = s.post("http://www.kreskowkazone.pl/odcinki_emb", data = data, headers=headers, cookies = s.cookies)
-        link = client.parseDOM(response.text, 'iframe', ret='src')
+        response = s.post("http://www.kreskowkazone.pl/odcinki_ajax", data = data, headers=headers, cookies = s.cookies)
+        link = client.parseDOM(response.text, 'a', ret='href')
         try:
             if link == '':
                 continue
