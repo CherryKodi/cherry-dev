@@ -106,5 +106,6 @@ venv.bak/
 # others
 zip/
 
--# ViM temp files
--.*.sw?
+# ViM temp files
+.*.sw?
+.sw?
