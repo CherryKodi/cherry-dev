@@ -59,7 +59,12 @@ class GeneratorXML:
         for addon in addons:
             try:
                 # skip any file or .svn folder or .git folder
-                if ( not os.path.isdir( addon ) or addon == ".svn" or addon == ".git" or addon == "zip" or addon == ".idea"): continue
+                if not os.path.isdir(addon) or addon in (".svn", ".git", "zip", ".idea"):
+                    continue
+                # skip not working plugins
+                if os.path.exists(os.path.join(addon, '__not_working__')):
+                    print('{} Skipped (marked as not working)'.format(addon))
+                    continue
                 # create path
                 _path = os.path.join( addon, "addon.xml" )
                 # split lines for stripping
@@ -139,7 +144,12 @@ class GeneratorZIP:
         addons = os.listdir( "." )
         for addon in addons:
             try:
-                if ( not os.path.isdir( addon ) or addon == ".svn" or addon == ".git" or addon == "zip" or addon == ".idea"): continue
+                # skip any file or .svn folder or .git folder
+                if not os.path.isdir(addon) or addon in (".svn", ".git", "zip", ".idea"):
+                    continue
+                # skip not working plugins
+                if os.path.exists(os.path.join(addon, '__not_working__')):
+                    continue
                 _path = os.path.join( addon, "addon.xml" )
                 xml = open( _path, "r" ).read()
                 version = re.findall("""version=\"(.*[0-9])\"""", xml)[1]
