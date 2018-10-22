@@ -1,6 +1,6 @@
 """
     resolveurl XBMC Addon
-    Copyright (C) 2017 tknorris
+    Copyright (C) 2018 jsergio
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,15 +16,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import re
-import json
 from lib import helpers
 from resolveurl import common
 from resolveurl.resolver import ResolveUrl, ResolverError
 
-class StreamableResolver(ResolveUrl):
-    name = "Streamable"
-    domains = ['streamable.com']
-    pattern = '(?://|\.)(streamable\.com)/(?:s/)?([a-zA-Z0-9]+(?:/[a-zA-Z0-9]+)?)'
+
+class UnitPlayResolver(ResolveUrl):
+    name = "unitplay"
+    domains = ["unitplay.net"]
+    pattern = '(?://|\.)(unitplay\.net)/tt([0-9]+)'
 
     def __init__(self):
         self.net = common.Net()
@@ -33,17 +33,21 @@ class StreamableResolver(ResolveUrl):
         web_url = self.get_url(host, media_id)
         headers = {'User-Agent': common.RAND_UA}
         html = self.net.http_GET(web_url, headers=headers).content
-        match = re.search('videoObject\s*=\s*(.*?});', html)
-        if match:
-            try: js_data = json.loads(match.group(1))
-            except: js_data = {}
-            streams = js_data.get('files', {})
-            sources = [(stream.get('height', 'Unknown'), stream['url']) for _key, stream in streams.iteritems()]
-            sources = [(label, 'https:' + stream_url) if stream_url.startswith('//') else (label, stream_url) for label, stream_url in sources]
-            sources.sort(key=lambda x: x[0], reverse=True)
-            return helpers.pick_source(sources) + helpers.append_headers(headers)
-        else:
-            raise ResolverError('JSON Not Found')
+        
+        if html:
+            player_id = re.search('''SvplayerID\|([a-z0-9]+)''', html, re.I)
+            if player_id:
+                player_url = 'https://unitplay.net//CallPlayer'
+                data = {'id': player_id.group(1)}
+                headers.update({'Referer': web_url})
+                _html = self.net.http_POST(player_url, data, headers=headers).content
+                if _html:
+                    _html = _html.decode("hex")
+                    sources = helpers.scrape_sources(_html)
+                    if sources:
+                        return helpers.pick_source(sources) + helpers.append_headers(headers)
+                
+        raise ResolverError("Unable to locate video")
 
     def get_url(self, host, media_id):
-        return self._default_get_url(host, media_id, template='https://{host}/s/{media_id}')
+        return self._default_get_url(host, media_id, template='https://{host}/tt{media_id}')

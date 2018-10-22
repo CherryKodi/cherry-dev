@@ -1,6 +1,6 @@
-"""
-thevid.net resolveurl plugin
-Copyright (C) 2015 tknorris
+'''
+    Plugin for ResolveURL
+    Copyright (C) 2018
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,12 +14,10 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
-"""
-from lib import helpers
-from resolveurl import common
+'''
+from __resolve_generic__ import ResolveGeneric
 
-logger = common.log_utils.Logger.get_logger(__name__)
-logger.disable()
-
-def get_media_url(url):
-    return helpers.get_media_url(url, patterns=['''var bfile.+?=\s*["'](?P<url>[^"']+\.(?:mp4|m3u8)\?[^"']+)'''], generic_patterns=False).replace(' ', '%20')
+class VkPrimeResolver(ResolveGeneric):
+    name = 'vkprime'
+    domains = ["vkprime.com"]
+    pattern = '(?://|\.)(vkprime\.com)/(?:embed-)?([a-zA-Z0-9]+)'

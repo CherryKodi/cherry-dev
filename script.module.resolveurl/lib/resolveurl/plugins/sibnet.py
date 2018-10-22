@@ -34,7 +34,7 @@ class SibnetResolver(ResolveUrl):
         headers = {'User-Agent': """"Mozilla/5.0 (Linux; U; Android 4.1.1; en-us; androVM for VirtualBox ('Tablet' version with phone caps) Build/JRO03S) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30""",
                    'Referer': web_url}
         html = self.net.http_GET(web_url, headers=headers).content
-        video = re.findall("""(http:\/\/video\.sibnet\.ru\/v\/.*.mp4)""", html)[0]
+        video = re.findall("""(https:\/\/video\.sibnet\.ru\/v\/.*.mp4)""", html)[0]
         return video
 
     def get_url(self, host, media_id):
