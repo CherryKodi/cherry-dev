@@ -4,6 +4,7 @@ import sys
 import xbmc
 import xbmcgui
 import xbmcplugin
+import urllib2
 
 from ptw.debug import log_exception, log
 from ptw.libraries import addon_utils as addon
@@ -35,14 +36,8 @@ HEADERS = {
 #                                                   MENU                                                   #
 # =########################################################################################################=#
 
-def CATEGORIES():
-    addon.addDir('Lektor PL', '-', mode='Lektor', icon=_resourcesPath + "lektor.jpg",
-                 thumb=_resourcesPath + "lektor.jpg", fanart=_default_background)
-    addon.addDir('Napisy PL', '-', mode='Napisy', icon=_resourcesPath + "napisy.gif",
-                 thumb=_resourcesPath + "napisy.gif", fanart=_default_background)
 
-
-def SUBCATEGORIES(mode):
+def SUBCATEGORIES(mode = 'Lektor'):
     # Lektor
     xbmcplugin.setContent(int(sys.argv[1]), 'movies')
     if mode == 'Lektor':
@@ -59,22 +54,6 @@ def SUBCATEGORIES(mode):
         addon.addDir('Dragon Ball Heroes', '-', mode='ListowanieLektor', icon=_resourcesPath + "dbh.png",
                      thumb=_resourcesPath + "dbh.png", fanart=_default_background)
         addon.addDir('Kinowki', '-', mode='ListowanieLektor', icon=_resourcesPath + "kino.jpg",
-                     thumb=_resourcesPath + "kino.jpg", fanart=_default_background)
-    # Napisy
-    if mode == 'Napisy':
-        addon.addDir('Dragon Ball', '-', mode='ListowanieNapisy', icon=_resourcesPath + "DB.png",
-                     thumb=_resourcesPath + "DB.png", fanart=_default_background)
-        addon.addDir('Dragon Ball Z', '-', mode='ListowanieNapisy', icon=_resourcesPath + "dbz.png",
-                     thumb=_resourcesPath + "dbz.png", fanart=_default_background)
-        addon.addDir('Dragon Ball Kai', '-', mode='ListowanieNapisy', icon=_resourcesPath + "dbkai.png",
-                     thumb=_resourcesPath + "dbkai.png", fanart=_default_background)
-        addon.addDir('Dragon Ball GT', '-', mode='ListowanieNapisy', icon=_resourcesPath + "dbgt.png",
-                     thumb=_resourcesPath + "dbgt.png", fanart=_default_background)
-        addon.addDir('Dragon Ball Super', '-', mode='ListowanieNapisy', icon=_resourcesPath + "dbs.png",
-                     thumb=_resourcesPath + "dbs.png", fanart=_default_background)
-        addon.addDir('Dragon Ball Heroes', '-', mode='ListowanieNapisy', icon=_resourcesPath + "dbh.png",
-                     thumb=_resourcesPath + "dbh.png", fanart=_default_background)
-        addon.addDir('Kinowki', '-', mode='ListowanieNapisy', icon=_resourcesPath + "kino.jpg",
                      thumb=_resourcesPath + "kino.jpg", fanart=_default_background)
 
 
@@ -98,7 +77,7 @@ def list_episodes(nazwaSerii, wersja, fanart):
     test = client.parseDOM(result, 'ul', attrs={'class': 'lista-odcinkow'})
     test = client.parseDOM(test, 'li')
     for item in test:
-        if 'a href' in item and '?typ' not in item:
+        if 'a href' in item and '?typ' not in item and not 'ul class' in item:
             lista.append(item)
     for item in lista:
         try:
@@ -110,7 +89,7 @@ def list_episodes(nazwaSerii, wersja, fanart):
             pass
     i = 1
     while i < len(lista_tytulow) + 1:
-        url = 'https://strefadb.pl/odcinki/' + nazwaSerii + '-' + str(i) + '.html?typ=' + wersja
+        url = 'https://strefadb.pl/odcinki/' + nazwaSerii + '-' + str(i) + '.html'
         addon.addDir(str(i) + ' ' + str(lista_tytulow[i - 1]), url, mode='ListowanieLinkow', fanart=fanart,
                      rating=ocena[i - 1])
         i += 1
@@ -171,7 +150,7 @@ if name == 'Kinowki' and mode == 'ListowanieLektor':
     lista_odcinkow = client.parseDOM(lista_odcinkow, 'li')
 
     for item in lista_odcinkow:
-        if 'a href' in item and '?typ' not in item:
+        if 'a href' in item and '?typ' not in item and not 'ul class' in item:
             lista.append(item)
     for item in lista:
         item2 = client.parseDOM(item, 'a')
@@ -179,56 +158,14 @@ if name == 'Kinowki' and mode == 'ListowanieLektor':
         item = client.parseDOM(item, 'a', ret='href')[0]
         lista_linkow.append(item)
     i = 1
+
     while i < len(lista_tytulow) + 1:
         url = 'https://strefadb.pl' + lista_linkow[i - 1]
         addon.addDir(str(i) + ' ' + str(lista_tytulow[i - 1]).replace('(', '| ocena odcinka: ('), url,
                      mode='ListowanieLinkow', fanart=_resourcesPath + "kino_fanart.jpg")
         i += 1
 
-################################Napisy##################
-
-if name == 'Dragon Ball' and mode == 'ListowanieNapisy':
-    list_episodes('dragon-ball', 'napisy', _resourcesPath + "db_art.jpg")
-
-if name == 'Dragon Ball Z' and mode == 'ListowanieNapisy':
-    list_episodes('dragon-ball-z', 'napisy', _resourcesPath + "dbz_art.jpg")
-
-if name == 'Dragon Ball Kai' and mode == 'ListowanieNapisy':
-    list_episodes('dragon-ball-kai', 'napisy', _resourcesPath + "dbkai_art.jpeg")
-
-if name == 'Dragon Ball GT' and mode == 'ListowanieNapisy':
-    list_episodes('dragon-ball-gt', 'napisy', _resourcesPath + "dbgt_art.png")
-
-if name == 'Dragon Ball Super' and mode == 'ListowanieNapisy':
-    list_episodes('dragonball-super', 'napisy', _resourcesPath + "dbs_art.jpg")
-
-if name == 'Dragon Ball Heroes' and mode == 'ListowanieNapisy':
-    list_episodes('dragon-ball-heroes', 'napisy', _resourcesPath + "dbh_art.jpg")
-
-if name == 'Kinowki' and mode == 'ListowanieNapisy':
-    lista = []
-    lista_tytulow = []
-    lista_linkow = []
-
-    url = 'https://strefadb.pl/filmy-kinowe.html'
-    result = client.request(url)
-    lista_odcinkow = client.parseDOM(result, 'ul', attrs={'class': 'lista-odcinkow'})
-    lista_odcinkow = client.parseDOM(lista_odcinkow, 'li')
-
-    for item in lista_odcinkow:
-        if 'a href' in item and '?typ' not in item:
-            lista.append(item)
-    for item in lista:
-        item2 = client.parseDOM(item, 'a')
-        lista_tytulow.append(item2[0])
-        item = client.parseDOM(item, 'a', ret='href')[0]
-        lista_linkow.append(item)
-    i = 1
-    while i < len(lista_tytulow) + 1:
-        url = 'https://strefadb.pl' + lista_linkow[i - 1] + '?typ=napisy'
-        addon.addDir(str(i) + ' ' + str(lista_tytulow[i - 1]).replace('(', '| ocena odcinka: ('), url,
-                     mode='ListowanieLinkow', fanart=_resourcesPath + "kino_fanart.jpg")
-        i += 1
+###############################################
 
 if mode == None or url == None or len(url) < 1:
     if xbmcplugin.getSetting(int(sys.argv[1]), 'user') == '':
@@ -244,14 +181,11 @@ if mode == None or url == None or len(url) < 1:
 
         cookie_string = "; ".join([str(x) + "=" + str(y) for x, y in cookie.items()])
         cache.cache_insert('strefadb_cookie', str(cookie_string))
-    CATEGORIES()
+    SUBCATEGORIES('Lektor')
 
 elif mode == 'Lektor':
     log('Mode Lektor')
     SUBCATEGORIES('Lektor')
-
-elif mode == 'Napisy':
-    SUBCATEGORIES('Napisy')
 
 elif mode == 'ListowanieLinkow':
     from urlparse import urlparse
@@ -263,20 +197,39 @@ elif mode == 'ListowanieLinkow':
 
     link = params['url']
     result = s.get(link, headers=HEADERS).content
-    result = client.parseDOM(result, 'iframe', ret='src')
-    url = result[0]
-    o = urlparse(url)
-    addon.addLink(str(o.netloc), url, mode='OdpalanieLinku')
-    try:
-        link = link + "&mirror=2"
-        result = s.get(link, headers=HEADERS).content
-        result = client.parseDOM(result, 'iframe', ret='src')
-        url = result[0]
-        o = urlparse(url)
-        addon.addLink(str(o.netloc), url, mode='OdpalanieLinku')
-    except:
-        log_exception()
-        pass
+    result = client.parseDOM(result, 'div', attrs={'class': 'video-holder'})
+    result = client.parseDOM(result, 'tr')
+    for item in result:
+        try:
+            link = client.parseDOM(item, 'a', ret='href')[0]
+        except:
+            continue
+        content = client.parseDOM(item, 'td')
+        napisy = ''
+        if 'brak' in str(content[2]).lower(): napisy = '[COLOR=red]Brak[/COLOR]'
+        else: napisy = '[COLOR=green]' + str(content[2]) + '[/COLOR]'
+        lektor = ''
+        if 'tak' in str(content[3]).lower(): lektor = '[COLOR=green]Tak[/COLOR]'
+        else: lektor = '[COLOR=red]Nie[/COLOR]'
+        quality = '[COLOR=blue]' + str(content[4]) + '[/COLOR]'
+        request = urllib2.Request("https://strefadb.pl" + link, headers=HEADERS)
+        try:
+            response = urllib2.urlopen(request, timeout=int(5))
+            if request.redirect_dict > 0:
+                keys = request.redirect_dict.keys()
+        except urllib2.HTTPError as response:
+            if request.redirect_dict > 0:
+                keys = request.redirect_dict.keys()
+                pass
+        reallink = ''
+        if type(keys) == list:
+            for key in keys:
+                if not 'strefadb' in key:
+                    reallink = key
+        else: reallink = keys
+        o = urlparse(reallink)
+        provider = str(o.netloc)
+        addon.addLink(provider + " Lektor:" + lektor + " Napisy:" + napisy + " Jakość:" + quality, reallink, mode='OdpalanieLinku')
 
 elif mode == 'OdpalanieLinku':
     OdpalanieLinku()
