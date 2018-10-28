@@ -247,7 +247,7 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.strefadb"
-version="2018.09.01.0"
+version="2018.10.21.0"
 name="StrefaDB"
 provider-name="-">
 <requires>
@@ -356,7 +356,7 @@ provider-name="-">
 	</extension>
 </addon>
 
-<addon id="script.module.resolveurl" name="ResolveURL" version="6.1.5" provider-name="jsergio">
+<addon id="script.module.resolveurl" name="ResolveURL" version="6.3.5" provider-name="jsergio">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="plugin.video.youtube" />
