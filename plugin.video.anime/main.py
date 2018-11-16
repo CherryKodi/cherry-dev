@@ -327,10 +327,10 @@ elif mode == 21:
     Gatunki('http://www.animezone.pl/gatunki?type=', 0)
 
 elif mode == 22:
-    Gatunki('http://www.animezone.pl/gatunki?species=', 1)
+    Gatunki('http://www.animezone.pl/gatunki?species[]=', 1)
 
 elif mode == 23:
-    Gatunki('http://www.animezone.pl/gatunki?topic=', 2)
+    Gatunki('http://www.animezone.pl/gatunki?topic[]=', 2)
 
 elif mode == 24:
     Gatunki('http://www.animezone.pl/gatunki?years=', 3)
