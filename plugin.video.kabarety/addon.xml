@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.kabarety"
+version="2018.07.26.0"
+name="Kabarety"
+provider-name="-">
+<requires>
+  <import addon="xbmc.python" version="2.25.0"/>
+  <import addon="script.module.ptw" />
+  <import addon="script.module.resolveurl" />
+  <import addon="script.module.requests"/>
+</requires>
+<extension point="xbmc.python.pluginsource" library="main.py">
+  <provides>video</provides>
+</extension>
+<extension point="xbmc.addon.metadata">
+  <summary lang="en">Kabarety Plugin Wideo</summary>
+  <description lang="en_GB">Plugin z kabaretami</description>
+  <disclaimer lang="en_GB">Wszelkie treści multimedialne są własnością tworzymyhistorie.pl. Wtyczka tworzona na potrzeby prywatne.</disclaimer>
+  <assets>
+    <icon>icon.png</icon>
+    <fanart>fanart.jpg</fanart>
+  </assets>
+  <news></news>
+</extension>
+</addon>

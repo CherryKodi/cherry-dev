@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="Ikony|fanarty|banery">
+        <setting id="tvdb"  type="bool" label="Ładuj fanarty" default="false" />
+    </category>
+</settings>

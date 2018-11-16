@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.wizjatv"
+version="2018.08.15.0"
+name="WizjaTV"
+provider-name="-">
+<requires>
+  <import addon="xbmc.python" version="2.25.0"/>
+  <import addon="script.module.requests"/>
+  <import addon="script.module.ptw"/>
+</requires>
+<extension point="xbmc.python.pluginsource" library="main.py">
+  <provides>video</provides>
+</extension>
+<extension point="xbmc.addon.metadata">
+  <summary lang="en">WizjaTV Plugin Wideo</summary>
+  <description lang="en_GB">Plugin z WizjaTV</description>
+  <disclaimer lang="en_GB">Wszelkie treści multimedialne są własnością WizjaTV. Wtyczka tworzona na potrzeby prywatne.</disclaimer>
+  <assets>
+    <icon>icon.jpg</icon>
+    <fanart>fanart.png</fanart>
+  </assets>
+  <news></news>
+</extension>
+</addon>
