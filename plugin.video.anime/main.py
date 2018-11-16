@@ -8,6 +8,9 @@ import requests
 import resolveurl
 import sys
 
+reload(sys)
+sys.setdefaultencoding('UTF8')
+
 from ptw.debug import log_exception
 from ptw.libraries import addon_utils as addon
 from ptw.libraries import source_utils, client
@@ -202,7 +205,6 @@ def work(zipped):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
         'Accept': '*/*',
         'Accept-Language': 'pl,en-US;q=0.7,en;q=0.3',
-        'Accept-Encoding': 'gzip, deflate, br',
         'Referer': str(url).replace("http://", "http://www."),
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'X-Requested-With': 'XMLHttpRequest',
@@ -210,22 +212,24 @@ def work(zipped):
         'Pragma': 'no-cache',
         'Cache-Control': 'no-cache',
     }
-
     data = {'data': r}
     response = s.post(str(url).replace("http://", "https://www."), headers=headers, data=data).content
-    link = client.parseDOM(response, 'a', ret='href')
+    try:
+        link = client.parseDOM(response, 'a', ret='href')[0]
+    except:
+        link = client.parseDOM(response, 'iframe', ret='src')[0]
 
     try:
         if link == '':
             return 0
-        if str(link[0]).startswith('//'):
-            link[0] = str(link[0]).replace("//", "http://")
-        valid, host = source_utils.is_host_valid(str(link[0]), hostDict)
+        if str(link).startswith('//'):
+            link = str(link).replace("//", "http://")
+        valid, host = source_utils.is_host_valid(str(link), hostDict)
         if valid == False:
             return 0
         else:
             nazwa2 = "[COLOR green]" + host + ": [/COLOR]" + nazwa
-            return ("[B]" + str(nazwa2) + "[/B]", str(link[0]))
+            return ("[B]" + str(nazwa2) + "[/B]", str(link))
     except:
         log_exception()
         return 0
@@ -327,10 +331,10 @@ elif mode == 21:
     Gatunki('http://www.animezone.pl/gatunki?type=', 0)
 
 elif mode == 22:
-    Gatunki('http://www.animezone.pl/gatunki?species[]=', 1)
+    Gatunki('http://www.animezone.pl/gatunki?species=', 1)
 
 elif mode == 23:
-    Gatunki('http://www.animezone.pl/gatunki?topic[]=', 2)
+    Gatunki('http://www.animezone.pl/gatunki?topic=', 2)
 
 elif mode == 24:
     Gatunki('http://www.animezone.pl/gatunki?years=', 3)

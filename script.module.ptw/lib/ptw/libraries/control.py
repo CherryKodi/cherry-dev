@@ -2,7 +2,7 @@
 
 """
     //Covenant Add-on//
-    Updated for Incursion Add-on
+    Updated for Exodus Redux Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -133,9 +133,9 @@ key = "RgUkXp2s5v8x/A?D(G+KbPeShVmYq3t6"
 
 iv = "p2s5v8y/B?E(H+Mb"
 
-#def autoTraktSubscription(tvshowtitle, year, imdb, tvdb):
-#    from . import libtools
-#    libtools.libtvshows().add(tvshowtitle, year, imdb, tvdb)
+def autoTraktSubscription(tvshowtitle, year, imdb, tvdb):
+    from . import libtools
+    libtools.libtvshows().add(tvshowtitle, year, imdb, tvdb)
 
 def addonIcon():
     theme = appearance() ; art = artPath()
@@ -226,11 +226,6 @@ def yesnoDialog(line1, line2, line3, heading=addonInfo('name'), nolabel='', yesl
 def selectDialog(list, heading=addonInfo('name')):
     return dialog.select(heading, list)
 
-
-def moderator():
-    netloc = [urlparse.urlparse(sys.argv[0]).netloc, '','plugin.video.metalliq', 'plugin.video.live.streamspro', 'plugin.video.phstreams', 'plugin.video.cpstreams', 'plugin.video.tinklepad', 'script.tvguide.fullscreen', 'script.tvguide.assassins']
-
-
 def metaFile():
     if condVisibility('System.HasAddon(script.fanfilm.metadata)'):
         return os.path.join(xbmcaddon.Addon('script.fanfilm.metadata').getAddonInfo('path'), 'resources', 'data', 'meta.db')
@@ -246,13 +241,10 @@ def apiLanguage(ret_name=None):
     name = None
     name = setting('api.language')
     if not name: name = 'AUTO'
-
+    
     if name[-1].isupper():
-        try:
-            name = xbmc.getLanguage(xbmc.ENGLISH_NAME).split(' ')[0]
-        except:
-            log_exception()
-            pass
+        try: name = xbmc.getLanguage(xbmc.ENGLISH_NAME).split(' ')[0]
+        except: pass
     try: name = langDict[name]
     except: name = 'en'
     lang = {'trakt': name} if name in trakt else {'trakt': 'en'}
@@ -269,11 +261,8 @@ def apiLanguage(ret_name=None):
 
 def version():
     num = ''
-    try:
-        version = addon('xbmc.addon').getAddonInfo('version')
-    except:
-        log_exception()
-        version = '999'
+    try: version = addon('xbmc.addon').getAddonInfo('version')
+    except: version = '999'
     for i in version:
         if i.isdigit(): num += i
         else: break
@@ -308,39 +297,28 @@ def openSettings(query=None, id=addonInfo('id')):
         execute('SetFocus(%i)' % (int(c) + 100))
         execute('SetFocus(%i)' % (int(f) + 200))
     except:
-        log_exception()
-
+        return
 
 def getCurrentViewId():
     win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
     return str(win.getFocusId())
 
-def log(msg, level=xbmc.LOGNOTICE):
-    #return
-    level = xbmc.LOGNOTICE
-    print('[FanFILM]: %s' % (msg))
-
-    try:
-        if isinstance(msg, unicode):
-            msg = msg.encode('utf-8')
-        xbmc.log('[FanFILM]: %s' % (msg), level)
-    except Exception as e:
-        log_exception()
-        try:
-            #xbmc.log('Logging Failure: %s' % (e), level)
-            a=1
-        except: pass  # just give up
-
 def refresh():
     return execute('Container.Refresh')
 
 def busy():
-    return execute('ActivateWindow(busydialog)')
+    Kodi = xbmc.getInfoLabel('System.BuildVersion')[:2]
+    if Kodi == '18':
+        execute('ActivateWindow(busydialognocancel') # Kodi 18
+    else:
+        execute('ActivateWindow(busydialog)') # Kodi 17
 
 def idle():
-    return execute('Dialog.Close(busydialog)')
-
+    Kodi = xbmc.getInfoLabel('System.BuildVersion')[:2]
+    if Kodi == '18':
+        execute('Dialog.Close(busydialognocancel)') # Kodi 18
+    else:
+        execute('Dialog.Close(busydialog)') # Kodi 17
 
 def queueItem():
     return execute('Action(Queue)')
-

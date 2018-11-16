@@ -146,8 +146,8 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
                     makeAuth = s.get(authUrl)
                     result = s.get(url).content
                     if output == 'cookie':
-                        kuki = s.cookies.get_dict()
-                        kuki = '; '.join(['%s=%s' % (i.name, i.value) for i in kuki])
+                        kuki = s.cookies.items()
+                        kuki = "; ".join([str(x) + "=" + str(y) for x, y in kuki])
                         return kuki
                     else:
                         return result

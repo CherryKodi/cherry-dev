@@ -27,6 +27,15 @@ def addDir(name, url, mode='', icon='', thumb='', fanart='', poster='', banner='
 def addLink(name, url, mode='', icon='', thumb='', fanart='', poster='', banner='', clearart='', clearlogo='', genre='', year='', rating='', dateadded='', plot='', isFolder=False, total=1):
     u=sys.argv[0]+'?url='+urllib.quote_plus(url)+'&mode='+str(mode)+'&name='+urllib.quote_plus(name)
     liz = xbmcgui.ListItem(name)
+    liz.setArt({
+            'thumb': thumb,
+            'icon': icon,
+            'fanart': fanart,
+            'poster': poster,
+            'banner': banner,
+            'clearart': clearart,
+            'clearlogo': clearlogo
+            })
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=isFolder, totalItems=total)
 
 def get_params():

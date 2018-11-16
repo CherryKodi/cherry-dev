@@ -31,10 +31,12 @@ INFO_URL = API_BASE_URL + '/streaming/info'
 GET_URL = API_BASE_URL + '/streaming/get?file={media_id}'
 FILE_URL = API_BASE_URL + '/file/info?file={media_id}'
 
+
 class OpenLoadResolver(ResolveUrl):
     name = "openload"
-    domains = ["openload.io", "openload.co", "oload.tv", "oload.stream", "oload.win", "oload.download", "oload.info"]
-    pattern = '(?://|\.)(o(?:pen)??load\.(?:io|co|tv|stream|win|download|info))/(?:embed|f)/([0-9a-zA-Z-_]+)'
+    domains = ["openload.io", "openload.co", "oload.tv", "oload.stream", "oload.win", "oload.download", "oload.info",
+               "oload.icu", "oload.fun"]
+    pattern = '(?://|\.)(o(?:pen)??load\.(?:io|co|tv|stream|win|download|info|icu|fun))/(?:embed|f)/([0-9a-zA-Z-_]+)'
 
     def __init__(self):
         self.net = common.Net()
@@ -85,7 +87,7 @@ class OpenLoadResolver(ResolveUrl):
                 return
             else:
                 raise ResolverError(msg)
-        
+
         return js_data.get('result', {}).get('url')
 
     def __get_json(self, url):
@@ -99,8 +101,12 @@ class OpenLoadResolver(ResolveUrl):
     @classmethod
     def get_settings_xml(cls):
         xml = super(cls, cls).get_settings_xml()
-        xml.append('<setting id="%s_auto_update" type="bool" label="%s" default="true"/>' % (cls.__name__, i18n('auto_update')))
-        xml.append('<setting id="%s_url" type="text" label="    %s" default="" visible="eq(-1,true)"/>' % (cls.__name__, i18n('update_url')))
-        xml.append('<setting id="%s_key" type="text" label="    %s" default="" option="hidden" visible="eq(-2,true)"/>' % (cls.__name__, i18n('decrypt_key')))
+        xml.append('<setting id="%s_auto_update" type="bool" label="%s" default="true"/>' % (
+        cls.__name__, i18n('auto_update')))
+        xml.append('<setting id="%s_url" type="text" label="    %s" default="" visible="eq(-1,true)"/>' % (
+        cls.__name__, i18n('update_url')))
+        xml.append(
+            '<setting id="%s_key" type="text" label="    %s" default="" option="hidden" visible="eq(-2,true)"/>' % (
+            cls.__name__, i18n('decrypt_key')))
         xml.append('<setting id="%s_etag" type="text" default="" visible="false"/>' % (cls.__name__))
         return xml

@@ -8,7 +8,7 @@ import urllib2
 
 from ptw.debug import log_exception, log
 from ptw.libraries import addon_utils as addon
-from ptw.libraries import client, cache
+from ptw.libraries import client, cache, control
 
 _pluginName = sys.argv[0].replace('plugin://', '')
 _basePath = "special://home/addons/" + _pluginName + "resources/media/"
@@ -35,6 +35,7 @@ HEADERS = {
 # =########################################################################################################=#
 #                                                   MENU                                                   #
 # =########################################################################################################=#
+
 
 
 def SUBCATEGORIES(mode = 'Lektor'):
@@ -93,6 +94,10 @@ def list_episodes(nazwaSerii, wersja, fanart):
         addon.addDir(str(i) + ' ' + str(lista_tytulow[i - 1]), url, mode='ListowanieLinkow', fanart=fanart,
                      rating=ocena[i - 1])
         i += 1
+
+    skin = control.skin
+    if 'titan' in skin:
+        control.execute('Container.SetViewMode(51)')
 
 
 def OdpalanieLinku():
@@ -194,7 +199,6 @@ elif mode == 'ListowanieLinkow':
     if type(cookie) is dict:
         cookie = cookie['value']
     HEADERS['Cookie'] = cookie
-
     link = params['url']
     result = s.get(link, headers=HEADERS).content
     result = client.parseDOM(result, 'div', attrs={'class': 'video-holder'})
@@ -221,6 +225,8 @@ elif mode == 'ListowanieLinkow':
             if request.redirect_dict > 0:
                 keys = request.redirect_dict.keys()
                 pass
+        except:
+            continue
         reallink = ''
         if type(keys) == list:
             for key in keys:
@@ -230,6 +236,10 @@ elif mode == 'ListowanieLinkow':
         o = urlparse(reallink)
         provider = str(o.netloc)
         addon.addLink(provider + " Lektor:" + lektor + " Napisy:" + napisy + " Jakość:" + quality, reallink, mode='OdpalanieLinku')
+
+    skin = control.skin
+    if 'titan' in skin:
+        control.execute('Container.SetViewMode(51)')
 
 elif mode == 'OdpalanieLinku':
     OdpalanieLinku()
