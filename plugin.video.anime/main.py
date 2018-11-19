@@ -31,6 +31,7 @@ s = requests.session()
 def CATEGORIES():
     addon.addDir("Szukaj anime", '', mode=1)
     addon.addDir("Alfabetycznie", '', mode=10)
+    addon.addDir("Alfabetyczniefilmy", '', mode=15)
     addon.addDir("Gatunki", '', mode=20)
     addon.addDir("Sezony", '', mode=30)
     addon.addDir("Rankingi", '', mode=40)
@@ -77,7 +78,7 @@ def Wyszukiwanie():
 def Alfabetycznie():
     url = 'http://animezone.pl'
 
-    r = client.request('http://animezone.pl/anime/lista')
+    r = client.request('https://www.animezone.pl/anime/lista')
 
     result = client.parseDOM(r, 'div', attrs={'class': 'btn-group btn-group-xs'})
     linki_litery = client.parseDOM(result, 'a', ret='href')
@@ -88,6 +89,19 @@ def Alfabetycznie():
         addon.addDir(str(litery[counter]), link, mode=3)
         counter += 1
 
+def Alfabetyczniefilmy():
+    url = 'http://animezone.pl'
+
+    r = client.request('https://www.animezone.pl/anime/filmy')
+
+    result = client.parseDOM(r, 'div', attrs={'class': 'btn-group btn-group-xs'})
+    linki_litery = client.parseDOM(result, 'a', ret='href')
+    litery = client.parseDOM(result, 'a')
+    counter = 0
+    for link in linki_litery:
+        link = url + link
+        addon.addDir(str(litery[counter]), link, mode=3)
+        counter += 1
 
 def ListowanieAnime():
     url = params['url']
@@ -321,6 +335,9 @@ elif mode == 6:
 elif mode == 10:
     Alfabetycznie()
 
+elif mode == 15:
+    Alfabetyczniefilmy()
+	
 elif mode == 20:
     addon.addDir("Typ widowni", '', mode=21)
     addon.addDir("Gatunek", '', mode=22)
@@ -331,17 +348,17 @@ elif mode == 21:
     Gatunki('http://www.animezone.pl/gatunki?type=', 0)
 
 elif mode == 22:
-    Gatunki('http://www.animezone.pl/gatunki?species=', 1)
+    Gatunki('http://www.animezone.pl/gatunki?species[]=', 1)
 
 elif mode == 23:
-    Gatunki('http://www.animezone.pl/gatunki?topic=', 2)
+    Gatunki('http://www.animezone.pl/gatunki?topic[]=', 2)
 
 elif mode == 24:
     Gatunki('http://www.animezone.pl/gatunki?years=', 3)
 
 elif mode == 30:
-    counter = 1982
-    while counter <= 2019:
+    counter = 2019
+    while counter > 1982:
         addon.addDir("Sezon Wiosna " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/wiosna',
                      mode=3)
         addon.addDir("Sezon Lato " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/lato',
@@ -350,7 +367,7 @@ elif mode == 30:
                      mode=3)
         addon.addDir("Sezon Zima " + str(counter), 'http://www.animezone.pl/anime/sezony/' + str(counter) + '/zima',
                      mode=3)
-        counter += 1
+        counter = counter - 1
 
 elif mode == 40:
     addon.addDir("Ranking ocen", 'http://www.animezone.pl/anime/ranking/ocen', mode=41)
