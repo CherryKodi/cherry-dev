@@ -78,7 +78,7 @@ def addLink(name, url, mode, iconimage, thumb, opis, gatunek, rating, isFolder=F
 
 def Alfabetycznie():
     url = 'http://www.kreskowkazone.pl/'
-    r = client.request('http://www.kreskowkazone.pl/lista_anime-0')
+    r = client.request('http://www.kreskowkazone.pl/lista_kreskowek-0')
     result = client.parseDOM(r, 'li', attrs={'class':'litery'})
     linki_litery = client.parseDOM(result, 'a', ret='href')
     litery = client.parseDOM(result, 'a')
