@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+	<category label="thetvdb">
+		<setting id="Username" enable="true" type="text" label="Username" default=""/>
+		<setting id="ApiKey" enable="true" type="text" label="ApiKey" default=""/>
+		<setting id="UserKey" enable="true" type="text" label="UserKey" default=""/>
+	</category>
+</settings>

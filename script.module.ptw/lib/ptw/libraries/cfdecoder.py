@@ -7,21 +7,12 @@ import re
 import time
 import urllib
 import urlparse
-import requests
 
-from decimal import Decimal
+from decimal import Decimal, ROUND_UP
 
 
 class Cloudflare:
-    def __init__(self, url, headers=None):
-        check = requests.get(url, headers=headers)
-        response = {}
-        response['code']= check.status_code
-        response['url'] = url
-        response['data'] = check.content
-        response['error'] = None
-        response['headers']= check.headers
-        response['succes'] = True
+    def __init__(self, response):
         self.timeout = 5
         self.domain = urlparse.urlparse(response["url"])[1]
         self.protocol = urlparse.urlparse(response["url"])[0]

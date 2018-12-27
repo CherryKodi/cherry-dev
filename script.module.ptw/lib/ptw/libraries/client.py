@@ -137,7 +137,7 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
             response = urllib2.urlopen(request, timeout=int(timeout))
         except urllib2.HTTPError as response:
 
-            if response.code == 503:
+            if response.code == 503 or ('shinden' in url and response.code == 403):
                 s = requests.Session()
 
                 cf = cloudflare.Cloudflare(url)
@@ -145,6 +145,8 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
                     authUrl = cf.get_url()
                     makeAuth = s.get(authUrl)
                     result = s.get(url).content
+                    if output == 'session':
+                        return s
                     if output == 'cookie':
                         kuki = s.cookies.items()
                         kuki = "; ".join([str(x) + "=" + str(y) for x, y in kuki])
@@ -153,8 +155,8 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
                         return result
                 else:
                     if output == 'cookie':
-                        kuki = s.cookies.get_dict()
-                        kuki = '; '.join(['%s=%s' % (i.name, i.value) for i in kuki])
+                        kuki = s.cookies.items()
+                        kuki = "; ".join([str(x) + "=" + str(y) for x, y in kuki])
                         return kuki
                     result = s.get(url).content
                     return result

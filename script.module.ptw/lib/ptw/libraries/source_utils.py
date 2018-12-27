@@ -22,8 +22,13 @@ import urlparse
 import urllib
 import hashlib
 import re
+import requests
+import json
+import xbmcaddon
+import sys
 
 from ptw.libraries import client
+from ptw.libraries import control
 from ptw.libraries import directstream
 from ptw.libraries import trakt
 from ptw.libraries import pyaes
@@ -36,6 +41,27 @@ def is_anime(content, type, type_id):
     except:
         log_exception()
         return False
+
+def absoluteNumber(tvdb, episode, season):
+    headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+    }
+    ADDON = xbmcaddon.Addon('script.module.ptw')
+    apikey = str(ADDON.getSetting('ApiKey'))
+    userkey = str(ADDON.getSetting('UserKey'))
+    username = str(ADDON.getSetting('Username'))
+    data = '{\n  "apikey": "%s",\n  "userkey": "%s",\n  "username": "%s"\n}' % (apikey, userkey, username)
+    tvdbapi = json.loads(requests.post('https://api.thetvdb.com/login', headers=headers, data=data).content)['token']
+    headers = {
+        'Authorization': 'Bearer ' + tvdbapi,
+        'Accept': 'application/json'
+    }
+    test2 = json.loads(requests.get(
+        "https://api.thetvdb.com/series/%s/episodes/query?airedSeason=%s&airedEpisode=%s" % (
+            tvdb, season, episode), headers=headers).content)
+    odcinek = str(test2[u'data'][0][u'absoluteNumber'])
+    return odcinek
 
 def get_release_quality(release_name, release_link=None):
 
