@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 import re, math, time
 from random import *
-from lib import helpers, aa_decoder
+from lib import helpers, aadecode
 from resolveurl import common
 from resolveurl.resolver import ResolverError
 
@@ -26,6 +26,7 @@ logger = common.log_utils.Logger.get_logger(__name__)
 logger.disable()
 
 net = common.Net()
+
 
 def get_media_url(url, media_id):
     headers = {'User-Agent': common.RAND_UA}
@@ -38,22 +39,18 @@ def get_media_url(url, media_id):
             try:
                 aa_decoded = ''
                 for i in aa_text:
-                    try: aa_decoded += str(aa_decoder.AADecoder(re.sub('\(+ﾟДﾟ\)+\s*\[ﾟoﾟ\]\)*\s*\+(.+?)\(+ﾟДﾟ\s*\)+\[ﾟoﾟ\]\)+', r'(ﾟДﾟ)[ﾟoﾟ]+\1(ﾟДﾟ)[ﾟoﾟ])', i)).decode())
+                    try: aa_decoded += str(aadecode.decode(re.sub('\(+ﾟДﾟ\)+\s*\[ﾟoﾟ\]\)*\s*\+(.+?)\(+ﾟДﾟ\s*\)+\[ﾟoﾟ\]\)+', r'(ﾟДﾟ)[ﾟoﾟ]+\1(ﾟДﾟ)[ﾟoﾟ])', i)))
                     except: pass
-                href = re.search('''location.*?\"(.*)\"''', aa_decoded)
+                href = re.search("""location\.href=.*/(.*?html)""", aa_decoded)
                 if href:
                     href = href.group(1)
                     if href.startswith("http"): location = href
                     elif href.startswith("//"): location = "http:%s" % href
-                    else: location = "http://www.speedvid.net%s" % href
+                    else: location = "http://www.speedvid.net/%s" % href
                     headers.update({'Referer': url, 'Cookie': str((int(math.floor((900-100)*random())+100))*(int(time.time()))*(128/8))})
                     _html = net.http_GET(location, headers=headers).content
-                    sources = re.search("""file : '(.*)'""",_html)
-                    sources = sources.group(1)
-                    if sources:
-                        del headers['Cookie']
-                        headers.update({'Referer': location})
-                        return str(sources) + "|User-Agent=Mozilla/5.0"
+                    output = re.findall("""file :.*'(.*?)'""", str(_html))[0]
+                    return output
             except Exception as e:
                 raise ResolverError(e)
         
