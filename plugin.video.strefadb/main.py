@@ -136,13 +136,13 @@ if name == 'Dragon Ball Kai' and mode == 'ListowanieLektor':
     list_episodes('dragon-ball-kai', 'lektor', _resourcesPath + "dbkai_art.jpeg")
 
 if name == 'Dragon Ball GT' and mode == 'ListowanieLektor':
-    list_episodes('dragon-ball-gt', 'lektor', _resourcesPath + "dbgt_art.png")
+    list_episodes('db_gt', 'lektor', _resourcesPath + "dbgt_art.png")
 
 if name == 'Dragon Ball Super' and mode == 'ListowanieLektor':
-    list_episodes('dragonball-super', 'lektor', _resourcesPath + "dbs_art.jpg")
+    list_episodes('db_super', 'lektor', _resourcesPath + "dbs_art.jpg")
 
 if name == 'Dragon Ball Heroes' and mode == 'ListowanieLektor':
-    list_episodes('dragon-ball-heroes', 'lektor', _resourcesPath + "dbh_art.jpg")
+    list_episodes('dbs-heroes', 'lektor', _resourcesPath + "dbh_art.jpg")
 
 if name == 'Kinowki' and mode == 'ListowanieLektor':
     lista = []
