@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="plugin.video.kreskowki"
-version="2018.07.17.0"
-name="Kreskowki"
-provider-name="-">
-<requires>
-  <import addon="xbmc.python" version="2.25.0"/>
-  <import addon="script.module.ptw" />
-  <import addon="script.module.resolveurl" />
-  <import addon="script.module.requests"/>
-</requires>
-<extension point="xbmc.python.pluginsource" library="main.py">
-  <provides>video</provides>
-</extension>
-<extension point="xbmc.addon.metadata">
-  <summary lang="en">Kreskowki Plugin Wideo</summary>
-  <description lang="en_GB">Plugin z kreskówkami</description>
-  <disclaimer lang="en_GB">Wszelkie treści multimedialne są własnością KreskowkaZone. Wtyczka tworzona na potrzeby prywatne.</disclaimer>
-  <assets>
-    <icon>icon.jpg</icon>
-    <fanart>fanart.jpg</fanart>
-  </assets>
-  <news>Sortowanie odcinków</news>
-</extension>
+       version="2019.01.02.0"
+       name="Kreskowki"
+       provider-name="-">
+    <requires>
+        <import addon="xbmc.python" version="2.25.0"/>
+        <import addon="script.module.ptw" />
+        <import addon="script.module.resolveurl" />
+        <import addon="script.module.requests"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="main.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">Kreskowki Plugin Wideo</summary>
+        <description lang="en_GB">Plugin z kreskówkami</description>
+        <disclaimer lang="en_GB">Wszelkie treści multimedialne są własnością KreskowkaZone. Wtyczka tworzona na potrzeby prywatne.</disclaimer>
+        <assets>
+            <icon>icon.jpg</icon>
+            <fanart>fanart.jpg</fanart>
+        </assets>
+        <news>Sortowanie odcinków</news>
+    </extension>
 </addon>
