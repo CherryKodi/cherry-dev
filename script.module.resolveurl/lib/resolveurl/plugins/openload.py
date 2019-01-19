@@ -16,12 +16,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-import os
 import json
-from lib import helpers
+
 from resolveurl import common
 from resolveurl.common import i18n
 from resolveurl.resolver import ResolveUrl, ResolverError
+
+from lib import helpers
 
 logger = common.log_utils.Logger.get_logger(__name__)
 logger.disable()
@@ -30,7 +31,6 @@ API_BASE_URL = 'https://api.openload.co/1'
 INFO_URL = API_BASE_URL + '/streaming/info'
 GET_URL = API_BASE_URL + '/streaming/get?file={media_id}'
 FILE_URL = API_BASE_URL + '/file/info?file={media_id}'
-
 
 class OpenLoadResolver(ResolveUrl):
     name = "openload"
@@ -110,3 +110,7 @@ class OpenLoadResolver(ResolveUrl):
             cls.__name__, i18n('decrypt_key')))
         xml.append('<setting id="%s_etag" type="text" default="" visible="false"/>' % (cls.__name__))
         return xml
+
+    @classmethod
+    def isPopup(self):
+        return True
