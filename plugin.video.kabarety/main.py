@@ -3,9 +3,9 @@ import sys
 
 import requests
 import xbmcplugin
+from ptw.debug import log
 from ptw.libraries import addon_utils as addon
 from ptw.libraries import client
-from ptw.debug import log_exception, log
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -218,7 +218,12 @@ elif mode == 3:
 elif mode == 4:
     Listowanie_Odcinkow()
 elif mode == 5:
+    import re
     url = WyciaganieLinku()
+    if 'facebook' in url:
+        content = requests.get(url).content
+        id = re.findall("""video_id\":\"(.*?)\"""", content)[0]
+        url = "https://www.facebook.com/video/embed?video_id=%s" % id
     addon.PlayMedia(url)
 
 ###################################################################################

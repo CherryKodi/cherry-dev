@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="plugin.video.kabarety"
-version="2018.07.26.0"
-name="Kabarety"
-provider-name="-">
+       version="2019.01.15.0"
+       name="Kabarety"
+       provider-name="-">
 <requires>
   <import addon="xbmc.python" version="2.25.0"/>
   <import addon="script.module.ptw" />
