@@ -99,30 +99,6 @@ provider-name="-">
         </extension>
 </addon>
 
-<addon id="plugin.video.filmydokumentalne.eu"
-version="2018.07.26.0"
-name="Filmydokumentalne.eu"
-provider-name="-">
-<requires>
-  <import addon="xbmc.python" version="2.25.0"/>
-  <import addon="script.module.ptw" />
-  <import addon="script.module.resolveurl" />
-  <import addon="script.module.requests"/>
-</requires>
-<extension point="xbmc.python.pluginsource" library="main.py">
-  <provides>video</provides>
-</extension>
-<extension point="xbmc.addon.metadata">
-  <summary lang="en">filmydokumentalne.eu Plugin Wideo</summary>
-  <description lang="en_GB">Plugin z filmydokumentalne.eu</description>
-  <assets>
-    <icon>icon.png</icon>
-    <fanart>fanart.jpg</fanart>
-  </assets>
-  <news></news>
-</extension>
-</addon>
-
 <addon id="plugin.video.FootballPowtorki"
 version="2018.07.26.0"
 name="Powtórki i skróty meczów"
@@ -148,9 +124,9 @@ provider-name="-">
 </addon>
 
 <addon id="plugin.video.kabarety"
-version="2018.07.26.0"
-name="Kabarety"
-provider-name="-">
+       version="2019.01.15.0"
+       name="Kabarety"
+       provider-name="-">
 <requires>
   <import addon="xbmc.python" version="2.25.0"/>
   <import addon="script.module.ptw" />
@@ -245,6 +221,33 @@ provider-name="-">
   <news>resolveurl</news>
 </extension>
 </addon>
+
+    <addon id="plugin.video.shinden"
+           version="2019.01.17.0"
+           name="Shinden"
+           provider-name="-">
+        <requires>
+            <import addon="xbmc.python" version="2.25.0"/>
+            <import addon="script.module.ptw"/>
+            <import addon="script.module.resolveurl"/>
+            <import addon="script.module.requests"/>
+            <import addon="script.module.pyxbmct"/>
+        </requires>
+        <extension point="xbmc.python.pluginsource" library="main.py">
+            <provides>video</provides>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <summary lang="en">Shinden Plugin Wideo</summary>
+            <description lang="en_GB">Plugin z Shinden</description>
+            <disclaimer lang="en_GB">Wszelkie treści multimedialne są własnością Shinden. Wtyczka tworzona na potrzeby
+                prywatne.
+            </disclaimer>
+            <assets>
+                <icon>icon.png</icon>
+                <fanart>fanart.png</fanart>
+            </assets>
+        </extension>
+    </addon>
 
 <addon id="plugin.video.strefadb"
 version="2018.12.27.0"
@@ -343,7 +346,7 @@ provider-name="-">
 	</extension>
 </addon>
 
-<addon id="script.module.ptw" name="PTW Module" version="2018.12.27.0" provider-name="PTW">
+    <addon id="script.module.ptw" name="PTW Module" version="2019.01.13.1" provider-name="PTW">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="script.module.beautifulsoup4"/>
@@ -356,7 +359,7 @@ provider-name="-">
 	</extension>
 </addon>
 
-<addon id="script.module.resolveurl" name="ResolveURL" version="6.3.7" provider-name="jsergio">
+    <addon id="script.module.resolveurl" name="ResolveURL" version="6.3.8" provider-name="jsergio">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="plugin.video.youtube" optional="true" />
