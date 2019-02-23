@@ -220,7 +220,7 @@ def Wyciaganie_Linkow():
             'Accept': 'text/html, */*; q=0.01',
             'Accept-Language': 'pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7',
             'Referer': url,
-            'Origin': 'http://www.kreskowkazone.pl',
+            'Origin': 'https://www.kreskowkazone.pl',
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest',
             'Connection': 'keep-alive'
@@ -229,7 +229,7 @@ def Wyciaganie_Linkow():
         hostDict = [i.domains for i in hostDict if not '*' in i.domains]
         hostDict = [i.lower() for i in reduce(lambda x, y: x + y, hostDict)]
         hostDict = [x for y, x in enumerate(hostDict) if x not in hostDict[:y]]
-        response = s.post("http://www.kreskowkazone.pl/odcinki_ajax", data=data, headers=headers, cookies=s.cookies)
+        response = s.post("https://www.kreskowkazone.pl/odcinki_ajax", data=data, headers=headers, cookies=s.cookies)
         link = client.parseDOM(response.text, 'a', ret='href')
         try:
             if link == '':
