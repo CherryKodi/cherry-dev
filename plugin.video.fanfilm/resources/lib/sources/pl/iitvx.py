@@ -29,8 +29,8 @@ class source:
         self.language = ['pl']
         self.domains = ['iitvx.pl']
         
-        self.base_link = 'http://iitvx.pl/'
-        self.search_link = 'http://iitvx.pl/szukaj'
+        self.base_link = 'https://iitvx.pl/'
+        self.search_link = 'https://iitvx.pl/szukaj'
 
     def search(self, titles,season,episode):
         try:
@@ -38,7 +38,7 @@ class source:
                 log("FanFilm.IITVX Wyszukiwanie serialu po tytule: %s" % title)
                 headers = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0',
-                    'Referer': 'http://iitvx.pl/'
+                    'Referer': 'https://iitvx.pl/'
                 }
                 data = {'text': title}
                 result = client.request(self.search_link, post=data, headers=headers)
