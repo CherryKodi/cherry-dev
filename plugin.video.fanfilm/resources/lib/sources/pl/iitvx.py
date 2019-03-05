@@ -72,12 +72,6 @@ class source:
             valid, host = source_utils.is_host_valid(link, testDict)
             if not valid: return 0
             return host, q, link
-
-        if str(link).startswith("https"):
-            q = source_utils.check_sd_url(link)
-            valid, host = source_utils.is_host_valid(link, testDict)
-            if not valid: return 0
-            return host, q, link
             
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         return {tvshowtitle,localtvshowtitle}
