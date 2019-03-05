@@ -181,7 +181,7 @@ class source:
 
     def resolve(self, url):
         try:
-            url_to_exec = urlparse.urljoin(self.base_link, self.url_transl) % (url[0],url[1],url[2],url[3],url[4],url[5])
+            url_to_exec = urlparse.urljoin(self.base_link, self.url_transl) % url
             result = client.request(url_to_exec)
 
             search_string = "var url = '";
