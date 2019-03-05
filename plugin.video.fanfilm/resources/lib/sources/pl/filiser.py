@@ -30,7 +30,7 @@ class source:
         self.domains = ['fili.cc']
 
         self.base_link = 'https://fili.cc'
-        self.url_transl = 'embed?type=%s&code=%s&code2=%s&salt=%s'
+        self.url_transl = 'embed?type=%s&code=%s&code2=%s&salt=%s&title=%s&title2=%s'
         self.search_link = 'szukaj?q=%s'
         self.episode_link = '-Season-%01d-Episode-%01d'
 
@@ -138,14 +138,27 @@ class source:
 
     def extract_sources(self, transl_type, links, typ, html):
         sources = []
+        t1 = re.search("""title\" title=\"(.*)\".*</h2><h3 class=\"title_org\" title=\"(.*)\">.*</h3><div class=\"clear\">""",html)
+        tit = t1.group(1)
+        tit = tit.replace(" ", "%20")
+        tit2 = t1.group(2)
+        tit2 = tit2.replace(" ", "%20")
         if typ == "episode":
             test = re.search("""data-code="(.*)" data-code2="(.*)"><div class="container"><section""",html)
             code = test.group(1)
             code2 = test.group(2)
+            title = tit + "|" + tit2
+            t3 = re.search("""</h3><div class=\"clear\"></div><h4 class=\"episode_title\">(.*)</h4><div""",html)
+            tit3 = t3.group(1)
+            tit3 = tit3.replace(" ", "%20")
+            title2 = tit3
         if typ == "movie":
             test = re.search("""data-code="(.*)"><div class="container"><section""",html)
             code = test.group(1)
             code2 = "undefinded"
+            title = tit
+            title2 = tit2
+			
         data_refs = client.parseDOM(links, 'li', ret='data-ref')
         result = client.parseDOM(links, 'li')
 
@@ -162,13 +175,13 @@ class source:
             elif quality.endswith('1080p'):
                 q = '1080p'
 
-            sources.append({'source': host, 'quality': q, 'language': lang, 'url': (typ,code,code2,data_refs[i]), 'info': info, 'direct': False, 'debridonly': False})
+            sources.append({'source': host, 'quality': q, 'language': lang, 'url': (typ,code,code2,data_refs[i],title,title2), 'info': info, 'direct': False, 'debridonly': False})
 
         return sources
 
     def resolve(self, url):
         try:
-            url_to_exec = urlparse.urljoin(self.base_link, self.url_transl) % (url[0],url[1],url[2],url[3])
+            url_to_exec = urlparse.urljoin(self.base_link, self.url_transl) % url
             result = client.request(url_to_exec)
 
             search_string = "var url = '";
@@ -180,7 +193,7 @@ class source:
             result_url = result_url.replace('#HEIGHT', '100')
             if 'streamango' in result_url:
                 result_url = urlparse.urljoin(result_url,'?db=1&fbid=acllnmfkekmlodko')
-                result_url = result_url.replace('https','http')
+                #result_url = result_url.replace('https','http')
             return result_url
         except:
             return
