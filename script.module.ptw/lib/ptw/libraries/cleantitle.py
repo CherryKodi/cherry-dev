@@ -73,14 +73,17 @@ def query(title):
 
 
 maketrans = lambda s1, s2: dict(zip(map(ord, s1), map(ord, s2)))
-unicode_translate_table = maketrans(u'łŁ–—\u2044•„”«»', u'lL--/.""<>')
+unicode_translate_table = maketrans(u'ąćęłńóśźżĄĆĘŁŃÓŚŹŻ–—\u2044•„”«»', u'acelnoszzACELNOSZZ--/.""<>')
 
 def normalize(title):
     """Convert UTF-8 title to ASCII as well as we can."""
     if not isinstance(title, type(u'')):
         title = title.decode('utf-8')
-    title = u''.join(c for c in unicodedata.normalize('NFKD', title)
-                     if unicodedata.category(c) != 'Mn')
+    try:
+        title = u''.join(c for c in unicodedata.normalize('NFKD', title)
+                         if unicodedata.category(c) != 'Mn')
+    except:
+        pass
     return title.translate(unicode_translate_table).encode('ascii', 'replace')
 
 
