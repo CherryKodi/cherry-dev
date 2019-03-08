@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
-
-
 import urllib, urlparse, re
 
 from ptw.libraries import cleantitle
@@ -30,14 +28,22 @@ class source:
         self.language = ['pl']
         self.domains = ['cda-hd.co']
 
-        self.base_link = 'http://cda-hd.co/'
+        self.base_link = 'https://cda-hd.co/'
         self.search_link = '/?s=%s'
 
     def do_search(self, title, local_title, year, video_type):
         try:
+            cookie = ''
+            cookie = client.request(self.base_link, output='cookie', error=True)
+
             url = urlparse.urljoin(self.base_link, self.search_link)
             url = url % urllib.quote_plus(cleantitle.query(title))
-            result = client.request(url)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3435.0 Safari/537.36',
+				'Referer': 'https://cda-hd.co/'
+                }
+            result = client.request(url, headers=headers, cookie=cookie, redirect=False)
+            cookie = ''
             result = client.parseDOM(result, 'div', attrs={'class': 'item'})
             for row in result:
                 row_type = client.parseDOM(row, 'div', attrs={'class': 'typepost'})[0]
@@ -134,7 +140,6 @@ class source:
                 host = url.split("//")[-1].split("/")[0]
                 result_sources.append({'source': host, 'quality': q, 'language': lang, 'url': url, 'info': info, 'direct': False, 'debridonly': False})
             
-        
         return result_sources
     
     def url_not_on_list(self, url, sources):
@@ -170,5 +175,3 @@ class source:
         
     def resolve(self, url):
         return url
-
-
