@@ -31,7 +31,7 @@ class source:
         self.language = ['pl']
         self.domains = ['ekinomaniak.tv']
 
-        self.base_link = 'http://ekinomaniak.tv'
+        self.base_link = 'https://ekinomaniak.tv'
         self.search_link = '/search_movies'
 
     def search(self, localtitle, year, search_type):
