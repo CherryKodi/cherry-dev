@@ -29,7 +29,7 @@ class source:
         self.language = ['pl']
         self.domains = ['boxfilm.pl']
         
-        self.base_link = 'http://www.boxfilm.pl'
+        self.base_link = 'https://www.boxfilm.pl'
         self.search_link = '/szukaj'
         
     def movie(self, imdb, title, localtitle, aliases, year):
