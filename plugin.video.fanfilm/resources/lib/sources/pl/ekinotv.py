@@ -28,8 +28,8 @@ class source:
         self.language = ['pl']
         self.domains = ['ekino-tv.pl']
 
-        self.base_link = 'http://ekino-tv.pl'
-        self.search_link = '/s/search?q='
+        self.base_link = 'https://ekino-tv.pl'
+        self.search_link = '/se/search?q='
         self.resolve_link = '/watch/f/%s/%s'
 
     def search(self, title, localtitle, year, search_type):
@@ -44,7 +44,11 @@ class source:
     def do_search(self, search_string, title, localtitle , year, search_type):
 
         url = urlparse.urljoin(self.base_link, self.search_link)
-        r = client.request("http://ekino-tv.pl/s/search?q=%s" % str.lower(search_string + " HD").replace(" ", "+"))
+        headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3435.0 Safari/537.36',
+				'Host': 'ekino-tv.pl'
+                }
+        r = client.request("https://ekino-tv.pl/se/search?q=%s" % str.lower(search_string).replace(" ", "+"), headers=headers)
         r = client.parseDOM(r, 'div', attrs={'class': 'movies-list-item'})
         r = [x.encode('utf-8') for x in r]
         local_simple = cleantitle.get(localtitle)
@@ -155,7 +159,7 @@ class source:
                     if not 'watch' in link:
                         log("FanFilm.Ekino-TV VideoLink: " + link)
                         return link
-                    result = client.request(link)
+                    result = client.request(self.base_link + link)
                     video_link = client.parseDOM(result, 'iframe ', ret='src')[0]
                     log("FanFilm.Ekino-TV VideoLink: " + video_link)
                     return video_link
