@@ -39,12 +39,12 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['pl']
-        self.domains = ['alltube.tv']
+        self.domains = ['alltube.pl']
         
-        self.base_link = 'http://alltube.tv'
+        self.base_link = 'http://alltube.pl'
         self.search_link = '/szukaj'
         self.moviesearch_link = '/index.php?url=search/autocomplete/&phrase=%s'
-        self.tvsearch_cache = 'http://alltube.tv/seriale-online/'
+        self.tvsearch_cache = 'http://alltube.pl/seriale-online/'
         self.episode_link = '-Season-%01d-Episode-%01d'
 
     def get_rows(self, r, search_type):
@@ -76,9 +76,14 @@ class source:
             titles= []
             titles.append(cleantitle.normalize(cleantitle.getsearch(title)))
             titles.append(cleantitle.normalize(cleantitle.getsearch(localtitle)))
-            
+			
             for title in titles:
-                r = client.request(urlparse.urljoin(self.base_link, self.search_link), post={'search': cleantitle.query(title)})
+                headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3435.0 Safari/537.36',
+				'Origin': 'http://alltube.pl',
+				'Referer': 'http://alltube.pl/szukaj'
+                }
+                r = client.request(urlparse.urljoin(self.base_link, self.search_link), post={'search': cleantitle.query(title)}, headers=headers)
                 r = self.get_rows(r, search_type)
                 
                 for row in r:
@@ -150,8 +155,10 @@ class source:
 
             url = urlparse.urljoin(self.base_link, url)
             headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3435.0 Safari/537.36'
-                }
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3435.0 Safari/537.36',
+				'Origin': 'http://alltube.pl',
+				'Referer': 'http://alltube.pl/szukaj'
+            }
             result = requests.get(url, headers = headers).content
 
             links = client.parseDOM(result, 'tr')
@@ -164,7 +171,6 @@ class source:
                     url1 = '%s?%s' % (url, i[0])
                     url1 = url1.encode('utf-8')
                     language, info = self.get_language_by_type(i[2]);
-                    
                     sources.append({'source': i[1].encode('utf-8'), 'quality': 'SD', 'language': language, 'url': url1, 'info': info, 'direct': False, 'debridonly': False})
                 except:
                     pass
