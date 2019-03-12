@@ -180,7 +180,7 @@ msgstr "IMDb"
 #: 
 msgctxt "#32035"
 msgid "Featured"
-msgstr "Wyróżnione"
+msgstr "Proponowane"
 
 #: 
 msgctxt "#32036"

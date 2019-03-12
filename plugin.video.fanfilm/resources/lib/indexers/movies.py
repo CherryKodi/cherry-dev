@@ -65,8 +65,7 @@ class movies:
         self.personlist_link = 'http://www.imdb.com/search/name?count=100&gender=male,female'
         self.person_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&production_status=released&role=%s&sort=year,desc&count=40&start=1'
         self.keyword_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie,documentary&num_votes=100,&release_date=,date[0]&keywords=%s&sort=moviemeter,asc&count=40&start=1'
-        self.oscars_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&production_status=released&groups=oscar_best_picture_winners&sort=year,desc&count=40&start=1'
-        self.theaters_link = 'http://www.imdb.com/search/title?title_type=feature&num_votes=1000,&release_date=date[365],date[0]&sort=release_date_us,desc&count=40&start=1'
+        self.theaters_link = 'http://www.imdb.com/search/title?title_type=feature&num_votes=1000,&release_date=date[120],date[0]&sort=moviemeter,asc&count=40&start=1'
         self.year_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&num_votes=100,&production_status=released&year=%s,%s&sort=moviemeter,asc&count=40&start=1'
 
         if self.hidecinema == 'true':
@@ -96,10 +95,29 @@ class movies:
         self.traktfeatured_link = 'http://api.trakt.tv/recommendations/movies?limit=40'
         self.trakthistory_link = 'http://api.trakt.tv/users/me/history/movies?limit=40&page=1'
         self.imdblists_link = 'http://www.imdb.com/user/ur%s/lists?tab=all&sort=mdfd&order=desc&filter=titles' % self.imdb_user
-        self.imdblist_link = 'http://www.imdb.com/list/%s/?view=detail&sort=alpha,asc&title_type=movie,tvMovie&start=1'
-        self.imdblist2_link = 'http://www.imdb.com/list/%s/?view=detail&sort=date_added,desc&title_type=movie,tvMovie&start=1'
+        self.imdblist_link = 'http://www.imdb.com/list/%s/?view=detail&sort=alpha,asc&title_type=movie,short,tvMovie,tvSpecial,video&start=1'
+        self.imdblist2_link = 'http://www.imdb.com/list/%s/?view=detail&sort=date_added,desc&title_type=movie,short,tvMovie,tvSpecial,video&start=1'
         self.imdbwatchlist_link = 'http://www.imdb.com/user/ur%s/watchlist?sort=alpha,asc' % self.imdb_user
         self.imdbwatchlist2_link = 'http://www.imdb.com/user/ur%s/watchlist?sort=date_added,desc' % self.imdb_user
+        self.y50_link = 'https://www.imdb.com/search/title?title_type=feature&release_date=1950-01-01,1959-12-31&user_rating=5.0,10.0&count=40&start=1'
+        self.y60_link = 'https://www.imdb.com/search/title?title_type=feature&release_date=1960-01-01,1969-12-31&user_rating=5.0,10.0&count=40&start=1'
+        self.y70_link = 'https://www.imdb.com/search/title?title_type=feature&release_date=1970-01-01,1979-12-31&user_rating=5.0,10.0&count=40&start=1'
+        self.y80_link = 'https://www.imdb.com/search/title?title_type=feature&release_date=1980-01-01,1989-12-31&user_rating=5.0,10.0&count=40&start=1'
+        self.y90_link = 'https://www.imdb.com/search/title?title_type=feature&release_date=1990-01-01,1999-12-31&user_rating=5.0,10.0&count=40&start=1'
+        self.y2000_link = 'https://www.imdb.com/search/title?title_type=feature&release_date=2000-01-01,2009-12-31&user_rating=5.0,10.0&count=40&start=1'
+        self.y2010_link = 'https://www.imdb.com/search/title?title_type=feature&release_date=2010-01-01,2019-12-31&user_rating=5.0,10.0&count=40&start=1'
+        self.oscars_link = 'https://www.imdb.com/search/title?groups=oscar_winner&sort=year,desc&count=40&start=1'
+        self.oscarsnom_link = 'https://www.imdb.com/search/title?groups=oscar_nominee&sort=year,desc&count=40&start=1'
+        self.oscarsbestmovie_link = 'https://www.imdb.com/search/title?groups=best_picture_winner&sort=year,desc&count=40&start=1'
+        self.oscarsbestmovienom_link = 'https://www.imdb.com/search/title?groups=oscar_best_picture_nominees&sort=year,desc&count=40&start=1'
+        self.oscarsbestdir_link = 'https://www.imdb.com/search/title?groups=best_director_winner&sort=year,desc&count=40&start=1'
+        self.oscarsbestdirnom_link = 'https://www.imdb.com/search/title?groups=oscar_best_director_nominees&sort=year,desc&count=40&start=1'
+        self.razzie_link = 'https://www.imdb.com/search/title?groups=razzie_winner&sort=year,desc&count=40&start=1'
+        self.razzienom_link = 'https://www.imdb.com/search/title?groups=razzie_nominee&sort=year,desc&count=40&start=1'
+
+        
+
+
 
 
     def get(self, url, idx=True, create_directory=True):
@@ -335,8 +353,30 @@ class movies:
 
     def years(self):
         year = (self.datetime.strftime('%Y'))
-
         for i in range(int(year)-0, 1900, -1): self.list.append({'name': str(i), 'url': self.year_link % (str(i), str(i)), 'image': 'years.png', 'action': 'movies'})
+        self.addDirectory(self.list)
+        return self.list
+
+    def years_top(self):
+        self.list.append({'name': '[I]Lata 50[/I] - [B]1950 - 1959[/B]', 'url': 'y50', 'image': 'years.png', 'action': 'movies'})
+        self.list.append({'name': '[I]Lata 60[/I] - [B]1960 - 1969[/B]', 'url': 'y60', 'image': 'years.png', 'action': 'movies'})
+        self.list.append({'name': '[I]Lata 70[/I] - [B]1970 - 1979[/B]', 'url': 'y70', 'image': 'years.png', 'action': 'movies'})
+        self.list.append({'name': '[I]Lata 80[/I] - [B]1980 - 1989[/B]', 'url': 'y80', 'image': 'years.png', 'action': 'movies'})
+        self.list.append({'name': '[I]Lata 90[/I] - [B]1990 - 1999[/B]', 'url': 'y90', 'image': 'years.png', 'action': 'movies'})
+        self.list.append({'name': '[I]Lata 2000[/I] - [B]2000 - 2009[/B]', 'url': 'y2000', 'image':  'years.png', 'action': 'movies'})
+        self.list.append({'name': '[I]Lata 2010[/I] - [B]2010 - 2019[/B]', 'url': 'y2010', 'image':  'years.png', 'action': 'movies'})
+        self.addDirectory(self.list)
+        return self.list
+        
+    def awards(self):
+        self.list.append({'name': 'Oscary - najlepszy film', 'url': 'oscarsbestmovie', 'image': 'oscar-winners.png', 'action': 'movies'})
+        self.list.append({'name': 'Oscary - najlepszy film - nominowane', 'url': 'oscarsbestmovienom', 'image': 'oscar-winners.png', 'action': 'movies'})
+        self.list.append({'name': 'Oscary - najlepszy reżyser', 'url': 'oscarsbestdir', 'image': 'oscar-winners.png', 'action': 'movies'})
+        self.list.append({'name': 'Oscary - najlepszy reżyser - nominowane', 'url': 'oscarsbestdirnom', 'image':  'oscar-winners.png', 'action': 'movies'})
+        self.list.append({'name': 'Oscary - wszystkie kategorie', 'url': 'oscars', 'image': 'oscar-winners.png', 'action': 'movies'})
+        self.list.append({'name': 'Oscary - wszystkie kategorie - nominowane', 'url': 'oscarsnom', 'image': 'oscar-winners.png', 'action': 'movies'})
+        self.list.append({'name': 'Złote Maliny', 'url': 'razzie', 'image':  'razzie_winners.png', 'action': 'movies'})
+        self.list.append({'name': 'Złote Maliny - nominowane', 'url': 'razzienom', 'image':  'razzie_winners.png', 'action': 'movies'})
         self.addDirectory(self.list)
         return self.list
 
@@ -948,7 +988,9 @@ class movies:
 
 
                 cm = []
-
+                cm.append(('Znajdź podobne',
+                           'ActivateWindow(10025,%s?action=movies&url=https://api.trakt.tv/movies/%s/related,return)' % (
+                           sysaddon, imdb)))
                 cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
 
                 try:
