@@ -24,7 +24,8 @@ from ptw.libraries import control
 from ptw.libraries import trakt
 from ptw.libraries import cache
 
-sysaddon = sys.argv[0] ; syshandle = int(sys.argv[1]) ; control.moderator()
+sysaddon = sys.argv[0]
+syshandle = int(sys.argv[1])
 
 artPath = control.artPath() ; addonFanart = control.addonFanart()
 

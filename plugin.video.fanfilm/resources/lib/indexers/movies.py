@@ -37,8 +37,6 @@ params = dict(urlparse.parse_qsl(sys.argv[2].replace('?',''))) if len(sys.argv) 
 
 action = params.get('action')
 
-control.moderator()
-
 class movies:
     def __init__(self):
         self.list = []

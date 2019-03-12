@@ -115,11 +115,6 @@ def yesnoDialog(line1, line2, line3, heading=addonInfo('name'), nolabel='', yesl
 def selectDialog(list, heading=addonInfo('name')):
     return dialog.select(heading, list)
 
-
-def moderator():
-    netloc = [urlparse.urlparse(sys.argv[0]).netloc, '','plugin.video.metalliq', 'plugin.video.live.streamspro', 'plugin.video.phstreams', 'plugin.video.cpstreams', 'plugin.video.tinklepad', 'script.tvguide.fullscreen', 'script.tvguide.assassins']
-
-
 def metaFile():
     if condVisibility('System.HasAddon(script.fanfilm.metadata)'):
         return os.path.join(xbmcaddon.Addon('script.fanfilm.metadata').getAddonInfo('path'), 'resources', 'data', 'meta.db')
