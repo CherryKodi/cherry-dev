@@ -16,7 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
+import sys
 import base64
 import json
 import random
@@ -34,21 +34,21 @@ class trailer:
         self.key_link = '&key=%s' % base64.urlsafe_b64decode(self.key_link)
         self.search_link = 'https://www.googleapis.com/youtube/v3/search?part=id&type=video&maxResults=5&q=%s' + self.key_link
         self.youtube_watch = 'https://www.youtube.com/watch?v=%s'
-
-    def play(self, name, url=None, windowedtrailer=0):
+ 
+    def play(self, name='', url='', windowedtrailer=0):
         try:
             url = self.worker(name, url)
-            if not url: return
-
-            title = control.infoLabel('listitem.title')
-            if not title: title = control.infoLabel('listitem.label')
-            icon = control.infoLabel('listitem.icon')
-
-            item = control.item(path=url, iconImage=icon, thumbnailImage=icon)
-            try: item.setArt({'icon': icon})
-            except: pass
-            item.setInfo(type='Video', infoLabels={'title': title})
-            control.player.play(url, item, windowedtrailer)
+            if not url:return
+ 
+            title = control.infoLabel('ListItem.Title')
+            if not title: title = control.infoLabel('ListItem.Label')
+            icon = control.infoLabel('ListItem.Icon')
+ 
+            item = control.item(label=name, iconImage=icon, thumbnailImage=icon, path=url)
+            item.setInfo(type="Video",infoLabels={ "Title":name})
+ 
+            item.setProperty('IsPlayable','true')
+            control.resolve(handle=int(sys.argv[1]), succeeded=True, listitem=item)
             if windowedtrailer == 1:
                 # The call to the play() method is non-blocking. So we delay further script execution to keep the script alive at this spot.
                 # Otherwise this script will continue and probably already be garbage collected by the time the trailer has ended.
