@@ -72,15 +72,20 @@ def query(title):
     return title
 
 
-def normalize(title):
+maketrans = lambda s1, s2: dict(zip(map(ord, s1), map(ord, s2)))
+unicode_translate_table = maketrans(u'ąćęłńóśźżĄĆĘŁŃÓŚŹŻ–—\u2044•„”«»', u'acelnoszzACELNOSZZ--/.""<>')
 
+def normalize(title):
+    """Convert UTF-8 title to ASCII as well as we can."""
+    if not isinstance(title, type(u'')):
+        title = title.decode('utf-8')
     try:
-        try: return title.decode('ascii').encode("utf-8")
-        except: pass
-        return str(''.join(c for c in unicodedata.normalize('NFKD', unicode(title.decode('utf-8'))) if unicodedata.category(c) != 'Mn')).replace('ł','l')
+        title = u''.join(c for c in unicodedata.normalize('NFKD', title)
+                         if unicodedata.category(c) != 'Mn')
     except:
-        title = str(title).replace('ą','a').replace('ę','e').replace('ć','c').replace('ź','z').replace('ż','z').replace('ó','o').replace('ł','l').replace('ń','n').replace('ś','s')
-        return title
+        pass
+    return title.translate(unicode_translate_table).encode('ascii', 'replace')
+
 
 def clean_search_query(url):
     url = url.replace('-','+')
